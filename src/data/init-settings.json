@@ -1,0 +1,52 @@
+{
+  "settings": [
+    {
+      "key": "site_name",
+      "value": "智豚管理系统",
+      "description": "网站名称",
+      "type": "string"
+    },
+    {
+      "key": "site_description",
+      "value": "智能化的管理系统",
+      "description": "网站描述",
+      "type": "string"
+    },
+    {
+      "key": "site_logo",
+      "value": "/logo.jpg",
+      "description": "网站Logo",
+      "type": "string"
+    },
+    {
+      "key": "admin_email",
+      "value": "deep_dream@zohomail.com",
+      "description": "管理员邮箱",
+      "type": "string"
+    },
+    {
+      "key": "system_version",
+      "value": "1.0.0",
+      "description": "系统版本",
+      "type": "string"
+    },
+    {
+      "key": "maintenance_mode",
+      "value": "false",
+      "description": "维护模式",
+      "type": "boolean"
+    },
+    {
+      "key": "max_upload_size",
+      "value": "10485760",
+      "description": "最大上传文件大小(字节)",
+      "type": "number"
+    },
+    {
+      "key": "allowed_file_types",
+      "value": "jpg,jpeg,png,gif,pdf,doc,docx",
+      "description": "允许上传的文件类型",
+      "type": "string"
+    }
+  ]
+}

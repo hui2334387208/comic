@@ -1,0 +1,351 @@
+{
+  "menus": [
+    {
+      "id": "dashboard",
+      "key": "dashboard",
+      "label": "admin.sidebar.dashboard",
+      "path": "/admin/dashboard",
+      "icon": "dashboard",
+      "permission": "dashboard.read",
+      "order": 1,
+      "isVisible": true,
+      "isSystem": true,
+      "children": []
+    },
+    {
+      "id": "content",
+      "key": "content",
+      "label": "admin.sidebar.content",
+      "path": "/admin/content",
+      "icon": "file",
+      "permission": "content.read",
+      "order": 2,
+      "isVisible": true,
+      "isSystem": true,
+      "children": [
+        {
+          "id": "content-videos",
+          "key": "videos",
+          "label": "admin.sidebar.videoManagement",
+          "path": "/admin/videos",
+          "icon": null,
+          "permission": "video.read",
+          "order": 1,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "content-resources",
+          "key": "resources",
+          "label": "admin.sidebar.resourceManagement",
+          "path": "/admin/resources",
+          "icon": null,
+          "permission": "resource.read",
+          "order": 2,
+          "isVisible": true,
+          "isSystem": true
+        }
+      ]
+    },
+    {
+      "id": "couplet-management",
+      "key": "couplet-management",
+      "label": "admin.sidebar.coupletManagement",
+      "path": "/admin/couplets",
+      "icon": "book",
+      "permission": "couplet.read",
+      "order": 3,
+      "isVisible": true,
+      "isSystem": true,
+      "children": [
+        {
+          "id": "couplet-management-couplets",
+          "key": "couplets",
+          "label": "admin.sidebar.coupletList",
+          "path": "/admin/couplets",
+          "icon": null,
+          "permission": "couplet.read",
+          "order": 1,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "couplet-management-categories",
+          "key": "couplet-categories",
+          "label": "admin.sidebar.coupletCategories",
+          "path": "/admin/couplets/categories",
+          "icon": null,
+          "permission": "couplet-category.read",
+          "order": 2,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "couplet-management-tags",
+          "key": "couplet-tags",
+          "label": "admin.sidebar.coupletTags",
+          "path": "/admin/couplets/tags",
+          "icon": null,
+          "permission": "couplet-tag.read",
+          "order": 3,
+          "isVisible": true,
+          "isSystem": true
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "key": "education",
+      "label": "admin.sidebar.educationManagement",
+      "path": "/admin/education",
+      "icon": "book",
+      "permission": "education.read",
+      "order": 4,
+      "isVisible": true,
+      "isSystem": true,
+      "children": [
+        {
+          "id": "education-courses",
+          "key": "courses",
+          "label": "admin.sidebar.courseManagement",
+          "path": "/admin/education/courses",
+          "icon": null,
+          "permission": "course.read",
+          "order": 1,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "education-exercises",
+          "key": "exercises",
+          "label": "admin.sidebar.exerciseManagement",
+          "path": "/admin/education/exercises",
+          "icon": null,
+          "permission": "exercise.read",
+          "order": 2,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "education-paths",
+          "key": "learning-paths",
+          "label": "admin.sidebar.learningPathManagement",
+          "path": "/admin/education/paths",
+          "icon": null,
+          "permission": "learning-path.read",
+          "order": 3,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "education-badges",
+          "key": "badges",
+          "label": "admin.sidebar.badgeManagement",
+          "path": "/admin/education/badges",
+          "icon": null,
+          "permission": "badge.read",
+          "order": 4,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "education-stats",
+          "key": "stats",
+          "label": "admin.sidebar.learningStats",
+          "path": "/admin/education/stats",
+          "icon": null,
+          "permission": "education-stats.read",
+          "order": 5,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "education-init",
+          "key": "init",
+          "label": "admin.sidebar.educationInit",
+          "path": "/admin/education-init",
+          "icon": null,
+          "permission": "education.init",
+          "order": 6,
+          "isVisible": true,
+          "isSystem": true
+        }
+      ]
+    },
+    {
+      "id": "vip",
+      "key": "vip",
+      "label": "admin.sidebar.vipManagement",
+      "path": "/admin/vip",
+      "icon": "vip",
+      "permission": "member.read",
+      "order": 14,
+      "isVisible": true,
+      "isSystem": true,
+      "children": [
+        {
+          "id": "vip-orders",
+          "key": "orders",
+          "label": "admin.sidebar.vipOrders",
+          "path": "/admin/vip/orders",
+          "icon": null,
+          "permission": "order.read",
+          "order": 1,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "vip-plans",
+          "key": "plans",
+          "label": "admin.sidebar.vipPlans",
+          "path": "/admin/vip/plans",
+          "icon": null,
+          "permission": "plan.read",
+          "order": 2,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "vip-redeem",
+          "key": "redeem",
+          "label": "admin.sidebar.vipRedeem",
+          "path": "/admin/vip/redeem",
+          "icon": null,
+          "permission": "redeem.read",
+          "order": 3,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "vip-redeem-history",
+          "key": "redeem-history",
+          "label": "admin.sidebar.vipRedeemHistory",
+          "path": "/admin/vip/redeem/history",
+          "icon": null,
+          "permission": "redeem-history.read",
+          "order": 4,
+          "isVisible": true,
+          "isSystem": true
+        }
+      ]
+    },
+    {
+      "id": "users",
+      "key": "users",
+      "label": "admin.sidebar.userManagement",
+      "path": "/admin/users",
+      "icon": "user",
+      "permission": "user.read",
+      "order": 15,
+      "isVisible": true,
+      "isSystem": true,
+      "children": []
+    },
+    {
+      "id": "roles",
+      "key": "roles",
+      "label": "admin.sidebar.roleManagement",
+      "path": "/admin/roles",
+      "icon": "team",
+      "permission": "role.read",
+      "order": 14,
+      "isVisible": true,
+      "isSystem": true,
+      "children": []
+    },
+    {
+      "id": "permissions",
+      "key": "permissions",
+      "label": "admin.sidebar.permissionManagement",
+      "path": "/admin/permissions",
+      "icon": "key",
+      "permission": "permission.read",
+      "order": 15,
+      "isVisible": true,
+      "isSystem": true,
+      "children": []
+    },
+    {
+      "id": "menus",
+      "key": "menus",
+      "label": "admin.sidebar.menuManagement",
+      "path": "/admin/menus",
+      "icon": "menu",
+      "permission": "menu.read",
+      "order": 14,
+      "isVisible": true,
+      "isSystem": true,
+      "children": []
+    },
+    {
+      "id": "feedback",
+      "key": "feedback",
+      "label": "admin.sidebar.feedback",
+      "path": "/admin/feedback",
+      "icon": "message",
+      "permission": "feedback.read",
+      "order": 15,
+      "isVisible": true,
+      "isSystem": true,
+      "children": []
+    },
+    {
+      "id": "settings",
+      "key": "settings",
+      "label": "admin.sidebar.system",
+      "path": "/admin/settings",
+      "icon": "setting",
+      "permission": "system.read",
+      "order": 14,
+      "isVisible": true,
+      "isSystem": true,
+      "children": [
+        {
+          "id": "settings-site-settings",
+          "key": "site-settings",
+          "label": "admin.sidebar.siteSettings",
+          "path": "/admin/settings",
+          "icon": null,
+          "permission": "site-settings.read",
+          "order": 1,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "settings-system-logs",
+          "key": "system-logs",
+          "label": "admin.sidebar.systemLogs",
+          "path": "/admin/system/logs",
+          "icon": null,
+          "permission": "system-logs.read",
+          "order": 2,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "settings-sitemap",
+          "key": "sitemap",
+          "label": "admin.sidebar.sitemap",
+          "path": "/admin/system/sitemap",
+          "icon": null,
+          "permission": "sitemap.read",
+          "order": 3,
+          "isVisible": true,
+          "isSystem": true
+        }
+      ]
+    },
+    {
+      "id": "main-menus",
+      "key": "main-menus",
+      "label": "admin.sidebar.mainMenus",
+      "path": "/admin/main-menus",
+      "icon": "menu",
+      "permission": "main-menu.read",
+      "order": 15,
+      "isVisible": true,
+      "isSystem": true,
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,343 @@
+/* 时间线可视化组件样式 */
+.timeline-visualizer {
+  position: relative;
+}
+
+.timeline-visualizer .timeline-line {
+  position: absolute;
+  background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #ec4899);
+  transition: all 0.3s ease;
+}
+
+.timeline-visualizer .timeline-point {
+  position: absolute;
+  background: white;
+  border: 4px solid #3b82f6;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.timeline-visualizer .timeline-point:hover {
+  transform: scale(1.2);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-visualizer .timeline-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.timeline-visualizer .timeline-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* 暗色模式 */
+.dark .timeline-visualizer .timeline-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.dark .timeline-visualizer .timeline-point {
+  background: #1f2937;
+  border-color: #3b82f6;
+}
+
+/* 智能搜索组件样式 */
+.smart-search {
+  position: relative;
+}
+
+.smart-search .search-input {
+  transition: all 0.3s ease;
+}
+
+.smart-search .search-input:focus {
+  transform: scale(1.02);
+}
+
+.smart-search .search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  z-index: 50;
+  max-height: 24rem;
+  overflow-y: auto;
+}
+
+.dark .smart-search .search-suggestions {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.smart-search .suggestion-item {
+  transition: all 0.2s ease;
+}
+
+.smart-search .suggestion-item:hover {
+  background: #f3f4f6;
+}
+
+.dark .smart-search .suggestion-item:hover {
+  background: #374151;
+}
+
+/* AI助手组件样式 */
+.ai-assistant {
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-assistant::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #3b82f6, transparent);
+}
+
+.ai-assistant .message-bubble {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.ai-assistant .message-bubble.user {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+}
+
+.ai-assistant .message-bubble.assistant {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.dark .ai-assistant .message-bubble.assistant {
+  background: #374151;
+  color: #f9fafb;
+}
+
+.ai-assistant .typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ai-assistant .typing-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #9ca3af;
+  border-radius: 50%;
+  animation: typing-bounce 1.4s infinite ease-in-out;
+}
+
+.ai-assistant .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.ai-assistant .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* 时间线卡片样式 */
+.timeline-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899);
+}
+
+.timeline-card .card-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.timeline-card .card-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+}
+
+.timeline-card .card-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.6s ease-out;
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.6s ease-out;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .timeline-visualizer .timeline-card {
+    padding: 1rem;
+  }
+  
+  .smart-search .search-suggestions {
+    max-height: 16rem;
+  }
+  
+  .ai-assistant {
+    height: 20rem;
+  }
+}
+
+/* 加载状态 */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.dark .loading-skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* 工具提示 */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 滚动条样式 */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.timeline-version-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.timeline-version-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-radius: 4px;
+}
+.timeline-version-scroll::-webkit-scrollbar-track {
+  background: transparent;
+} 

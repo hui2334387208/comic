@@ -1,0 +1,246 @@
+/* 后台管理页面统一样式 */
+
+/* 统计卡片样式 */
+.admin-stats-card {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* 搜索筛选区域样式 */
+.admin-filter-card {
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 表格样式优化 */
+.admin-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-table .ant-table-thead > tr > th {
+  background: #fafafa;
+  font-weight: 600;
+  color: #262626;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.admin-table .ant-table-tbody > tr:hover > td {
+  background: #f5f5f5;
+}
+
+/* 操作按钮样式 */
+.admin-action-btn {
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.admin-action-btn:hover {
+  transform: scale(1.05);
+}
+
+/* 状态标签样式 */
+.admin-status-tag {
+  border-radius: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+}
+
+/* 用户头像样式 */
+.admin-user-avatar {
+  border: 2px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.admin-user-avatar:hover {
+  border-color: #1890ff;
+  transform: scale(1.05);
+}
+
+/* 权限模块分组样式 */
+.admin-permission-group {
+  margin-bottom: 24px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-permission-group-header {
+  background: #fafafa;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-weight: 600;
+  color: #262626;
+}
+
+/* 批量操作按钮样式 */
+.admin-batch-actions {
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+}
+
+/* 加载状态样式 */
+.admin-loading-overlay {
+  position: relative;
+}
+
+.admin-loading-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  border-radius: 8px;
+}
+
+/* 空状态样式 */
+.admin-empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: #8c8c8c;
+}
+
+.admin-empty-state-icon {
+  font-size: 48px;
+  color: #d9d9d9;
+  margin-bottom: 16px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .admin-stats-card {
+    margin-bottom: 16px;
+  }
+  
+  .admin-filter-card .ant-col {
+    margin-bottom: 8px;
+  }
+  
+  .admin-table .ant-table-thead > tr > th,
+  .admin-table .ant-table-tbody > tr > td {
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-fade-in-up {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* 成功/错误状态样式 */
+.admin-success-state {
+  color: #52c41a;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.admin-error-state {
+  color: #ff4d4f;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.admin-warning-state {
+  color: #fa8c16;
+  background: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* 工具提示样式 */
+.admin-tooltip {
+  font-size: 12px;
+}
+
+/* 分页样式 */
+.admin-pagination {
+  margin-top: 16px;
+  text-align: right;
+}
+
+/* 模态框样式 */
+.admin-modal .ant-modal-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 24px;
+}
+
+.admin-modal .ant-modal-body {
+  padding: 24px;
+}
+
+.admin-modal .ant-modal-footer {
+  border-top: 1px solid #f0f0f0;
+  padding: 12px 24px;
+}
+
+/* 表单样式 */
+.admin-form .ant-form-item-label > label {
+  font-weight: 500;
+  color: #262626;
+}
+
+.admin-form .ant-input,
+.admin-form .ant-select-selector {
+  border-radius: 6px;
+}
+
+/* 按钮组样式 */
+.admin-button-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-button-group .ant-btn {
+  border-radius: 6px;
+}
+
+/* 徽章样式 */
+.admin-badge {
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* 卡片标题样式 */
+.admin-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.admin-card-subtitle {
+  font-size: 14px;
+  color: #8c8c8c;
+  margin-bottom: 16px;
+}

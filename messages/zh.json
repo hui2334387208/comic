@@ -1,0 +1,2256 @@
+{
+  "admin": {
+    "sidebar": {
+      "dashboard": "仪表板",
+      "content": "内容管理",
+      "videoManagement": "视频管理",
+      "coupletManagement": "对联管理",
+      "coupletList": "对联列表",
+      "coupletCategories": "对联分类",
+      "coupletTags": "对联标签",
+      "educationManagement": "教育管理",
+      "courseManagement": "课程管理",
+      "exerciseManagement": "练习管理",
+      "learningPathManagement": "学习路径管理",
+      "badgeManagement": "徽章管理",
+      "learningStats": "学习统计",
+      "educationInit": "教育初始化",
+      "resourceManagement": "资源管理",
+      "projects": "项目管理",
+      "promptManagement": "提示词管理",
+      "promptList": "提示词列表",
+      "promptCategories": "提示词分类",
+      "promptTags": "提示词标签",
+      "vipManagement": "VIP管理",
+      "vipOrders": "VIP订单",
+      "vipPlans": "VIP套餐",
+      "vipRedeem": "兑换码管理",
+      "vipRedeemHistory": "兑换历史",
+      "userManagement": "用户管理",
+      "roleManagement": "角色管理",
+      "permissionManagement": "权限管理",
+      "menuManagement": "菜单管理",
+      "feedback": "反馈管理",
+      "system": "系统设置",
+      "mainMenus": "主导航菜单",
+      "siteSettings": "网站配置",
+      "systemLogs": "系统日志",
+      "sitemap": "站点地图"
+    },
+    "auth": {
+      "adminLogin": "管理员登录",
+      "adminRegister": "管理员注册",
+      "email": "邮箱",
+      "forgotPassword": "忘记密码？",
+      "haveAccount": "已有账号？去登录",
+      "invalidCredentials": "邮箱或密码错误",
+      "login": "登录",
+      "password": "密码",
+      "passwordLength": "密码长度不能小于6位",
+      "register": "注册",
+      "registerSuccess": "管理员账号创建成功，请登录",
+      "rememberMe": "记住我",
+      "secretKey": "管理员密钥",
+      "username": "用户名",
+      "validEmail": "请输入有效的邮箱地址"
+    },
+    "common": {
+      "actions": "操作",
+      "active": "上架",
+      "add": "添加",
+      "all": "全部",
+      "back": "返回",
+      "basicFields": "基础字段",
+      "batchActions": "批量操作",
+      "batchActive": "批量上架",
+      "batchDelete": "批量删除",
+      "batchInactive": "批量下架",
+      "cancel": "取消",
+      "confirm": "确认",
+      "copy": "复制",
+      "cover": "封面",
+      "create": "创建",
+      "createdAt": "创建时间",
+      "createSuccess": "创建成功",
+      "createTime": "创建时间",
+      "days": "天",
+      "delete": "删除",
+      "deleteConfirm": "确定要删除吗？",
+      "deleteError": "删除失败",
+      "deleteSuccess": "删除成功",
+      "details": "详情",
+      "edit": "编辑",
+      "error": "错误",
+      "export": "导出",
+      "i18nFields": "多语言字段",
+      "image": "图片",
+      "inactive": "下架",
+      "language": "语言",
+      "loading": "加载中...",
+      "months": "月",
+      "noData": "暂无数据",
+      "operationFailed": "操作失败",
+      "operationSuccess": "操作成功",
+      "required": "必填",
+      "save": "保存",
+      "search": "搜索",
+      "settings": "设置",
+      "status": "状态",
+      "submit": "提交",
+      "success": "成功",
+      "total": "总计",
+      "updatedAt": "更新时间",
+      "updateSuccess": "更新成功",
+      "upload": "上传",
+      "view": "查看"
+    },
+    "dashboard": {
+      "activeProducts": "上架产品数",
+      "categoryDistribution": "分类分布",
+      "hotProducts": "热销产品",
+      "newProducts": "最新产品",
+      "newProductsThisMonth": "本月新增产品",
+      "productTrends": "产品趋势",
+      "salesThisMonth": "本月销量",
+      "topSales": "销量排行",
+      "totalProducts": "产品总数",
+      "totalSales": "总销量",
+      "totalStock": "总库存",
+      "productInfo": {
+        "active": "上架",
+        "category": "分类",
+        "inactive": "下架",
+        "listTime": "上架时间",
+        "noCategory": "无分类",
+        "price": "价格",
+        "sales": "销量",
+        "stock": "库存",
+        "summary": "简介"
+      }
+    },
+    "feedback": {
+      "contact": "联系方式",
+      "content": "内容",
+      "email": "邮箱",
+      "feedbackDetails": "反馈详情",
+      "feedbackList": "反馈列表",
+      "phone": "电话",
+      "read": "已读",
+      "sender": "发送人",
+      "submitTime": "提交时间",
+      "title": "反馈管理",
+      "totalFeedback": "总留言数",
+      "unread": "未读",
+      "status": {
+        "completed": "已完成",
+        "pending": "待处理",
+        "processing": "处理中"
+      }
+    },
+    "layout": {
+      "admin": "管理员",
+      "darkMode": "切换到暗色模式",
+      "lightMode": "切换到亮色模式",
+      "logout": "退出登录",
+      "profile": "个人信息"
+    },
+    "orderManagement": {
+      "description": "审核和管理所有 VIP 订阅订单。",
+      "no": "否",
+      "title": "VIP 订单管理",
+      "yes": "是",
+      "approveModal": {
+        "description": "您确定要通过此订单并授予 VIP 身份吗？",
+        "label": "管理员备注 (选填)",
+        "placeholder": "输入内部备注, 此信息不会发送给用户。",
+        "title": "通过订单"
+      },
+      "buttons": {
+        "approve": "通过",
+        "cancel": "取消",
+        "confirm": "确认",
+        "confirmApprove": "确认通过",
+        "confirmGrant": "确认授权",
+        "confirmReject": "确认拒绝",
+        "grantVip": "手动授权 VIP",
+        "pass": "通过",
+        "reject": "拒绝"
+      },
+      "columns": {
+        "actions": "操作",
+        "adminNotes": "管理员备注",
+        "amount": "金额",
+        "autoRenew": "自动续费",
+        "createdAt": "创建时间",
+        "expireAt": "到期时间",
+        "orderNo": "订单号",
+        "paidAt": "支付时间",
+        "paymentMethod": "支付方式",
+        "paymentTransactionId": "支付交易号",
+        "plan": "套餐",
+        "reviewedAt": "审核时间",
+        "reviewedBy": "审核人",
+        "status": "状态",
+        "updatedAt": "更新时间",
+        "user": "用户",
+        "userSubmittedId": "用户提交的凭证"
+      },
+      "filters": {
+        "searchPlaceholder": "搜索订单号或用户",
+        "statusPlaceholder": "按状态筛选"
+      },
+      "grantModal": {
+        "notesLabel": "管理员备注（可选）",
+        "notesPlaceholder": "例如，补偿、内部测试",
+        "planLabel": "VIP 套餐",
+        "planPlaceholder": "选择一个 VIP 套餐",
+        "planRequired": "请选择一个套餐。",
+        "title": "手动授予 VIP",
+        "userLabel": "用户",
+        "userPlaceholder": "搜索并选择一个用户",
+        "userRequired": "请选择一个用户。"
+      },
+      "messages": {
+        "approveFailed": "订单通过失败。",
+        "approveSuccess": "订单通过成功！",
+        "fetchFailed": "获取订单失败。",
+        "fetchPlansFailed": "获取 VIP 套餐失败。",
+        "grantVipFailed": "VIP 授权失败。",
+        "grantVipSuccess": "VIP 授权成功！",
+        "rejectFailed": "订单拒绝失败。",
+        "rejectSuccess": "订单拒绝成功！",
+        "userSearchFailed": "搜索用户失败。"
+      },
+      "rejectModal": {
+        "label": "管理员备注",
+        "placeholder": "请输入拒绝原因（例如，交易凭证不正确）。",
+        "reasonRequired": "必须填写拒绝原因。",
+        "title": "拒绝订单"
+      },
+      "status": {
+        "cancelled": "已取消",
+        "completed": "已通过",
+        "in_review": "审核中",
+        "pending": "待审核",
+        "refunded": "已退款",
+        "rejected": "已拒绝"
+      }
+    },
+    "planManagement": {
+      "createPlan": "新建VIP套餐",
+      "description": "管理VIP订阅套餐，设置价格、功能和状态。",
+      "durationUnit": "个月",
+      "editPlan": "编辑VIP套餐",
+      "title": "VIP 套餐管理",
+      "buttons": {
+        "cancel": "取消",
+        "confirm": "确认",
+        "create": "创建套餐",
+        "delete": "删除",
+        "edit": "编辑",
+        "save": "保存"
+      },
+      "columns": {
+        "actions": "操作",
+        "createdAt": "创建时间",
+        "duration": "时长",
+        "name": "套餐名称",
+        "operator": "操作人",
+        "originalPrice": "原价",
+        "price": "价格",
+        "sortOrder": "排序",
+        "status": "启用状态"
+      },
+      "deleteConfirm": {
+        "description": "确定要删除套餐 “{name}” 吗？此操作不可撤销。",
+        "title": "确认删除"
+      },
+      "deleteModal": {
+        "codes": "相关兑换码：{count} 个",
+        "confirmText": "确定要删除套餐 “{name}” 吗？",
+        "dependencyInfo": "依赖数据详情：",
+        "errorTitle": "无法删除套餐",
+        "orders": "相关订单：{count} 个",
+        "suggestion": "请先处理相关依赖数据，然后再次尝试删除套餐。",
+        "title": "删除套餐确认",
+        "warning": "此操作不可撤销，请确保套餐没有相关订单或兑换码。"
+      },
+      "messages": {
+        "createFailed": "套餐创建失败。",
+        "createSuccess": "套餐创建成功！",
+        "deleteFailed": "套餐删除失败。",
+        "deleteSuccess": "套餐删除成功！",
+        "fetchFailed": "获取套餐列表失败。",
+        "updateFailed": "套餐更新失败。",
+        "updateSuccess": "套餐更新成功！"
+      }
+    },
+    "profile": {
+      "avatar": "更换头像",
+      "avatarUploadFailed": "头像上传失败",
+      "avatarUploadSuccess": "头像上传成功",
+      "confirmPassword": "确认新密码",
+      "currentPassword": "当前密码",
+      "email": "邮箱",
+      "enterCurrentPassword": "请输入当前密码",
+      "enterEmail": "请输入邮箱",
+      "enterUsername": "请输入用户名",
+      "loading": "加载中...",
+      "newPassword": "新密码",
+      "passwordMinLength": "密码长度不能小于6位",
+      "passwordMismatch": "两次输入的密码不一致",
+      "pleaseLogin": "请先登录",
+      "saveChanges": "保存修改",
+      "title": "个人信息",
+      "updateFailed": "更新失败，请重试",
+      "updateSuccess": "个人信息更新成功",
+      "username": "用户名"
+    },
+    "resources": {
+      "copyLink": "复制链接",
+      "deleteWarning": "删除后无法恢复，请谨慎操作",
+      "dimensions": "尺寸",
+      "fileName": "文件名",
+      "fileSize": "文件大小",
+      "fileType": "文件类型",
+      "image": "图片",
+      "imagesList": "图片列表",
+      "imageTab": "图片",
+      "linkCopied": "链接已复制到剪贴板",
+      "preview": "预览",
+      "uploadImage": "上传图片",
+      "uploadTime": "上传时间",
+      "uploadVideo": "上传视频",
+      "videoTab": "视频"
+    },
+    "coupletTags": {
+      "status": {
+        "active": "启用",
+        "inactive": "停用"
+      },
+      "list": {
+        "title": "对联标签",
+        "subtitle": "维护对联标签以及颜色标记",
+        "name": "标签名称",
+        "color": "颜色",
+        "status": "状态",
+        "createdAt": "创建时间",
+        "actions": "操作",
+        "edit": "编辑",
+        "delete": "删除",
+        "deleteConfirm": "确定要删除该标签吗？此操作不可恢复。",
+        "deleteConfirmOk": "删除",
+        "deleteConfirmCancel": "取消",
+        "deleteSuccess": "标签删除成功",
+        "deleteError": "删除失败，请稍后重试",
+        "fetchError": "获取标签列表失败",
+        "searchPlaceholder": "按名称或 slug 搜索",
+        "statusPlaceholder": "按状态筛选",
+        "reset": "重置筛选",
+        "total": "共 {total} 个标签",
+        "addTag": "新建标签"
+      },
+      "form": {
+        "createTitle": "创建标签",
+        "editTitle": "编辑标签",
+        "name": "标签名称",
+        "slug": "Slug",
+        "slugTip": "Slug 用于访问链接，默认根据名称自动生成",
+        "color": "颜色",
+        "status": "状态",
+        "cancel": "取消",
+        "submit": "提交",
+        "save": "保存",
+        "createSuccess": "标签创建成功",
+        "updateSuccess": "标签更新成功",
+        "submitError": "提交失败，请稍后重试",
+        "placeholder": {
+          "name": "请输入标签名称",
+          "slug": "自定义 slug（可选）",
+          "color": "如 #3498db"
+        },
+        "errors": {
+          "name": "请输入标签名称"
+        }
+      },
+      "detail": {
+        "fetchError": "获取标签详情失败"
+      }
+    },
+    "coupletCategories": {
+      "status": {
+        "active": "启用",
+        "inactive": "停用"
+      },
+      "list": {
+        "title": "对联分类",
+        "subtitle": "管理对联分类及其属性",
+        "name": "分类名称",
+        "description": "描述",
+        "icon": "图标",
+        "color": "颜色",
+        "status": "状态",
+        "sortOrder": "排序",
+        "createdAt": "创建时间",
+        "actions": "操作",
+        "edit": "编辑",
+        "delete": "删除",
+        "deleteConfirm": "确定要删除该分类吗？此操作不可恢复。",
+        "deleteConfirmOk": "删除",
+        "deleteConfirmCancel": "取消",
+        "deleteSuccess": "分类删除成功",
+        "deleteError": "删除失败，请稍后重试",
+        "fetchError": "获取分类列表失败",
+        "searchPlaceholder": "按名称、slug或描述搜索",
+        "statusPlaceholder": "按状态筛选",
+        "reset": "重置筛选",
+        "total": "共 {total} 个分类",
+        "addCategory": "新建分类"
+      },
+      "form": {
+        "createTitle": "创建分类",
+        "editTitle": "编辑分类",
+        "name": "分类名称",
+        "slug": "Slug",
+        "slugTip": "Slug 用于访问链接，默认根据名称自动生成",
+        "description": "描述",
+        "icon": "图标",
+        "color": "颜色",
+        "status": "状态",
+        "sortOrder": "排序",
+        "cancel": "取消",
+        "submit": "提交",
+        "save": "保存",
+        "createSuccess": "分类创建成功",
+        "updateSuccess": "分类更新成功",
+        "submitError": "提交失败，请稍后重试",
+        "placeholder": {
+          "name": "请输入分类名称",
+          "slug": "自定义 slug（可选）",
+          "description": "请输入分类描述",
+          "icon": "如 📝",
+          "color": "如 #3498db"
+        },
+        "errors": {
+          "name": "请输入分类名称"
+        }
+      },
+      "detail": {
+        "fetchError": "获取分类详情失败"
+      }
+    },
+    "settings": {
+      "add": "添加配置",
+      "addError": "添加配置失败",
+      "addSuccess": "添加配置成功",
+      "delete": "删除配置",
+      "deleteConfirm": "确定要删除这个配置吗？",
+      "deleteError": "删除配置失败",
+      "deleteSuccess": "删除配置成功",
+      "deleteWarning": "删除后无法恢复，请谨慎操作。",
+      "description": "配置说明",
+      "edit": "编辑配置",
+      "editError": "更新配置失败",
+      "editSuccess": "更新配置成功",
+      "enterKey": "请输入配置键",
+      "enterValue": "请输入配置值",
+      "getError": "获取配置失败",
+      "key": "配置键名",
+      "searchPlaceholder": "按键名搜索",
+      "title": "网站配置管理",
+      "value": "配置值"
+    },
+    "roles": {
+      "title": "角色管理",
+      "roleList": "角色列表",
+      "roleDetails": "角色详情",
+      "editRole": "编辑角色",
+      "createRole": "创建角色",
+      "deleteRole": "删除角色",
+      "roleInfo": "角色信息",
+      "totalRoles": "总角色数",
+      "systemRoles": "系统角色",
+      "customRoles": "自定义角色",
+      "totalUsers": "总用户数",
+      "searchPlaceholder": "搜索角色名称、标识或描述",
+      "selectType": "选择类型",
+      "resetFilters": "重置筛选",
+      "roleName": "角色名称",
+      "roleId": "角色标识",
+      "description": "描述",
+      "permissionCount": "权限数量",
+      "userCount": "用户数量",
+      "type": "类型",
+      "actions": "操作",
+      "viewDetails": "查看详情",
+      "edit": "编辑",
+      "delete": "删除",
+      "permissionSettings": "权限设置",
+      "assignRole": "分配角色",
+      "removeRole": "移除角色",
+      "roleManagement": "角色管理",
+      "importRoleData": "导入角色数据",
+      "exportData": "导出数据",
+      "refresh": "刷新",
+      "systemRole": "系统角色",
+      "customRole": "自定义角色",
+      "roleIdPlaceholder": "例如: admin, moderator",
+      "displayNamePlaceholder": "例如: 管理员, 版主",
+      "descriptionPlaceholder": "角色描述",
+      "roleIdRequired": "请输入角色标识",
+      "displayNameRequired": "请输入显示名称",
+      "roleIdFormat": "只能包含小写字母、数字和下划线",
+      "createSuccess": "角色创建成功",
+      "updateSuccess": "角色更新成功",
+      "deleteSuccess": "角色删除成功",
+      "deleteConfirm": "确定要删除这个角色吗？",
+      "cannotDeleteSystemRole": "系统角色不能删除",
+      "cannotEditSystemRole": "系统角色不能编辑"
+    },
+    "users": {
+      "title": "用户管理",
+      "userList": "用户列表",
+      "userDetails": "用户详情",
+      "editUser": "编辑用户",
+      "createUser": "创建用户",
+      "deleteUser": "删除用户",
+      "lockUser": "锁定用户",
+      "unlockUser": "解锁用户",
+      "userInfo": "用户信息",
+      "loginStats": "登录统计",
+      "lockInfo": "锁定信息",
+      "loginLogs": "登录日志",
+      "totalUsers": "总用户数",
+      "activeUsers": "活跃用户",
+      "lockedUsers": "锁定用户",
+      "newUsersToday": "今日新增",
+      "searchPlaceholder": "搜索用户名、邮箱",
+      "selectRole": "选择角色",
+      "selectStatus": "选择状态",
+      "resetFilters": "重置筛选",
+      "role": "角色",
+      "status": "状态",
+      "actions": "操作",
+      "viewDetails": "查看详情",
+      "edit": "编辑",
+      "lock": "锁定",
+      "unlock": "解锁",
+      "delete": "删除",
+      "normal": "正常",
+      "locked": "已锁定",
+      "admin": "管理员",
+      "user": "用户",
+      "moderator": "版主",
+      "recentLogins": "最近登录次数",
+      "failedLogins": "失败登录次数",
+      "lastLogin": "最后成功登录",
+      "lastFailedLogin": "最后失败登录",
+      "frequentLoginWarning": "频繁登录警告",
+      "lockReason": "锁定原因",
+      "lockTime": "锁定时间",
+      "lockExpires": "锁定过期时间",
+      "permanentLock": "永久锁定",
+      "unknown": "未知",
+      "never": "从未登录",
+      "confirmLock": "确定要锁定用户吗？",
+      "confirmUnlock": "确定要解锁用户吗？",
+      "confirmDelete": "确定要删除用户吗？此操作不可恢复！",
+      "lockSuccess": "锁定成功",
+      "unlockSuccess": "解锁成功",
+      "deleteSuccess": "删除成功",
+      "lockFailed": "锁定失败",
+      "unlockFailed": "解锁失败",
+      "deleteFailed": "删除失败",
+      "getUserListFailed": "获取用户列表失败",
+      "getUserDetailFailed": "获取用户详情失败",
+      "updateUserFailed": "更新用户信息失败",
+      "cannotDeleteSelf": "不能删除自己的账户",
+      "cannotLockSelf": "不能锁定自己的账户",
+      "userNotExists": "用户不存在",
+      "emailExists": "邮箱已被使用",
+      "usernameExists": "用户名已被使用",
+      "missingFields": "缺少必填字段",
+      "invalidEmail": "请输入有效的邮箱地址",
+      "usernameMinLength": "用户名至少3个字符",
+      "usernameMaxLength": "用户名最多20个字符",
+      "nameMaxLength": "姓名最多50个字符",
+      "profileMaxLength": "个人简介最多500个字符",
+      "usernamePattern": "只能包含小写字母、数字和下划线",
+      "save": "保存",
+      "cancel": "取消",
+      "back": "返回",
+      "backToUserList": "返回用户列表",
+      "backToUserDetail": "返回用户详情",
+      "changeAvatar": "更换头像",
+      "avatarUploadSuccess": "头像上传成功",
+      "avatarUploadFailed": "头像上传失败"
+    },
+    "permissions": {
+      "title": "权限管理",
+      "roleManagement": "角色管理",
+      "permissionManagement": "权限管理",
+      "permissionRequests": "权限请求",
+      "roleList": "角色列表",
+      "permissionList": "权限列表",
+      "requestList": "请求列表",
+      "createRole": "创建角色",
+      "createPermission": "创建权限",
+      "editRole": "编辑角色",
+      "editPermission": "编辑权限",
+      "deleteRole": "删除角色",
+      "deletePermission": "删除权限",
+      "roleName": "角色名称",
+      "roleIdentifier": "角色标识",
+      "displayName": "显示名称",
+      "description": "描述",
+      "permissions": "权限",
+      "permissionCount": "权限数量",
+      "userCount": "用户数量",
+      "type": "类型",
+      "systemRole": "系统角色",
+      "customRole": "自定义角色",
+      "systemPermission": "系统权限",
+      "customPermission": "自定义权限",
+      "permissionIdentifier": "权限标识",
+      "module": "模块",
+      "action": "动作",
+      "resource": "资源",
+      "create": "创建",
+      "read": "查看",
+      "update": "更新",
+      "delete": "删除",
+      "manage": "管理",
+      "user": "用户",
+      "admin": "管理员",
+      "content": "内容",
+      "post": "文章",
+      "comment": "评论",
+      "permissionSettings": "权限设置",
+      "roleNamePlaceholder": "例如: admin, moderator",
+      "displayNamePlaceholder": "例如: 管理员, 版主",
+      "roleDescriptionPlaceholder": "角色描述",
+      "selectPermissions": "选择权限",
+      "permissionNamePlaceholder": "例如: user.create, admin.delete",
+      "displayNamePlaceholder2": "例如: 创建用户, 删除管理员",
+      "modulePlaceholder": "例如: user, admin, content",
+      "selectAction": "选择动作",
+      "resourcePlaceholder": "例如: user, post, comment",
+      "permissionDescriptionPlaceholder": "权限描述",
+      "confirmDeleteRole": "确定要删除这个角色吗？",
+      "confirmDeletePermission": "确定要删除这个权限吗？",
+      "roleNameExists": "角色名称已存在",
+      "permissionNameExists": "权限名称已存在",
+      "roleNameUsed": "角色名称已被使用",
+      "permissionNameUsed": "权限名称已被使用",
+      "cannotModifySystemRole": "不能修改系统角色",
+      "cannotModifySystemPermission": "不能修改系统权限",
+      "cannotDeleteSystemRole": "不能删除系统角色",
+      "cannotDeleteSystemPermission": "不能删除系统权限",
+      "roleHasUsers": "该角色下还有用户，无法删除",
+      "roleCreated": "角色创建成功",
+      "roleUpdated": "角色更新成功",
+      "roleDeleted": "角色删除成功",
+      "permissionCreated": "权限创建成功",
+      "permissionUpdated": "权限更新成功",
+      "permissionDeleted": "权限删除成功",
+      "operationFailed": "操作失败",
+      "createFailed": "创建失败",
+      "updateFailed": "更新失败",
+      "deleteFailed": "删除失败",
+      "getRoleListFailed": "获取角色列表失败",
+      "getPermissionListFailed": "获取权限列表失败",
+      "getRequestListFailed": "获取请求列表失败",
+      "missingRequiredFields": "缺少必填字段",
+      "invalidStatus": "无效的状态",
+      "requestNotExists": "请求不存在",
+      "requestProcessed": "请求已被处理",
+      "requestApproved": "请求已批准",
+      "requestRejected": "请求已拒绝",
+      "reviewRequestFailed": "审核权限请求失败",
+      "roleNamePattern": "只能包含小写字母、数字和下划线",
+      "permissionNamePattern": "只能包含小写字母、数字和下划线",
+      "userName": "用户名称",
+      "userEmail": "用户邮箱",
+      "requestRole": "申请角色",
+      "requestReason": "申请原因",
+      "requestStatus": "申请状态",
+      "requestTime": "申请时间",
+      "pending": "待审核",
+      "approved": "已批准",
+      "rejected": "已拒绝",
+      "approve": "批准",
+      "reject": "拒绝",
+      "reviewComment": "审核意见"
+    },
+    "sitemap": {
+      "autoRefresh": "自动刷新",
+      "autoRefreshHelp": "每5分钟自动刷新一次数据",
+      "averagePriority": "平均优先级",
+      "changeFreq": "更新频率",
+      "generate": "生成站点地图",
+      "generateError": "站点地图生成失败",
+      "generateSuccess": "站点地图生成成功",
+      "help": "站点地图帮助搜索引擎更好地抓取您的网站内容",
+      "languages": "支持语言",
+      "lastGenerated": "最后生成时间",
+      "noSitemap": "暂无站点地图数据",
+      "title": "站点地图管理",
+      "totalUrls": "总URL数",
+      "url": "URL",
+      "view": "查看站点地图",
+      "viewSitemap": "查看站点地图",
+      "description": "管理网站站点地图，支持URL的增删改查操作。",
+      "createSitemap": "新建站点地图",
+      "edit": "编辑",
+      "delete": "删除",
+      "actions": "操作",
+      "createTitle": "新建站点地图URL",
+      "createDescription": "新建新的站点地图URL，配置更新频率和优先级。",
+      "basicInfo": "基本信息",
+      "urlPath": "URL路径",
+      "urlPathPlaceholder": "如：/about",
+      "urlPathRequired": "请输入URL路径",
+      "updateFrequency": "更新频率",
+      "selectFrequency": "请选择更新频率",
+      "frequencyOptions": {
+        "always": "always - 总是",
+        "hourly": "hourly - 每小时",
+        "daily": "daily - 每天",
+        "weekly": "weekly - 每周",
+        "monthly": "monthly - 每月",
+        "yearly": "yearly - 每年",
+        "never": "never - 从不"
+      },
+      "priority": "优先级",
+      "priorityRequired": "请输入优先级",
+      "priorityPlaceholder": "0.0 - 1.0，数字越大优先级越高",
+      "language": "语言",
+      "selectLanguage": "请选择语言",
+      "languageOptions": {
+        "zh": "中文",
+        "en": "English"
+      },
+      "lastModified": "最后修改时间",
+      "selectLastModified": "选择最后修改时间",
+      "create": "新建",
+      "cancel": "取消",
+      "createSuccess": "站点地图URL新建成功",
+      "createFailed": "新建失败",
+      "editTitle": "编辑站点地图URL",
+      "editDescription": "编辑站点地图URL信息和设置。",
+      "editSuccess": "站点地图URL更新成功",
+      "editFailed": "更新失败",
+      "notFound": "未找到该站点地图URL",
+      "fetchFailed": "获取数据失败",
+      "update": "更新",
+      "backToList": "返回列表"
+    },
+    "systemLogs": {
+      "action": "操作",
+      "auth": "认证",
+      "cases": "案例",
+      "content": "内容",
+      "dateRange": "日期范围",
+      "description": "描述",
+      "error": "错误",
+      "info": "信息",
+      "ip": "IP地址",
+      "level": "级别",
+      "module": "模块",
+      "products": "产品",
+      "reset": "重置",
+      "search": "搜索日志...",
+      "searchButton": "搜索",
+      "system": "系统",
+      "time": "时间",
+      "title": "系统日志",
+      "user": "用户",
+      "userAgent": "用户代理",
+      "warning": "警告"
+    },
+    "videos": {
+      "addVideo": "添加视频",
+      "batchDelete": "批量删除",
+      "batchDeleteConfirmContent": "确定要删除选中的视频吗？此操作不可恢复。",
+      "batchDeleteConfirmTitle": "确认批量删除",
+      "batchDeleteError": "批量删除失败",
+      "batchDeleteSuccess": "批量删除成功",
+      "cancel": "取消",
+      "confirm": "确认",
+      "deleteConfirmContent": "确定要删除这个视频吗？此操作不可恢复。",
+      "deleteConfirmTitle": "确认删除",
+      "deleteError": "删除失败",
+      "deleteSuccess": "删除成功",
+      "deleteVideo": "删除视频",
+      "editVideo": "编辑",
+      "enterDescription": "请输入视频描述",
+      "enterDuration": "请输入视频时长",
+      "enterSort": "请输入排序",
+      "enterTitle": "请输入视频标题",
+      "enterViews": "请输入观看次数",
+      "fetchError": "获取视频列表失败",
+      "reset": "重置",
+      "searchPlaceholder": "搜索视频...",
+      "statusArchived": "已归档",
+      "statusDraft": "草稿",
+      "statusFilter": "状态筛选",
+      "statusPublished": "已发布",
+      "statusUpdateError": "状态更新失败",
+      "statusUpdateSuccess": "状态更新成功",
+      "title": "视频管理",
+      "totalItems": "共 {total} 条",
+      "uploadThumbnail": "上传缩略图",
+      "uploadVideo": "上传视频",
+      "form": {
+        "description": "描述",
+        "duration": "时长",
+        "sort": "排序",
+        "status": "状态",
+        "title": "标题",
+        "videoFile": "视频文件",
+        "views": "观看次数"
+      },
+      "table": {
+        "actions": "操作",
+        "createdAt": "创建时间",
+        "duration": "时长",
+        "filename": "文件名",
+        "filesize": "文件大小",
+        "filetype": "文件类型",
+        "sort": "排序",
+        "status": "状态",
+        "title": "标题",
+        "url": "视频",
+        "views": "观看次数"
+      }
+    },
+    "vip": {
+      "plan": {
+        "duration": "时长",
+        "manageTitle": "套餐管理",
+        "name": "套餐名称"
+      },
+      "redeem": {
+        "backToList": "返回兑换码列表",
+        "basicInfo": "基本信息",
+        "cancel": "取消",
+        "code": "兑换码",
+        "createButton": "创建兑换码",
+        "createdAt": "创建于",
+        "createDescription": "创建新的VIP兑换码，可分发给用户兑换VIP权益。",
+        "createFailed": "兑换码创建失败！",
+        "createModalTitle": "新建VIP兑换码",
+        "createSuccess": "兑换码创建成功！",
+        "days": "时长（天）",
+        "deleteFailed": "删除兑换码失败",
+        "deleteSuccess": "删除兑换码成功",
+        "duration": "时长（月）",
+        "editDescription": "修改兑换码信息和兑换设置",
+        "editModalTitle": "编辑兑换码",
+        "expiresAt": "过期时间",
+        "fetchFailed": "获取兑换码列表失败",
+        "generateRandom": "生成随机码",
+        "manageDescription": "创建、查看和管理 VIP 会员资格兑换码。",
+        "manageTitle": "兑换码管理",
+        "maxUses": "最大使用次数",
+        "new": "新建",
+        "plan": "关联套餐",
+        "planLabel": "VIP 套餐",
+        "planPlaceholder": "可选，关联VIP套餐",
+        "planRequired": "请选择一个套餐。",
+        "redeemSettings": "兑换设置",
+        "status": "状态",
+        "type": "兑换类型",
+        "unused": "未使用",
+        "usage": "使用次数",
+        "used": "已使用",
+        "usedAt": "使用于",
+        "usedBy": "使用用户",
+        "vipLevel": "VIP等级",
+        "deleteConfirm": {
+          "description": "您确定要删除此兑换码吗？此操作无法撤销。",
+          "title": "删除兑换码"
+        },
+        "history": {
+          "description": "所有用户的VIP兑换记录，支持分页浏览。",
+          "error": "错误",
+          "errorDesc": "获取数据失败",
+          "noData": "暂无数据",
+          "title": "VIP兑换历史",
+          "pagination": {
+            "next": "下一页",
+            "page": "第 {page} 页 / 共 {total} 页",
+            "prev": "上一页"
+          },
+          "statusOptions": {
+            "expired": "已过期",
+            "failed": "失败",
+            "success": "成功"
+          },
+          "table": {
+            "code": "兑换码",
+            "id": "ID",
+            "message": "备注",
+            "redeemedAt": "兑换时间",
+            "snapshot": "快照",
+            "status": "状态",
+            "user": "用户"
+          }
+        },
+        "messages": {
+          "createFailed": "兑换码创建失败。",
+          "createSuccess": "兑换码创建成功。",
+          "deleteFailed": "兑换码删除失败。",
+          "deleteSuccess": "兑换码删除成功。",
+          "fetchFailed": "获取兑换码失败。",
+          "updateFailed": "兑换码更新失败。",
+          "updateSuccess": "兑换码更新成功。"
+        },
+        "statusOptions": {
+          "active": "可用",
+          "deleted": "已删除",
+          "expired": "已过期",
+          "inactive": "不可用",
+          "used_up": "已用完"
+        },
+        "typeOptions": {
+          "days": "时长（天）",
+          "duration": "时长（月）",
+          "level": "VIP等级",
+          "plan": "套餐"
+        }
+      }
+    }
+  },
+  "main": {
+    "about": {
+      "subtitle": "用 AI 让传统对联创作更简单、更有文化味，让国风美学走进每一个日常场景",
+      "title": "关于我们",
+      "contact": {
+        "contactUs": "联系我们",
+        "description": "如果您有任何问题、建议或合作意向，欢迎随时联系我们。",
+        "feedback": "反馈建议",
+        "title": "联系我们"
+      },
+      "features": {
+        "title": "核心功能",
+        "aiGeneration": {
+          "description": "基于深度学习模型，自动生成符合平仄、押韵要求的对联",
+          "title": "AI 智能生成"
+        },
+        "cultureLibrary": {
+          "description": "内置诗词典籍与节日典范，确保联语有根有源有典故",
+          "title": "文化底蕴库"
+        },
+        "diverseTopics": {
+          "description": "支持新春、婚礼、开业、校园等 200+ 节庆模板",
+          "title": "多样化题材"
+        },
+        "visualization": {
+          "description": "横竖排切换、字号行距与红纸金墨样式一键预览导出",
+          "title": "可视化排版"
+        }
+      },
+      "mission": {
+        "content": "AI 对联工坊致力于用智能技术重燃传统楹联之美，让每个人都能轻松写出平仄工整、意境优雅的对联，无论是新春佳节、婚礼喜宴，还是开业乔迁与日常装饰。",
+        "title": "我们的使命"
+      },
+      "vision": {
+        "content": "成为兼具艺术性与实用性的国风文字创作平台，让对联不再只是门上的仪式感，而成为连接情感、场景与文化记忆的表达方式。",
+        "title": "我们的愿景"
+      }
+    },
+    "common": {
+      "backToList": "返回列表",
+      "backToTop": "回到顶部",
+      "date": "日期",
+      "home": "首页",
+      "nextPage": "下一页",
+      "prevPage": "上一页",
+      "readMore": "阅读全文",
+      "siteName": "AI 对联工坊",
+      "tags": "标签",
+      "views": "阅读量"
+    },
+    "contact": {
+      "subtitle": "我们随时准备为您提供帮助，欢迎通过以下方式与我们联系",
+      "title": "联系我们",
+      "breadcrumb": {
+        "contact": "联系我们",
+        "home": "首页"
+      },
+      "contactInfo": {
+        "title": "联系信息",
+        "email": {
+          "address": "support@couplet-ai.com",
+          "title": "邮箱地址"
+        }
+      },
+      "form": {
+        "error": "发送失败，请稍后重试。",
+        "networkError": "网络错误，请检查您的连接。",
+        "sending": "发送中...",
+        "submit": "发送消息",
+        "success": "消息发送成功！我们会尽快回复您。",
+        "title": "发送消息",
+        "email": {
+          "label": "邮箱地址 *",
+          "placeholder": "请输入您的邮箱地址"
+        },
+        "message": {
+          "label": "消息内容 *",
+          "placeholder": "请详细描述您的问题或建议..."
+        },
+        "name": {
+          "label": "姓名 *",
+          "placeholder": "请输入您的姓名"
+        },
+        "subject": {
+          "label": "主题 *",
+          "placeholder": "请选择主题",
+          "options": {
+            "feedback": "反馈建议",
+            "general": "一般咨询",
+            "other": "其他",
+            "technical": "技术支持"
+          }
+        }
+      }
+    },
+    "feedback": {
+      "subtitle": "您的建议是我们进步的动力，帮助我们打造更懂国风与审美的 AI 对联创作平台",
+      "title": "反馈建议",
+      "benefits": {
+        "items": [
+          "帮助我们改进产品功能",
+          "获得优先体验新功能的机会",
+          "参与产品发展方向讨论",
+          "获得专属用户徽章和奖励"
+        ],
+        "title": "提交反馈的好处"
+      },
+      "breadcrumb": {
+        "feedback": "反馈建议",
+        "home": "首页"
+      },
+      "contact": {
+        "description": "如果您需要更直接的帮助，也可以通过以下方式联系我们：",
+        "email": "邮箱：support@xuanwhale.com",
+        "title": "其他联系方式",
+        "viewMore": "查看更多联系方式 →"
+      },
+      "form": {
+        "error": "提交失败，请稍后重试。",
+        "networkError": "网络错误，请检查您的连接。",
+        "submit": "提交反馈",
+        "submitting": "正在提交...",
+        "success": "反馈提交成功！我们会认真考虑您的建议。",
+        "description": {
+          "label": "详细描述 *",
+          "placeholder": "请详细描述您的问题、建议或想法..."
+        },
+        "email": {
+          "label": "邮箱地址 *",
+          "placeholder": "请输入您的邮箱地址"
+        },
+        "name": {
+          "label": "姓名 *",
+          "placeholder": "请输入您的姓名"
+        },
+        "priority": {
+          "label": "优先级",
+          "options": {
+            "high": "高优先级",
+            "low": "低优先级",
+            "medium": "中优先级",
+            "urgent": "紧急"
+          }
+        },
+        "title": {
+          "label": "反馈标题 *",
+          "placeholder": "请简要描述您的反馈"
+        },
+        "type": {
+          "label": "反馈类型 *",
+          "placeholder": "请选择反馈类型",
+          "options": {
+            "bug": "问题报告",
+            "content": "内容建议",
+            "feature": "功能建议",
+            "other": "其他",
+            "ui": "界面优化"
+          }
+        }
+      },
+      "types": {
+        "title": "反馈类型",
+        "bug": {
+          "description": "使用中遇到的问题或错误",
+          "title": "问题报告"
+        },
+        "content": {
+          "description": "历史内容或功能改进建议",
+          "title": "内容建议"
+        },
+        "feature": {
+          "description": "新功能需求或改进建议",
+          "title": "功能建议"
+        },
+        "ui": {
+          "description": "界面设计和用户体验建议",
+          "title": "界面优化"
+        }
+      }
+    },
+    "footer": {
+      "about": "关于",
+      "contact": "联系我们",
+      "copyright": "© {year} AI 对联工坊. Powered by Next.js & Tailwind CSS.",
+      "description": "让每一副对联都有故事，让 AI 帮你写出有情绪、有意境的国风好联。",
+      "feedback": "反馈建议",
+      "privacy": "隐私政策",
+      "refund": "退款政策",
+      "support": "支持",
+      "terms": "服务条款",
+      "heritage": "传承文化",
+      "copyrightText": "© 2024 AI对联工坊",
+      "slogan1": "传承千年文化",
+      "slogan2": "智创美好联语"
+    },
+    "navigation": {
+      "about": "关于",
+      "aboutUs": "关于我们",
+      "articles": "文章",
+      "blog": "博客",
+      "categories": "分类",
+      "changeLanguage": "切换语言",
+      "closeMenu": "关闭菜单",
+      "education": "对联学院",
+      "explore": "探索",
+      "game": "游戏闯关",
+      "home": "首页",
+      "loginRegister": "登录 / 注册",
+      "logout": "退出登录",
+      "menu": "菜单",
+      "openMenu": "打开菜单",
+      "profile": "个人中心",
+      "social": "社交",
+      "toggleTheme": "切换主题",
+      "vipCenter": "会员中心"
+    },
+    "privacy": {
+      "subtitle": "我们重视您的隐私，承诺保护您的个人信息安全",
+      "title": "隐私政策",
+      "breadcrumb": {
+        "home": "首页",
+        "privacy": "隐私政策"
+      },
+      "sections": {
+        "collection": {
+          "description": "我们收集的信息包括：",
+          "items": [
+            "注册时提供的邮箱地址和用户名",
+            "您在平台上创作或保存的对联内容和相关数据",
+            "网站使用过程中的浏览记录和交互数据",
+            "设备信息和浏览器类型等基础技术信息"
+          ],
+          "title": "信息收集"
+        },
+        "contact": {
+          "button": "联系我们",
+          "description": "如果您对本隐私政策有任何疑问，请通过以下方式联系我们：",
+          "email": "邮箱：support@couplet-ai.com",
+          "title": "联系我们"
+        },
+        "security": {
+          "description": "我们采用行业标准的安全措施保护您的信息：",
+          "items": [
+            "使用加密技术保护数据传输和存储",
+            "定期更新安全措施和系统",
+            "限制员工访问个人信息的权限",
+            "建立数据泄露应急响应机制"
+          ],
+          "title": "数据安全"
+        },
+        "usage": {
+          "description": "我们使用收集的信息用于：",
+          "items": [
+            "提供和改进我们的服务",
+            "个性化用户体验和内容推荐",
+            "发送服务相关通知和更新",
+            "防止欺诈和滥用行为",
+            "遵守法律法规要求"
+          ],
+          "title": "信息使用"
+        }
+      }
+    },
+    "search": {
+      "title": "搜索对联",
+      "foundResults": "找到 {count} 个相关结果",
+      "placeholder": "搜索对联、题材或关键词...",
+      "filters": {
+        "title": "筛选条件",
+        "category": {
+          "title": "分类",
+          "all": "全部分类",
+          "festival": "节庆",
+          "business": "商务",
+          "wedding": "喜宴",
+          "school": "校园"
+        },
+        "sort": {
+          "title": "排序方式",
+          "relevance": "相关度",
+          "latest": "最新发布",
+          "popular": "最受欢迎",
+          "views": "浏览量"
+        }
+      },
+      "couplet": {
+        "top": "上联",
+        "bottom": "下联",
+        "horizontal": "横批"
+      },
+      "stats": {
+        "views": "浏览：{count}",
+        "likes": "点赞：{count}"
+      }
+    },
+    "studio": {
+      "title": "AI 对联创作间",
+      "subtitle": "输入提示，AI 智能生成符合平仄押韵的对联",
+      "form": {
+        "title": "创作对联",
+        "prompt": {
+          "label": "输入主题或上联/下联",
+          "placeholder": "例如：新春佳节、开业大吉，或者输入上联：春风得意马蹄疾，或者输入下联：一日看尽长安花",
+          "hint": "💡 可以输入主题描述，也可以输入上联或下联，AI 会自动生成完整的对联"
+        },
+        "generate": "立即生成",
+        "generating": "生成中..."
+      },
+      "categories": {
+        "all": "全部题材",
+        "newyear": "新春佳节",
+        "wedding": "婚礼庆典",
+        "business": "开业乔迁",
+        "school": "校园文化",
+        "birthday": "生日祝福"
+      },
+      "styles": {
+        "classic": "古典风格",
+        "modern": "现代风格",
+        "elegant": "优雅风格",
+        "festive": "喜庆风格"
+      },
+      "tips": {
+        "title": "创作提示",
+        "items": [
+          "可以输入主题描述，AI 会自动生成多副对联",
+          "也可以输入上联或下联，AI 会自动补全另一半",
+          "支持输入任意主题，如新春、开业、婚礼等",
+          "生成后会显示多副对联，每副都有详细赏析"
+        ]
+      },
+      "examples": {
+        "title": "示例提示",
+        "items": [
+          "新春佳节，祝福家人健康快乐",
+          "开业大吉，生意兴隆",
+          "婚礼祝福，百年好合",
+          "校园文化，勤学上进"
+        ]
+      },
+      "generating": "AI 正在生成对联，请稍候...",
+      "results": {
+        "title": "生成结果（共 {count} 副）",
+        "coupletNumber": "第 {number} 副",
+        "analysis": "赏析"
+      },
+      "couplet": {
+        "top": "上联",
+        "bottom": "下联",
+        "horizontal": "横批"
+      }
+    },
+    "library": {
+      "title": "对联库",
+      "subtitle": "浏览精选对联作品，发现创作灵感",
+      "categories": {
+        "all": "全部",
+        "festival": "节庆",
+        "business": "商务",
+        "wedding": "喜宴",
+        "school": "校园"
+      },
+      "couplet": {
+        "top": "上联",
+        "bottom": "下联",
+        "horizontal": "横批"
+      },
+      "stats": {
+        "views": "浏览：{count}",
+        "likes": "点赞：{count}"
+      }
+    },
+    "topics": {
+      "title": "热门题材",
+      "subtitle": "浏览热门对联题材，找到适合的场景",
+      "coupletCount": "{count} 副对联"
+    },
+    "notFound": {
+      "title": "页面未找到",
+      "description": "抱歉，您访问的页面不存在",
+      "details": "页面可能已被删除、移动或您输入的网址有误",
+      "back": "返回上页",
+      "home": "返回首页",
+      "create": "开始创作",
+      "autoRedirect": "{count} 秒后自动返回首页"
+    },
+    "refund": {
+      "subtitle": "我们致力于为用户提供满意的服务，如有退款需求请参阅本政策",
+      "title": "退款政策",
+      "breadcrumb": {
+        "home": "首页",
+        "refund": "退款政策"
+      },
+      "sections": {
+        "conditions": {
+          "items": [
+            "仅支持通过本网站直接购买的订单退款。",
+            "您可在购买后14天内申请退款，逾期申请可能无法受理。",
+            "如对订阅或数字产品不满意，请通过邮箱 support@xuanwhale.com 联系客服，并提供订单信息。"
+          ],
+          "title": "退款申请条件"
+        },
+        "contact": {
+          "button": "联系我们",
+          "description": "如有任何关于退款政策的问题，请随时通过以下方式联系我们：",
+          "email": "邮箱：support@couplet-ai.com",
+          "title": "联系我们"
+        },
+        "process": {
+          "items": [
+            "收到您的退款申请后，我们将在3个工作日内处理。",
+            "退款处理完成后，资金可能需要数个工作日到账，具体以支付渠道为准。",
+            "如遇特殊情况（如支付渠道异常），我们会及时与您联系。"
+          ],
+          "title": "退款流程与说明"
+        }
+      }
+    },
+    "terms": {
+      "subtitle": "使用我们的服务即表示您同意遵守以下条款和条件",
+      "title": "服务条款",
+      "breadcrumb": {
+        "home": "首页",
+        "terms": "服务条款"
+      },
+      "sections": {
+        "availability": {
+          "description": "我们致力于提供稳定可靠的服务，但请注意：",
+          "items": [
+            "服务可能因维护、升级等原因暂时中断",
+            "我们不对因不可抗力导致的服务中断负责",
+            "我们保留修改或终止服务的权利",
+            "建议您定期备份重要内容"
+          ],
+          "title": "服务可用性"
+        },
+        "contact": {
+          "button": "联系我们",
+          "description": "如果您对这些服务条款有任何疑问，请通过以下方式联系我们：",
+          "email": "邮箱：support@couplet-ai.com",
+          "title": "联系我们"
+        },
+        "content": {
+          "description": "您创建和分享的内容必须：",
+          "items": [
+            "遵守法律法规和道德标准",
+            "不侵犯他人的知识产权",
+            "不包含虚假或误导性信息",
+            "不涉及暴力、仇恨或歧视内容",
+            "不包含垃圾信息或恶意软件"
+          ],
+          "note": "我们保留删除违规内容的权利，并可能暂停或终止违规用户的账户。",
+          "title": "内容政策"
+        },
+        "disclaimer": {
+          "description": "在法律允许的范围内，我们不对以下情况承担责任：",
+          "items": [
+            "用户创建内容的准确性或完整性",
+            "第三方网站或服务的内容",
+            "因使用服务而产生的间接损失",
+            "不可抗力导致的服务中断",
+            "用户违反条款造成的损失"
+          ],
+          "title": "免责声明"
+        },
+        "intellectual": {
+          "description": "关于知识产权的重要说明：",
+          "items": [
+            "网站本身及其技术受知识产权保护",
+            "您保留对您创建内容的权利",
+            "您授权我们在服务范围内使用您的内容",
+            "请确保您有权分享您发布的内容",
+            "尊重他人的知识产权，不抄袭或盗用"
+          ],
+          "title": "知识产权"
+        },
+        "modification": {
+          "description": "我们可能会不时更新这些服务条款。重大变更时，我们会通过网站通知或邮件方式告知您。继续使用服务即表示您接受更新后的条款。如果您不同意新条款，请停止使用我们的服务。",
+          "title": "条款修改"
+        },
+        "responsibility": {
+          "description": "使用我们的服务时，您同意：",
+          "items": [
+            "提供真实、准确的注册信息",
+            "保护您的账户安全，不与他人共享账户",
+            "遵守所有适用的法律法规",
+            "不发布违法、有害或不当内容",
+            "尊重其他用户的权利和隐私",
+            "不进行任何可能损害服务的行为"
+          ],
+          "title": "用户责任"
+        },
+        "service": {
+          "description": "AI 对联工坊提供 AI 对联生成、创作和分享服务。我们的服务包括但不限于：",
+          "items": [
+            "AI 对联生成",
+            "对联样式预览与导出",
+            "对联库浏览与搜索",
+            "多样化题材模板"
+          ],
+          "title": "服务说明"
+        }
+      }
+    },
+    "profile": {
+      "title": "个人中心",
+      "subtitle": "管理你的对联和账户设置",
+      "breadcrumb": {
+        "home": "首页",
+        "profile": "个人中心"
+      },
+      "tabs": {
+        "overview": "概览",
+        "couplets": "我的对联",
+        "likes": "点赞对联",
+        "favorites": "收藏对联",
+        "settings": "设置"
+      },
+      "overview": {
+        "edit": "编辑资料",
+        "cancel": "取消",
+        "save": "保存",
+        "username": "用户名",
+        "bio": "个人简介",
+        "joined": "加入时间：{date}",
+        "email": "邮箱：{email}",
+        "quickStats": "总览数据",
+        "myCouplets": "我的对联",
+        "likedCouplets": "点赞对联",
+        "favoriteCouplets": "收藏对联",
+        "receivedLikes": "获得的点赞",
+        "recentActivity": "最近活动",
+        "activity": {
+          "0": "更新了\"{couplet}\"",
+          "1": "收藏了\"{couplet}\"",
+          "2": "创建了\"{couplet}\""
+        },
+        "ago": {
+          "hour": "{n}小时前",
+          "day": "{n}天前"
+        }
+      },
+      "couplets": {
+        "title": "我的对联",
+        "empty": "暂无对联",
+        "create": "你还没有创建任何对联，快去创建吧！",
+        "view": "查看",
+        "edit": "编辑",
+        "delete": "删除",
+        "category": "分类",
+        "views": "{count} 浏览",
+        "likes": "{count} 点赞",
+        "updated": "更新于 {date}",
+        "public": "公开",
+        "private": "私有"
+      },
+      "favorites": {
+        "title": "我的收藏",
+        "empty": "暂无收藏",
+        "noFavorites": "你还没有收藏任何对联",
+        "view": "查看",
+        "remove": "取消收藏",
+        "unknown": "未知",
+        "uncategorized": "未分类",
+        "added": "收藏于 {date}"
+      },
+      "likes": {
+        "title": "我的点赞",
+        "empty": "暂无点赞",
+        "noLikes": "你还没有点赞任何对联",
+        "view": "查看",
+        "remove": "取消点赞",
+        "unknown": "未知",
+        "uncategorized": "未分类",
+        "liked": "点赞于 {date}"
+      },
+      "settings": {
+        "title": "账户设置",
+        "basic": "基本信息",
+        "email": "邮箱地址",
+        "username": "用户名",
+        "save": "保存设置"
+      }
+    },
+    "couplet": {
+      "exploreTitle": "探索对联世界",
+      "exploreDesc": "发现精美对联，感受传统文化的魅力与智慧",
+      "searchPlaceholder": "搜索对联...",
+      "categoryFilter": "分类筛选",
+      "allCategories": "全部",
+      "noCategory": "暂无分类",
+      "hotTags": "热门标签",
+      "noTag": "暂无标签",
+      "totalCouplets": "共 {count} 副对联",
+      "sortLatest": "最新",
+      "sortHot": "热门",
+      "sortContents": "内容数",
+      "loading": "加载中...",
+      "notFound": "暂无对联",
+      "uncategorized": "未分类",
+      "unknown": "未知",
+      "contentsCount": "{count} 个内容",
+      "noUpperLine": "暂无上联",
+      "noLowerLine": "暂无下联", 
+      "noHorizontalScroll": "暂无横批",
+      "upperLineLabel": "上联",
+      "lowerLineLabel": "下联",
+      "detail": {
+        "backToHome": "← 返回首页",
+        "aiGeneratedResult": "AI生成结果",
+        "regenerate": "重新生成",
+        "regenerating": "生成中...",
+        "viewVersions": "查看版本",
+        "loadingCouplet": "正在加载对联...",
+        "getCoupletFailed": "获取对联失败",
+        "regenerateFailed": "重新生成失败",
+        "returnHome": "返回首页",
+        "generatedAt": "生成时间: {time}",
+        "saveAsImage": "保存为图片",
+        "exportPdf": "导出PDF",
+        "imageSaveFailed": "图片保存失败，请稍后重试。",
+        "pdfExportFailed": "导出PDF失败，请稍后重试。",
+        "noTitle": "无标题",
+        "noDescription": "",
+        "uncategorized": "未分类",
+        "aiCreating": "AI 正在创作对联...",
+        "pleaseWait": "请稍候，正在为您生成精美的对联作品",
+        "problemOccurred": "出现了一些问题",
+        "versionManagement": "版本管理",
+        "coupletNumber": "第 {number} 副对联",
+        "upperLine": "上联",
+        "lowerLine": "下联",
+        "horizontalScroll": "横批",
+        "appreciation": "赏析解读",
+        "aiAnalysis": "AI 智能解读",
+        "noContentToShow": "暂时没有可展示的对联内容",
+        "clickRegenerateHint": "您可以点击上方\"重新生成\"按钮，让 AI 为您创作新的对联",
+        "startCreating": "开始创作",
+        "commentSection": "评论交流",
+        "aiCoupletWorkshop": "AI 对联工坊"
+      },
+      "version": {
+        "noVersionHistory": "暂无版本历史",
+        "version": "版本",
+        "latest": "最新",
+        "current": "当前",
+        "coupletCount": "{count} 副对联",
+        "versionDescription": "版本说明"
+      },
+      "comment": {
+        "title": "评论",
+        "loadingComments": "加载评论中...",
+        "noComments": "暂无评论，快来发表第一条评论吧！",
+        "anonymousUser": "匿名用户",
+        "commentPlaceholder": "写下你的评论...",
+        "publishing": "发布中...",
+        "publish": "发布",
+        "commentFailed": "评论发表失败",
+        "pleaseLogin": "请先登录",
+        "justNow": "刚刚",
+        "minutesAgo": "{minutes}分钟前",
+        "hoursAgo": "{hours}小时前",
+        "daysAgo": "{days}天前"
+      },
+      "favorite": {
+        "favorite": "收藏",
+        "favorited": "已收藏",
+        "pleaseLogin": "请先登录"
+      },
+      "like": {
+        "like": "点赞",
+        "liked": "已点赞",
+        "pleaseLogin": "请先登录"
+      }
+    },
+    "home": {
+      "aiModels": {
+        "deepseek-chat": "DeepSeek Chat",
+        "deepseek-coder": "DeepSeek Coder"
+      },
+      "audience": {
+        "title": "适用人群",
+        "description": "无论您是文化爱好者还是专业创作者，都能在这里找到合适的对联创作方案",
+        "developers": {
+          "description": "AI技术爱好者、创意写作、文化传承",
+          "title": "AI爱好者 / 开发者"
+        },
+        "enterprises": {
+          "description": "节庆庆典、开业乔迁、企业文化",
+          "title": "企业 / 团队"
+        },
+        "media": {
+          "description": "内容创作、文化推广、传统艺术",
+          "title": "媒体 / 自媒体"
+        },
+        "students": {
+          "description": "传统文化学习、书法练习、文学创作",
+          "title": "学生 / 教师"
+        }
+      },
+      "cta": {
+        "description": "创作有文化底蕴的优美对联，让AI帮你写出有情绪、有意境的国风好联",
+        "title": "开始你的对联创作之旅"
+      },
+      "errors": {
+        "networkError": "网络连接错误，请检查您的网络连接",
+        "serverError": "服务器错误，请稍后重试",
+        "unknownError": "未知错误，请稍后重试"
+      },
+      "features": {
+        "title": "我们能为你做什么？",
+        "description": "运用AI技术传承对联文化，让每个人都能创作出优美的对联作品",
+        "aiGeneration": {
+          "description": "输入主题、上联或下联，AI自动生成符合平仄押韵要求的完整对联",
+          "title": "AI智能生成对联"
+        },
+        "knowledgeSorting": {
+          "description": "内置诗词典籍与节日典范，确保联语有根有源有典故",
+          "title": "文化底蕴库"
+        },
+        "multiModel": {
+          "description": "支持GPT、Claude等主流模型，覆盖中英双语",
+          "title": "多模型多语言支持"
+        },
+        "visualization": {
+          "description": "横竖排切换、字号行距与红纸金墨样式一键预览导出",
+          "title": "丰富可视化效果"
+        }
+      },
+      "hero": {
+        "badge": "✨ AI驱动的智能对联生成",
+        "title": "AI 对联工坊",
+        "subtitle1": "传承千年文化",
+        "subtitle2": "智创美好联语",
+        "description": "用AI让传统对联创作更简单、更有文化味，让国风美学走进每一个日常场景",
+        "subDescription": "平仄工整 · 对仗严谨 · 意境深远 · 文化传承",
+        "enterPrompt": "请输入主题或题材",
+        "generateButton": "生成对联",
+        "generateError": "AI生成失败，请稍后重试",
+        "limitExceeded": "今日生成次数已用完，请明天再试或升级会员",
+        "generating": "生成中...",
+        "networkError": "网络错误，请检查连接",
+        "placeholder": "请输入主题，例如：'新春佳节'、'开业大吉'、'婚礼祝福'",
+        "exampleCouplet": {
+          "topLine": "春风得意马蹄疾",
+          "bottomLine": "一日看尽长安花",
+          "horizontal": "万事如意"
+        },
+        "aiCreationTitle": "智能对联创作",
+        "aiCreationDesc": "智能识别输入内容，AI为您创作专属对联",
+        "inputPlaceholder": "请输入创作内容...",
+        "generateButtonText": "智能生成对联",
+        "generatingText": "正在创作对联...",
+        "usageTip": "提示：支持主题创作、上下联对对、藏头嵌字、场景定制、风格指定、字数限制等多种智能模式"
+      },
+      "loading": {
+        "generating": "正在生成中...",
+        "loading": "加载中...",
+        "pleaseWait": "请稍候..."
+      },
+      "meta": {
+        "keywords": "对联, 诗词, AI, 文鳐, 文鳐Couplet, 智能生成, 可视化"
+      },
+      "coupletCard": {
+        "viewButton": "查看详情",
+        "hotLevel": "热度",
+        "noData": "暂无数据",
+        "category": "分类",
+        "topLine": "上联",
+        "bottomLine": "下联",
+        "horizontal": "横批",
+        "defaultCategory": "传统节日",
+        "noTopLine": "暂无上联",
+        "noBottomLine": "暂无下联",
+        "noHorizontal": "暂无横批",
+        "noDataMessage": "暂时没有对联内容，请稍后再来查看"
+      },
+      "sections": {
+        "featured": {
+          "description": "人工精选优质对联，值得细细品味",
+          "title": "精选对联"
+        },
+        "hot": {
+          "description": "基于热度综合排序，快速发现大家都在看的精彩对联",
+          "title": "热门对联"
+        },
+        "latest": {
+          "description": "展示最新生成的对联，紧跟创作潮流",
+          "title": "最新对联"
+        }
+      },
+      "culture": {
+        "title": "对联文化知识",
+        "description": "了解对联的基本知识，创作更有文化底蕴的作品",
+        "balance": {
+          "title": "对仗工整",
+          "description": "上联和下联在词性、结构上要相对应，名词对名词，动词对动词，形成工整的对仗关系"
+        },
+        "rhythm": {
+          "title": "平仄协调",
+          "description": "遵循声调的平仄规律，上联末字通常为仄声，下联末字通常为平声，读起来朗朗上口"
+        },
+        "meaning": {
+          "title": "意境深远",
+          "description": "表达美好寓意和深刻内涵，通过简洁的文字传达丰富的情感和哲理思考"
+        },
+        "application": {
+          "title": "应用广泛",
+          "description": "适用于春节、婚礼、开业、乔迁等各种场合，是中华文化的重要载体"
+        }
+      },
+      "ctaSection": {
+        "topLine": "上联",
+        "bottomLine": "下联",
+        "topText": "智能创作",
+        "bottomText": "文化传承",
+        "buttonText": "立即体验",
+        "horizontal": "传承创新"
+      }
+    },
+    "vip": {
+      "centerTitle": "VIP会员中心",
+      "upgradeTitle": "升级VIP会员",
+      "centerDesc": "享受专属权益，提升创作效率",
+      "upgradeDesc": "解锁更多功能，提升创作体验",
+      "statusVip": "VIP会员",
+      "statusFree": "免费用户",
+      "expireAt": "会员有效期至：{date}",
+      "expired": "会员已过期",
+      "upgradeBtn": "立即升级",
+      "renewBtn": "续费会员",
+      "aiUsageToday": "今日AI使用",
+      "timelineCreated": "创建的对联",
+      "timelineFavorited": "收藏的对联",
+      "level": "会员等级",
+      "levelVip": "VIP",
+      "levelFree": "免费",
+      "benefitCompare": "会员权益对比",
+      "noPlans": "暂无可用套餐",
+      "plans": "会员套餐",
+      "plansDesc": "查看会员套餐和价格",
+      "redeem": "兑换码",
+      "redeemDesc": "使用兑换码激活会员",
+      "orders": "订单记录",
+      "ordersDesc": "查看购买记录和订单状态",
+      "aiTimes": "AI生成次数",
+      "aiTimesFree": "10次/天",
+      "aiTimesVip": "100次/天",
+      "advancedModel": "高级AI模型",
+      "advancedModelFree": "✗",
+      "advancedModelVip": "✓",
+      "exclusiveTemplate": "专属模板",
+      "exclusiveTemplateFree": "✗",
+      "exclusiveTemplateVip": "✓",
+      "prioritySupport": "优先支持",
+      "prioritySupportFree": "✗",
+      "prioritySupportVip": "✓",
+      "plansPage": {
+        "title": "VIP会员计划",
+        "subtitle": "选择最适合您的VIP会员计划，解锁更多专属权益",
+        "pageTitle": "选择您的会员计划",
+        "pageDesc": "解锁更多功能，提升创作体验，选择最适合您的会员计划",
+        "popular": "最受欢迎",
+        "month": "个月",
+        "months": "个月",
+        "save": "节省",
+        "purchase": "立即购买",
+        "loading": "正在加载会员计划...",
+        "loadError": "无法加载会员计划，请稍后重试",
+        "purchaseError": "购买失败，请重试",
+        "orderError": "创建订单失败，请重试",
+        "loginRequired": "请先登录"
+      },
+      "redeemPage": {
+        "title": "兑换码",
+        "subtitle": "使用兑换码激活VIP会员",
+        "pageTitle": "兑换VIP会员",
+        "pageDesc": "输入您的VIP兑换码，立即享受会员权益",
+        "codePlaceholder": "请输入您的VIP兑换码",
+        "submit": "立即兑换",
+        "submitting": "兑换中...",
+        "success": "兑换成功！",
+        "error": "兑换失败，请检查兑换码",
+        "invalidCode": "无效的兑换码",
+        "expiredCode": "兑换码已过期",
+        "usedCode": "兑换码已被使用",
+        "loginRequired": "请先登录",
+        "enterCode": "请输入兑换码",
+        "redeemSuccess": "兑换成功！您已获得{planName}，有效期{duration}。请刷新页面或前往VIP页面查看最新状态。",
+        "redeemFailed": "兑换失败，请稍后重试",
+        "historyError": "获取兑换历史失败",
+        "formTitle": "输入兑换码",
+        "codeLabel": "兑换码",
+        "instructions": {
+          "title": "兑换说明",
+          "step1": {
+            "title": "获取兑换码",
+            "desc": "通过官方活动、购买或朋友赠送获得VIP兑换码"
+          },
+          "step2": {
+            "title": "输入兑换码",
+            "desc": "在上方输入框中输入您的VIP兑换码"
+          },
+          "step3": {
+            "title": "立即兑换",
+            "desc": "点击兑换按钮，系统将自动验证并激活会员权益"
+          },
+          "step4": {
+            "title": "享受权益",
+            "desc": "兑换成功后立即享受所有VIP会员专属权益"
+          }
+        },
+        "history": {
+          "title": "兑换历史",
+          "noHistory": "暂无兑换记录",
+          "status": {
+            "success": "成功",
+            "failed": "失败",
+            "expired": "过期"
+          },
+          "table": {
+            "code": "兑换码：",
+            "duration": "有效期：",
+            "redeemTime": "兑换时间："
+          }
+        },
+        "faq": {
+          "title": "常见问题",
+          "q1": "兑换码在哪里获取？",
+          "a1": "兑换码可通过官方活动、购买VIP会员或朋友赠送获得。",
+          "q2": "兑换码有使用期限吗？",
+          "a2": "是的，兑换码通常有使用期限，请在有效期内使用。",
+          "q3": "兑换失败怎么办？",
+          "a3": "请检查兑换码是否正确，或联系客服获取帮助。",
+          "q4": "可以重复使用兑换码吗？",
+          "a4": "每个兑换码只能使用一次，使用后即失效。"
+        },
+        "backToVip": "返回VIP中心"
+      },
+      "ordersPage": {
+        "title": "订单管理",
+        "pageTitle": "我的订单",
+        "pageDesc": "查看您的VIP会员购买历史和订单详情",
+        "totalOrders": "总订单数",
+        "paid": "已支付",
+        "pending": "待支付",
+        "totalAmount": "总消费",
+        "orderHistory": "订单历史",
+        "noOrders": "暂无订单",
+        "noOrdersDesc": "您还没有购买过VIP会员",
+        "buyNow": "立即购买",
+        "orderNo": "订单号",
+        "paymentMethod": "支付方式",
+        "createdAt": "创建时间",
+        "amount": "订单金额",
+        "payTime": "支付时间",
+        "continuePay": "继续支付",
+        "orderDetail": "订单详情",
+        "close": "关闭",
+        "plan": "会员计划",
+        "expireAt": "到期时间",
+        "status": "订单状态",
+        "paidAt": "支付时间",
+        "backToVip": "返回VIP中心",
+        "statusMap": {
+          "pending": "待支付",
+          "completed": "已支付",
+          "in_review": "审核中",
+          "rejected": "已拒绝",
+          "cancelled": "已取消",
+          "refunded": "已退款",
+          "unknown": "未知"
+        }
+      },
+      "benefitsPage": {
+        "title": "会员权益",
+        "subtitle": "了解VIP会员的专属权益",
+        "aiGeneration": {
+          "title": "AI生成次数",
+          "free": "免费用户：10次/天",
+          "vip": "VIP会员：100次/天"
+        },
+        "advancedModels": {
+          "title": "高级AI模型",
+          "free": "免费用户：基础模型",
+          "vip": "VIP会员：所有模型"
+        },
+        "templates": {
+          "title": "专属模板",
+          "free": "免费用户：基础模板",
+          "vip": "VIP会员：所有模板"
+        },
+        "support": {
+          "title": "客户支持",
+          "free": "免费用户：邮件支持",
+          "vip": "VIP会员：优先支持"
+        }
+      },
+      "faqPage": {
+        "title": "常见问题",
+        "subtitle": "关于VIP会员的常见问题解答",
+        "q1": "什么是VIP会员？",
+        "a1": "VIP会员是文鳐对联的付费会员服务，提供更多AI生成次数、高级模型、专属模板等权益。",
+        "q2": "如何升级为VIP会员？",
+        "a2": "您可以在会员页面选择套餐进行购买，或使用兑换码激活会员。",
+        "q3": "VIP会员可以退款吗？",
+        "a3": "根据我们的退款政策，在特定条件下可以申请退款。",
+        "q4": "会员到期后数据会丢失吗？",
+        "a4": "不会，您的所有数据都会保留，只是无法享受VIP权益。",
+        "plansFaq": {
+          "title": "常见问题",
+          "q1": "会员可以随时取消吗？",
+          "a1": "是的，您可以随时取消会员订阅，已购买的会员时间将继续有效直到到期。",
+          "q2": "支持哪些支付方式？",
+          "a2": "支持微信支付、支付宝、银行卡等多种支付方式，安全便捷。",
+          "q3": "会员权益会更新吗？",
+          "a3": "我们会持续优化会员权益，新功能将优先向VIP会员开放。",
+          "q4": "如何联系客服？",
+          "a4": "VIP会员享受24小时专属客服支持，可通过多种渠道联系我们。"
+        },
+        "backToVip": "返回VIP中心"
+      },
+      "paymentPage": {
+        "title": "订单支付",
+        "subtitle": "请在下方选择支付方式完成订单",
+        "orderNo": "订单号",
+        "manualReview": "人工审核，虚假支付必封号报警",
+        "orderDetails": "订单详情",
+        "productName": "商品名称",
+        "membershipDuration": "会员时长",
+        "createTime": "创建时间",
+        "totalAmount": "应付金额",
+        "orderStatus": "订单状态",
+        "selectPaymentMethod": "选择支付方式",
+        "paymentOrderNo": "支付平台订单号",
+        "paymentOrderNoPlaceholder": "请输入您支付回执中的交易单号",
+        "confirmPayment": "我已完成支付",
+        "submitting": "正在提交...",
+        "submitSuccess": "提交成功！我们将在审核后为您开通会员资格。",
+        "submitError": "提交失败，请稍后重试。",
+        "enterOrderNo": "请输入支付订单号！",
+        "loadingOrder": "正在加载订单信息...",
+        "pleaseWait": "请稍候",
+        "orderLoadError": "订单加载失败",
+        "orderNotFound": "未找到订单信息",
+        "checkOrderNo": "请检查订单号是否正确",
+        "paymentMethods": {
+          "alipay": {
+            "name": "支付宝",
+            "description": "推荐使用，安全便捷",
+            "title": "支付宝扫码支付",
+            "instruction": "请使用支付宝扫描下方二维码完成支付"
+          },
+          "wechat": {
+            "name": "微信支付",
+            "description": "扫码支付，即时到账",
+            "title": "微信扫码支付",
+            "instruction": "请使用微信扫描下方二维码完成支付"
+          },
+          "bank": {
+            "name": "银行卡汇款",
+            "description": "银行转账，安全可靠",
+            "title": "银行卡汇款信息",
+            "bankName": "开户行：",
+            "accountName": "账户名：",
+            "accountNumber": "账号：",
+            "reminder": "汇款时请务必在备注中填写订单号："
+          }
+        },
+        "statusMap": {
+          "pending": "待支付",
+          "in_review": "审核中",
+          "completed": "已通过",
+          "rejected": "已拒绝",
+          "cancelled": "已取消",
+          "refunded": "已退款"
+        }
+      }
+    },
+    "social": {
+      "title": "社交互动",
+      "subtitle": "与全球对联爱好者一起切磋技艺，体验丰富的社交功能",
+      "battles": {
+        "title": "对联PK比赛",
+        "subtitle": "参与激烈的对联PK比赛，展现你的文学才华",
+        "createBattle": "创建比赛",
+        "joinBattle": "参与PK",
+        "viewDetails": "查看详情",
+        "theme": "主题",
+        "participants": "参与者",
+        "type": "类型",
+        "anonymous": "匿名用户",
+        "status": {
+          "recruiting": "招募中",
+          "ongoing": "进行中",
+          "voting": "投票中",
+          "completed": "已完成"
+        }
+      },
+      "collaborations": {
+        "title": "协作创作",
+        "subtitle": "多人协作完成一副对联，体验团队创作的乐趣",
+        "createCollaboration": "发起协作",
+        "joinCollaboration": "加入协作",
+        "theme": "主题",
+        "collaborators": "协作者",
+        "progress": "进度",
+        "anonymous": "匿名用户",
+        "status": {
+          "recruiting": "招募中",
+          "ongoing": "进行中",
+          "completed": "已完成"
+        }
+      },
+      "chains": {
+        "title": "对联接龙",
+        "subtitle": "参与有趣的对联接龙游戏，展现你的即兴创作能力",
+        "createChain": "发起接龙",
+        "joinChain": "参与接龙",
+        "startLine": "起始句",
+        "entries": "接龙数",
+        "status": {
+          "active": "活跃",
+          "completed": "已完成",
+          "closed": "已关闭"
+        }
+      },
+      "mentors": {
+        "title": "导师系统",
+        "subtitle": "跟随经验丰富的导师学习对联创作技巧",
+        "applyMentor": "申请导师",
+        "findMentor": "寻找导师",
+        "expertise": "专长领域",
+        "students": "学生数",
+        "rating": "评分"
+      }
+    },
+    "seo": {
+      "home": {
+        "title": "对联生成器 - AI智能对联创作平台",
+        "description": "专业的AI对联生成器，智能创作春联、婚联、挽联等各类对联，传承中华传统文化，让对联创作更简单。",
+        "keywords": "对联生成器, AI对联, 春联生成, 对联创作, 智能对联, 传统文化"
+      },
+      "contact": {
+        "title": "联系我们 - 对联生成器",
+        "description": "欢迎联系对联生成器团队，我们致力于传承对联文化，为您提供最优质的对联创作服务。",
+        "keywords": "联系我们, 对联生成器, 客服支持, 对联服务, 用户反馈"
+      },
+      "couplet": {
+        "title": "对联大全 - 精选对联作品欣赏",
+        "description": "收录海量精美对联作品，包含春联、婚联、挽联、题赠联等各类对联，品味传统文化之美。",
+        "keywords": "对联大全, 春联大全, 婚联集锦, 挽联精选, 对联欣赏, 传统对联",
+        "generating": "AI 生成中 - 对联生成器",
+        "generatingDesc": "正在生成对联，内容将实时显示",
+        "notFound": "对联未找到 - 对联生成器",
+        "notFoundDesc": "未找到对应的对联内容",
+        "defaultTitle": "AI 对联",
+        "defaultDesc": "AI 生成的对联",
+        "defaultKeywords": "AI, 对联, 传统文化",
+        "siteName": "对联生成器"
+      },
+      "education": {
+        "title": "对联学堂 - 系统学习对联知识",
+        "description": "从对联基础知识到高级创作技巧，系统学习对联平仄、对仗、意境等要素，成为对联创作高手。",
+        "keywords": "对联学习, 对联教程, 对联平仄, 对联对仗, 对联创作技巧"
+      },
+      "game": {
+        "title": "对联游戏 - 趣味学习对联知识",
+        "description": "通过对联接龙、对联填空、对联竞赛等趣味游戏，轻松掌握对联知识，提升文学素养。",
+        "keywords": "对联游戏, 对联接龙, 对联竞赛, 文字游戏, 对联学习"
+      },
+      "social": {
+        "title": "对联社区 - 对联爱好者交流平台",
+        "description": "汇聚对联爱好者，分享对联作品，交流创作心得，参与对联比赛，共同传承对联文化。",
+        "keywords": "对联社区, 对联交流, 对联比赛, 对联分享, 文学社区"
+      },
+      "vip": {
+        "title": "VIP会员 - 解锁高级对联功能",
+        "description": "成为VIP会员，享受无限对联生成、高级模板、专属客服等特权服务，提升对联创作体验。",
+        "keywords": "VIP会员, 对联会员, 高级功能, 对联模板, 会员特权"
+      },
+      "privacy": {
+        "title": "隐私政策 - 对联生成器",
+        "description": "了解对联生成器如何保护您的隐私信息，我们严格遵守数据保护法规，保障用户权益。",
+        "keywords": "隐私政策, 数据保护, 用户隐私, 信息安全"
+      },
+      "terms": {
+        "title": "服务条款 - 对联生成器使用协议",
+        "description": "查看对联生成器平台服务条款，了解用户权利义务，规范使用对联创作服务。",
+        "keywords": "服务条款, 使用协议, 用户协议, 服务规范"
+      },
+      "feedback": {
+        "title": "意见反馈 - 对联生成器",
+        "description": "欢迎对对联生成器提出宝贵意见，帮助我们改进对联创作功能，提升用户体验。",
+        "keywords": "意见反馈, 用户建议, 功能改进, 用户体验"
+      },
+      "refund": {
+        "title": "退款政策 - 对联生成器会员服务",
+        "description": "了解对联生成器VIP会员退款政策，保障您的消费权益，提供透明的退款服务流程。",
+        "keywords": "退款政策, 会员退款, 消费者权益, 退款流程"
+      },
+      "about": {
+        "title": "关于我们 - 对联生成器",
+        "description": "了解对联生成器的使命、愿景与核心功能，传承中华传统文化，让对联创作更简单。",
+        "keywords": "关于我们, 对联生成器, 团队介绍, 传统文化, 使命愿景"
+      }
+    }
+  },
+  "education": {
+    "title": "对联学院",
+    "description": "系统性学习对联知识，从基础到高级的完整学习路径",
+    "subtitle": "传承中华文化，掌握对联艺术",
+    "overview": {
+      "title": "学习概览",
+      "quickStart": "快速开始",
+      "recommendedCourses": "推荐课程",
+      "viewAllCourses": "查看全部课程"
+    },
+    "dailyPractice": {
+      "title": "每日一练",
+      "subtitle": "坚持每日练习，提升对联技巧",
+      "streak": "连续天数",
+      "longestStreak": "最长记录",
+      "todayCompleted": "今日完成",
+      "todayScore": "今日得分",
+      "progress": "今日练习进度",
+      "timeLeft": "剩余时间",
+      "submit": "提交答案",
+      "nextQuestion": "下一题",
+      "getHint": "获取提示",
+      "nextHint": "下一个提示",
+      "correct": "回答正确！",
+      "incorrect": "回答错误",
+      "correctAnswer": "正确答案",
+      "explanation": "解析",
+      "completed": "今日练习完成！",
+      "congratulations": "🎉 恭喜完成今日练习！",
+      "totalScore": "总得分",
+      "keepGoing": "明天继续加油，保持学习连续性！",
+      "loginRequired": "请先登录",
+      "loginToStart": "登录后即可开始每日练习",
+      "loginNow": "立即登录"
+    },
+    "courses": {
+      "title": "系统课程",
+      "subtitle": "从基础到高级的完整学习路径",
+      "allCourses": "全部课程",
+      "noCourses": "暂无课程",
+      "coursesPreparation": "课程正在准备中，敬请期待",
+      "startLearning": "开始学习",
+      "continueLearning": "继续学习",
+      "lessons": "章节",
+      "duration": "时长",
+      "learningObjectives": "学习目标",
+      "prerequisites": "前置要求",
+      "level": {
+        "beginner": "初级",
+        "intermediate": "中级", 
+        "advanced": "高级",
+        "expert": "专家"
+      },
+      "category": {
+        "basic": "基础知识",
+        "rhythm": "韵律格律",
+        "theme": "主题创作",
+        "advanced": "高级技巧"
+      },
+      "difficulty": {
+        "easy": "简单",
+        "medium": "中等",
+        "hard": "困难"
+      }
+    },
+    "exercises": {
+      "types": {
+        "fill_blank": "填空题",
+        "error_correction": "改错题", 
+        "creation": "创作题",
+        "matching": "匹配题",
+        "choice": "选择题"
+      }
+    },
+    "aiTutor": {
+      "title": "AI导师",
+      "subtitle": "个性化学习指导和实时答疑",
+      "startSession": "开始对话",
+      "askQuestion": "提问",
+      "guidance": "学习指导",
+      "feedback": "作品点评",
+      "recommendation": "个性化推荐"
+    },
+    "achievements": {
+      "title": "成就系统",
+      "subtitle": "解锁徽章，展示学习成果",
+      "badges": "徽章",
+      "progress": "进度",
+      "earned": "已获得",
+      "locked": "未解锁",
+      "categories": {
+        "course_completion": "课程完成",
+        "streak": "连续学习",
+        "mastery": "技能掌握",
+        "creativity": "创意表现"
+      },
+      "rarity": {
+        "common": "普通",
+        "rare": "稀有",
+        "epic": "史诗",
+        "legendary": "传说"
+      }
+    },
+    "stats": {
+      "studyTime": "学习时长",
+      "coursesCompleted": "完成课程",
+      "exercisesCompleted": "练习题数",
+      "currentStreak": "连续天数",
+      "level": "等级",
+      "experience": "经验值",
+      "nextLevel": "距离下一级还需",
+      "levelProgress": "等级进度",
+      "totalExperience": "总经验值"
+    },
+    "navigation": {
+      "overview": "学习概览",
+      "dailyPractice": "每日一练",
+      "courses": "全部课程",
+      "aiTutor": "AI导师",
+      "achievements": "成就系统",
+      "stats": "学习统计"
+    }
+  }
+}

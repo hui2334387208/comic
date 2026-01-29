@@ -1,0 +1,61 @@
+{
+  "roles": [
+    {
+      "id": "super-admin",
+      "name": "super-admin",
+      "displayName": "超级管理员",
+      "description": "系统超级管理员，拥有所有权限，可以管理整个系统",
+      "isSystem": true,
+      "permissions": ["*"]
+    },
+    {
+      "id": "admin",
+      "name": "admin",
+      "displayName": "管理员",
+      "description": "系统管理员，拥有大部分权限",
+      "isSystem": true,
+      "permissions": [
+        "dashboard.read",
+        "user.create",
+        "user.read",
+        "user.update",
+        "user.delete",
+        "user.manage",
+        "role.read",
+        "role.create",
+        "role.update",
+        "role.delete",
+        "role.manage",
+        "permission.read",
+        "permission.manage",
+        "menu.read",
+        "menu.manage",
+        "system.read",
+        "system.manage",
+        "couplet.read",
+        "couplet.create",
+        "couplet.update",
+        "couplet.delete",
+        "couplet-version.read",
+        "couplet-version.create",
+        "couplet-version.update",
+        "couplet-version.delete",
+        "couplet-content.read",
+        "couplet-content.create",
+        "couplet-content.update",
+        "couplet-content.delete",
+        "couplet-category.read",
+        "couplet-category.create",
+        "couplet-category.update",
+        "couplet-category.delete",
+        "couplet-tag.read",
+        "couplet-tag.create",
+        "couplet-tag.update",
+        "couplet-tag.delete",
+        "resource.read",
+        "resource.create",
+        "resource.delete"
+      ]
+    }
+  ]
+}

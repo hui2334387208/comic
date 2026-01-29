@@ -1,0 +1,53 @@
+{
+  "name": "文鳐 Couplet",
+  "short_name": "文鳐 Couplet",
+  "description": "文鳐 Couplet 是一个AI驱动的智能对联创作平台，帮助你轻松学习和创作对联。支持智能生成、分类管理、游戏化学习和社交互动，让对联学习更高效、更有趣。",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "lang": "zh-CN",
+  "orientation": "portrait",
+  "categories": ["productivity", "utilities", "education"],
+  "icons": [
+    {
+      "src": "/icons/appIcon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/appIcon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/appIcon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/screen1.png",
+      "sizes": "540x720",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "AI智能生成",
+      "short_name": "AI生成",
+      "description": "用AI快速创建时间线",
+      "url": "/",
+      "icons": [{ "src": "/icons/appIcon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "我的收藏",
+      "short_name": "收藏",
+      "description": "查看我的收藏时间线",
+      "url": "/user/favorites",
+      "icons": [{ "src": "/icons/appIcon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+} 

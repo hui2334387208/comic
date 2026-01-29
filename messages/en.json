@@ -1,0 +1,2256 @@
+{
+  "admin": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "content": "Content Management",
+      "videoManagement": "Video Management",
+      "coupletManagement": "Couplet Management",
+      "coupletList": "Couplet List",
+      "coupletCategories": "Couplet Categories",
+      "coupletTags": "Couplet Tags",
+      "educationManagement": "Education Management",
+      "courseManagement": "Course Management",
+      "exerciseManagement": "Exercise Management",
+      "learningPathManagement": "Learning Path Management",
+      "badgeManagement": "Badge Management",
+      "learningStats": "Learning Statistics",
+      "educationInit": "Education Initialization",
+      "resourceManagement": "Resource Management",
+      "projects": "Project Management",
+      "promptManagement": "Prompt Management",
+      "promptList": "Prompt List",
+      "promptCategories": "Prompt Categories",
+      "promptTags": "Prompt Tags",
+      "vipManagement": "VIP Management",
+      "vipOrders": "VIP Orders",
+      "vipPlans": "VIP Plans",
+      "vipRedeem": "Redeem Codes",
+      "vipRedeemHistory": "Redeem History",
+      "userManagement": "User Management",
+      "roleManagement": "Role Management",
+      "permissionManagement": "Permission Management",
+      "menuManagement": "Menu Management",
+      "feedback": "Feedback Management",
+      "system": "System Settings",
+      "mainMenus": "Main Navigation",
+      "siteSettings": "Site Settings",
+      "systemLogs": "System Logs",
+      "sitemap": "Sitemap"
+    },
+    "auth": {
+      "adminLogin": "Administrator login",
+      "adminRegister": "Admin Registration",
+      "email": "Email",
+      "forgotPassword": "Forgot password?",
+      "haveAccount": "Already have an account? Login",
+      "invalidCredentials": "Invalid email or password",
+      "login": "Login",
+      "password": "Password",
+      "passwordLength": "Password must be at least 6 characters",
+      "register": "Register",
+      "registerSuccess": "Admin account created successfully, please login",
+      "rememberMe": "Remember me",
+      "secretKey": "Admin Secret Key",
+      "username": "Username",
+      "validEmail": "Please enter a valid email address"
+    },
+    "common": {
+      "actions": "Actions",
+      "active": "Active",
+      "add": "Add",
+      "all": "All",
+      "back": "Back",
+      "basicFields": "Basic Fields",
+      "batchActions": "Batch Actions",
+      "batchActive": "Batch Activate",
+      "batchDelete": "Batch Delete",
+      "batchInactive": "Batch Deactivate",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "copy": "Copy",
+      "cover": "Cover",
+      "create": "Create",
+      "createdAt": "Created At",
+      "createSuccess": "Created successfully",
+      "createTime": "Create Time",
+      "days": "days",
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete?",
+      "deleteError": "Delete failed",
+      "deleteSuccess": "Deleted successfully",
+      "details": "Details",
+      "edit": "Edit",
+      "error": "Error",
+      "export": "Export",
+      "i18nFields": "Multilingual Fields",
+      "image": "Image",
+      "inactive": "Inactive",
+      "language": "Language",
+      "loading": "Loading...",
+      "months": "months",
+      "noData": "No data found",
+      "operationFailed": "Operation failed",
+      "operationSuccess": "Operation successful",
+      "required": "Required",
+      "save": "Save",
+      "search": "Search",
+      "settings": "Settings",
+      "status": "Status",
+      "submit": "Submit",
+      "success": "Success",
+      "total": "Total",
+      "updatedAt": "更新时间",
+      "updateSuccess": "Updated successfully",
+      "upload": "Upload",
+      "view": "View"
+    },
+    "dashboard": {
+      "activeProducts": "Active Products",
+      "categoryDistribution": "Category Distribution",
+      "hotProducts": "Hot Products",
+      "newProducts": "New Products",
+      "newProductsThisMonth": "New Products This Month",
+      "productTrends": "Product Trends",
+      "salesThisMonth": "Sales This Month",
+      "topSales": "Top Sales",
+      "totalProducts": "Total Products",
+      "totalSales": "Total Sales",
+      "totalStock": "Total Stock",
+      "productInfo": {
+        "active": "Active",
+        "category": "Category",
+        "inactive": "Inactive",
+        "listTime": "List Time",
+        "noCategory": "No Category",
+        "price": "Price",
+        "sales": "Sales",
+        "stock": "Stock",
+        "summary": "Summary"
+      }
+    },
+    "feedback": {
+      "contact": "Contact Information",
+      "content": "Content",
+      "email": "Email",
+      "feedbackDetails": "Feedback Details",
+      "feedbackList": "Feedback List",
+      "phone": "Phone",
+      "read": "Read",
+      "sender": "Sender",
+      "submitTime": "Submit Time",
+      "title": "Feedback Management",
+      "totalFeedback": "Total Feedback",
+      "unread": "Unread",
+      "status": {
+        "completed": "Completed",
+        "pending": "Pending",
+        "processing": "Processing"
+      }
+    },
+    "layout": {
+      "admin": "Admin",
+      "darkMode": "Switch to Dark Mode",
+      "lightMode": "Switch to Light Mode",
+      "logout": "Logout",
+      "profile": "Profile"
+    },
+    "orderManagement": {
+      "description": "Review and manage all VIP subscription orders.",
+      "no": "No",
+      "title": "VIP Order Management",
+      "yes": "Yes",
+      "approveModal": {
+        "description": "Are you sure you want to pass this order and grant VIP status?",
+        "label": "Admin Notes (Optional)",
+        "placeholder": "Enter internal notes here. This will not be sent to the user.",
+        "title": "Pass Order"
+      },
+      "buttons": {
+        "approve": "Pass",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "confirmApprove": "Confirm Approve",
+        "confirmGrant": "Confirm Grant",
+        "confirmReject": "Confirm Reject",
+        "grantVip": "Grant VIP Manually",
+        "pass": "Pass",
+        "reject": "Reject"
+      },
+      "columns": {
+        "actions": "Actions",
+        "adminNotes": "Admin Notes",
+        "amount": "Amount",
+        "autoRenew": "Auto Renew",
+        "createdAt": "Created At",
+        "expireAt": "Expires At",
+        "orderNo": "Order No.",
+        "paidAt": "Paid At",
+        "paymentMethod": "Payment Method",
+        "paymentTransactionId": "Payment Txn ID",
+        "plan": "Plan",
+        "reviewedAt": "Reviewed At",
+        "reviewedBy": "Reviewed By",
+        "status": "Status",
+        "updatedAt": "Updated At",
+        "user": "User",
+        "userSubmittedId": "User Submitted ID"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by Order No. or User",
+        "statusPlaceholder": "Filter by status"
+      },
+      "grantModal": {
+        "notesLabel": "Admin Notes (Optional)",
+        "notesPlaceholder": "e.g., Compensation, internal testing",
+        "planLabel": "VIP Plan",
+        "planPlaceholder": "Select a VIP plan",
+        "planRequired": "Please select a plan.",
+        "title": "Grant VIP Manually",
+        "userLabel": "User",
+        "userPlaceholder": "Search and select a user",
+        "userRequired": "Please select a user."
+      },
+      "messages": {
+        "approveFailed": "Failed to pass order.",
+        "approveSuccess": "Order passed successfully!",
+        "fetchFailed": "Failed to fetch orders.",
+        "fetchPlansFailed": "Failed to fetch VIP plans.",
+        "grantVipFailed": "Failed to grant VIP.",
+        "grantVipSuccess": "VIP granted successfully!",
+        "rejectFailed": "Failed to reject order.",
+        "rejectSuccess": "Order rejected successfully!",
+        "userSearchFailed": "Failed to search for users."
+      },
+      "rejectModal": {
+        "label": "Admin Notes",
+        "placeholder": "Please provide a reason for rejection (e.g., incorrect transaction ID).",
+        "reasonRequired": "Rejection reason is required.",
+        "title": "Reject Order"
+      },
+      "status": {
+        "cancelled": "Cancelled",
+        "completed": "Approved",
+        "in_review": "In Review",
+        "pending": "Pending Review",
+        "refunded": "Refunded",
+        "rejected": "Rejected"
+      }
+    },
+    "planManagement": {
+      "createPlan": "New VIP Plan",
+      "description": "Manage VIP subscription plans, set prices, features, and status.",
+      "durationUnit": "Months",
+      "editPlan": "Edit VIP Plan",
+      "title": "VIP Plans",
+      "buttons": {
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "create": "Create Plan",
+        "delete": "Delete",
+        "edit": "Edit",
+        "save": "Save"
+      },
+      "columns": {
+        "actions": "Actions",
+        "createdAt": "Created At",
+        "duration": "Duration",
+        "name": "Name",
+        "operator": "Operator",
+        "originalPrice": "Original Price",
+        "price": "Price",
+        "sortOrder": "Sort Order",
+        "status": "Status"
+      },
+      "deleteConfirm": {
+        "description": "Are you sure you want to delete the plan \"{name}\"? This action cannot be undone.",
+        "title": "Confirm Deletion"
+      },
+      "deleteModal": {
+        "codes": "Related Codes: {count}",
+        "confirmText": "Are you sure you want to delete plan \"{name}\"?",
+        "dependencyInfo": "Dependency Details:",
+        "errorTitle": "Cannot Delete Plan",
+        "orders": "Related Orders: {count}",
+        "suggestion": "Please handle these dependencies before deleting the plan.",
+        "title": "Confirm Deletion",
+        "warning": "This action cannot be undone. Please ensure there are no associated orders or codes."
+      },
+      "messages": {
+        "createFailed": "Failed to create plan.",
+        "createSuccess": "Plan created successfully!",
+        "deleteFailed": "Failed to delete plan.",
+        "deleteSuccess": "Plan deleted successfully!",
+        "fetchFailed": "Failed to fetch plans.",
+        "updateFailed": "Failed to update plan.",
+        "updateSuccess": "Plan updated successfully!"
+      }
+    },
+    "profile": {
+      "avatar": "Change Avatar",
+      "avatarUploadFailed": "Avatar upload failed",
+      "avatarUploadSuccess": "Avatar uploaded successfully",
+      "confirmPassword": "Confirm New Password",
+      "currentPassword": "Current Password",
+      "email": "Email",
+      "enterCurrentPassword": "Please enter current password",
+      "enterEmail": "Please enter email",
+      "enterUsername": "Please enter username",
+      "loading": "Loading...",
+      "newPassword": "New Password",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "passwordMismatch": "The two passwords do not match",
+      "pleaseLogin": "Please login first",
+      "saveChanges": "Save Changes",
+      "title": "Profile Information",
+      "updateFailed": "Update failed, please try again",
+      "updateSuccess": "Profile updated successfully",
+      "username": "Username"
+    },
+    "resources": {
+      "copyLink": "Copy Link",
+      "deleteWarning": "After deletion, it cannot be recovered. Please proceed with caution.",
+      "dimensions": "Dimensions",
+      "fileName": "File Name",
+      "fileSize": "File Size",
+      "fileType": "File Type",
+      "image": "Image",
+      "imagesList": "Images List",
+      "imageTab": "Image",
+      "linkCopied": "Link copied to clipboard",
+      "preview": "Preview",
+      "uploadImage": "Upload Image",
+      "uploadTime": "Upload Time",
+      "uploadVideo": "Upload Video",
+      "videoTab": "Video"
+    },
+    "coupletTags": {
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "list": {
+        "title": "Couplet Tags",
+        "subtitle": "Maintain reusable tags and their colors for couplets",
+        "name": "Tag",
+        "color": "Color",
+        "status": "Status",
+        "createdAt": "Created At",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Delete this tag? This action cannot be undone.",
+        "deleteConfirmOk": "Delete",
+        "deleteConfirmCancel": "Cancel",
+        "deleteSuccess": "Tag deleted successfully",
+        "deleteError": "Failed to delete tag",
+        "fetchError": "Failed to load tags",
+        "searchPlaceholder": "Search name or slug",
+        "statusPlaceholder": "Filter by status",
+        "reset": "Reset Filters",
+        "total": "{total} tags in total",
+        "addTag": "Create Tag"
+      },
+      "form": {
+        "createTitle": "Create Tag",
+        "editTitle": "Edit Tag",
+        "name": "Tag Name",
+        "slug": "Slug",
+        "slugTip": "Slug is used in the URL. Leave blank to auto-generate from the name.",
+        "color": "Color",
+        "status": "Status",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "save": "Save",
+        "createSuccess": "Tag created successfully",
+        "updateSuccess": "Tag updated successfully",
+        "submitError": "Submission failed, please try again later",
+        "placeholder": {
+          "name": "Enter a tag name",
+          "slug": "Custom slug (optional)",
+          "color": "e.g. #3498db"
+        },
+        "errors": {
+          "name": "Please enter a tag name"
+        }
+      },
+      "detail": {
+        "fetchError": "Failed to load tag details"
+      }
+    },
+    "coupletCategories": {
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "list": {
+        "title": "Couplet Categories",
+        "subtitle": "Manage couplet categories and their properties",
+        "name": "Category",
+        "description": "Description",
+        "icon": "Icon",
+        "color": "Color",
+        "status": "Status",
+        "sortOrder": "Sort Order",
+        "createdAt": "Created At",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Delete this category? This action cannot be undone.",
+        "deleteConfirmOk": "Delete",
+        "deleteConfirmCancel": "Cancel",
+        "deleteSuccess": "Category deleted successfully",
+        "deleteError": "Failed to delete category",
+        "fetchError": "Failed to load categories",
+        "searchPlaceholder": "Search name, slug or description",
+        "statusPlaceholder": "Filter by status",
+        "reset": "Reset Filters",
+        "total": "{total} categories in total",
+        "addCategory": "Create Category"
+      },
+      "form": {
+        "createTitle": "Create Category",
+        "editTitle": "Edit Category",
+        "name": "Category Name",
+        "slug": "Slug",
+        "slugTip": "Slug is used in the URL. Leave blank to auto-generate from the name.",
+        "description": "Description",
+        "icon": "Icon",
+        "color": "Color",
+        "status": "Status",
+        "sortOrder": "Sort Order",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "save": "Save",
+        "createSuccess": "Category created successfully",
+        "updateSuccess": "Category updated successfully",
+        "submitError": "Submission failed, please try again later",
+        "placeholder": {
+          "name": "Enter a category name",
+          "slug": "Custom slug (optional)",
+          "description": "Enter category description",
+          "icon": "e.g. 📝",
+          "color": "e.g. #3498db"
+        },
+        "errors": {
+          "name": "Please enter a category name"
+        }
+      },
+      "detail": {
+        "fetchError": "Failed to load category details"
+      }
+    },
+    "settings": {
+      "add": "Add Setting",
+      "addError": "Failed to add setting",
+      "addSuccess": "Setting added successfully",
+      "delete": "Delete Setting",
+      "deleteConfirm": "Are you sure you want to delete this setting?",
+      "deleteError": "Failed to delete setting",
+      "deleteSuccess": "Setting deleted successfully",
+      "deleteWarning": "This action cannot be undone.",
+      "description": "Description",
+      "edit": "Edit Setting",
+      "editError": "Failed to update setting",
+      "editSuccess": "Setting updated successfully",
+      "enterKey": "Please enter setting key",
+      "enterValue": "Please enter setting value",
+      "getError": "Failed to get settings",
+      "key": "Key",
+      "searchPlaceholder": "Search by key",
+      "title": "Website Settings",
+      "value": "Value"
+    },
+    "roles": {
+      "title": "Role Management",
+      "roleList": "Role List",
+      "roleDetails": "Role Details",
+      "editRole": "Edit Role",
+      "createRole": "Create Role",
+      "deleteRole": "Delete Role",
+      "roleInfo": "Role Information",
+      "totalRoles": "Total Roles",
+      "systemRoles": "System Roles",
+      "customRoles": "Custom Roles",
+      "totalUsers": "Total Users",
+      "searchPlaceholder": "Search role name, identifier or description",
+      "selectType": "Select Type",
+      "resetFilters": "Reset Filters",
+      "roleName": "Role Name",
+      "roleId": "Role Identifier",
+      "description": "Description",
+      "permissionCount": "Permission Count",
+      "userCount": "User Count",
+      "type": "Type",
+      "actions": "Actions",
+      "viewDetails": "View Details",
+      "edit": "Edit",
+      "delete": "Delete",
+      "permissionSettings": "Permission Settings",
+      "assignRole": "Assign Role",
+      "removeRole": "Remove Role",
+      "roleManagement": "Role Management",
+      "importRoleData": "Import Role Data",
+      "exportData": "Export Data",
+      "refresh": "Refresh",
+      "systemRole": "System Role",
+      "customRole": "Custom Role",
+      "roleIdPlaceholder": "e.g: admin, moderator",
+      "displayNamePlaceholder": "e.g: Administrator, Moderator",
+      "descriptionPlaceholder": "Role description",
+      "roleIdRequired": "Please enter role identifier",
+      "displayNameRequired": "Please enter display name",
+      "roleIdFormat": "Only lowercase letters, numbers and underscores allowed",
+      "createSuccess": "Role created successfully",
+      "updateSuccess": "Role updated successfully",
+      "deleteSuccess": "Role deleted successfully",
+      "deleteConfirm": "Are you sure you want to delete this role?",
+      "cannotDeleteSystemRole": "System roles cannot be deleted",
+      "cannotEditSystemRole": "System roles cannot be edited"
+    },
+    "users": {
+      "title": "User Management",
+      "userList": "User List",
+      "userDetails": "User Details",
+      "editUser": "Edit User",
+      "createUser": "Create User",
+      "deleteUser": "Delete User",
+      "lockUser": "Lock User",
+      "unlockUser": "Unlock User",
+      "userInfo": "User Information",
+      "loginStats": "Login Statistics",
+      "lockInfo": "Lock Information",
+      "loginLogs": "Login Logs",
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "lockedUsers": "Locked Users",
+      "newUsersToday": "New Today",
+      "searchPlaceholder": "Search by username, email",
+      "selectRole": "Select Role",
+      "selectStatus": "Select Status",
+      "resetFilters": "Reset Filters",
+      "role": "Role",
+      "status": "Status",
+      "actions": "Actions",
+      "viewDetails": "View Details",
+      "edit": "Edit",
+      "lock": "Lock",
+      "unlock": "Unlock",
+      "delete": "Delete",
+      "normal": "Normal",
+      "locked": "Locked",
+      "admin": "Administrator",
+      "user": "User",
+      "moderator": "Moderator",
+      "recentLogins": "Recent Logins",
+      "failedLogins": "Failed Logins",
+      "lastLogin": "Last Successful Login",
+      "lastFailedLogin": "Last Failed Login",
+      "frequentLoginWarning": "Frequent Login Warning",
+      "lockReason": "Lock Reason",
+      "lockTime": "Lock Time",
+      "lockExpires": "Lock Expires",
+      "permanentLock": "Permanent Lock",
+      "unknown": "Unknown",
+      "never": "Never",
+      "confirmLock": "Are you sure you want to lock this user?",
+      "confirmUnlock": "Are you sure you want to unlock this user?",
+      "confirmDelete": "Are you sure you want to delete this user? This action cannot be undone!",
+      "lockSuccess": "User locked successfully",
+      "unlockSuccess": "User unlocked successfully",
+      "deleteSuccess": "User deleted successfully",
+      "lockFailed": "Failed to lock user",
+      "unlockFailed": "Failed to unlock user",
+      "deleteFailed": "Failed to delete user",
+      "getUserListFailed": "Failed to get user list",
+      "getUserDetailFailed": "Failed to get user details",
+      "updateUserFailed": "Failed to update user information",
+      "cannotDeleteSelf": "Cannot delete your own account",
+      "cannotLockSelf": "Cannot lock your own account",
+      "userNotExists": "User does not exist",
+      "emailExists": "Email already exists",
+      "usernameExists": "Username already exists",
+      "missingFields": "Missing required fields",
+      "invalidEmail": "Please enter a valid email address",
+      "usernameMinLength": "Username must be at least 3 characters",
+      "usernameMaxLength": "Username must be at most 20 characters",
+      "nameMaxLength": "Name must be at most 50 characters",
+      "profileMaxLength": "Profile must be at most 500 characters",
+      "usernamePattern": "Only lowercase letters, numbers and underscores allowed",
+      "save": "Save",
+      "cancel": "Cancel",
+      "back": "Back",
+      "backToUserList": "Back to User List",
+      "backToUserDetail": "Back to User Detail",
+      "changeAvatar": "Change Avatar",
+      "avatarUploadSuccess": "Avatar uploaded successfully",
+      "avatarUploadFailed": "Failed to upload avatar"
+    },
+    "permissions": {
+      "title": "Permission Management",
+      "roleManagement": "Role Management",
+      "permissionManagement": "Permission Management",
+      "permissionRequests": "Permission Requests",
+      "roleList": "Role List",
+      "permissionList": "Permission List",
+      "requestList": "Request List",
+      "createRole": "Create Role",
+      "createPermission": "Create Permission",
+      "editRole": "Edit Role",
+      "editPermission": "Edit Permission",
+      "deleteRole": "Delete Role",
+      "deletePermission": "Delete Permission",
+      "roleName": "Role Name",
+      "roleIdentifier": "Role Identifier",
+      "displayName": "Display Name",
+      "description": "Description",
+      "permissions": "Permissions",
+      "permissionCount": "Permission Count",
+      "userCount": "User Count",
+      "type": "Type",
+      "systemRole": "System Role",
+      "customRole": "Custom Role",
+      "systemPermission": "System Permission",
+      "customPermission": "Custom Permission",
+      "permissionIdentifier": "Permission Identifier",
+      "module": "Module",
+      "action": "Action",
+      "resource": "Resource",
+      "create": "Create",
+      "read": "Read",
+      "update": "Update",
+      "delete": "Delete",
+      "manage": "Manage",
+      "user": "User",
+      "admin": "Administrator",
+      "content": "Content",
+      "post": "Post",
+      "comment": "Comment",
+      "permissionSettings": "Permission Settings",
+      "roleNamePlaceholder": "e.g. admin, moderator",
+      "displayNamePlaceholder": "e.g. Administrator, Moderator",
+      "roleDescriptionPlaceholder": "Role description",
+      "selectPermissions": "Select Permissions",
+      "permissionNamePlaceholder": "e.g. user.create, admin.delete",
+      "displayNamePlaceholder2": "e.g. Create User, Delete Administrator",
+      "modulePlaceholder": "e.g. user, admin, content",
+      "selectAction": "Select Action",
+      "resourcePlaceholder": "e.g. user, post, comment",
+      "permissionDescriptionPlaceholder": "Permission description",
+      "confirmDeleteRole": "Are you sure you want to delete this role?",
+      "confirmDeletePermission": "Are you sure you want to delete this permission?",
+      "roleNameExists": "Role name already exists",
+      "permissionNameExists": "Permission name already exists",
+      "roleNameUsed": "Role name is already in use",
+      "permissionNameUsed": "Permission name is already in use",
+      "cannotModifySystemRole": "Cannot modify system role",
+      "cannotModifySystemPermission": "Cannot modify system permission",
+      "cannotDeleteSystemRole": "Cannot delete system role",
+      "cannotDeleteSystemPermission": "Cannot delete system permission",
+      "roleHasUsers": "Cannot delete role with existing users",
+      "roleCreated": "Role created successfully",
+      "roleUpdated": "Role updated successfully",
+      "roleDeleted": "Role deleted successfully",
+      "permissionCreated": "Permission created successfully",
+      "permissionUpdated": "Permission updated successfully",
+      "permissionDeleted": "Permission deleted successfully",
+      "operationFailed": "Operation failed",
+      "createFailed": "Creation failed",
+      "updateFailed": "Update failed",
+      "deleteFailed": "Delete failed",
+      "getRoleListFailed": "Failed to get role list",
+      "getPermissionListFailed": "Failed to get permission list",
+      "getRequestListFailed": "Failed to get request list",
+      "missingRequiredFields": "Missing required fields",
+      "invalidStatus": "Invalid status",
+      "requestNotExists": "Request does not exist",
+      "requestProcessed": "Request has been processed",
+      "requestApproved": "Request approved",
+      "requestRejected": "Request rejected",
+      "reviewRequestFailed": "Failed to review permission request",
+      "roleNamePattern": "Only lowercase letters, numbers and underscores allowed",
+      "permissionNamePattern": "Only lowercase letters, numbers and underscores allowed",
+      "userName": "User Name",
+      "userEmail": "User Email",
+      "requestRole": "Requested Role",
+      "requestReason": "Request Reason",
+      "requestStatus": "Request Status",
+      "requestTime": "Request Time",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "approve": "Approve",
+      "reject": "Reject",
+      "reviewComment": "Review Comment"
+    },
+    "sitemap": {
+      "autoRefresh": "Auto Refresh",
+      "autoRefreshHelp": "Refresh data every 5 minutes",
+      "averagePriority": "Average Priority",
+      "changeFreq": "Change Frequency",
+      "generate": "Generate Sitemap",
+      "generateError": "Failed to generate sitemap",
+      "generateSuccess": "Sitemap generated successfully",
+      "help": "Sitemap helps search engines better crawl your website content",
+      "languages": "Supported Languages",
+      "lastGenerated": "Last Generated",
+      "noSitemap": "No sitemap data available",
+      "title": "Sitemap Management",
+      "totalUrls": "Total URLs",
+      "url": "URL",
+      "view": "View Sitemap",
+      "viewSitemap": "View Sitemap",
+      "description": "Manage website sitemap, support CRUD operations for URLs.",
+      "createSitemap": "Create Sitemap",
+      "edit": "Edit",
+      "delete": "Delete",
+      "actions": "Actions",
+      "createTitle": "Create Sitemap URL",
+      "createDescription": "Create a new sitemap URL with update frequency and priority settings.",
+      "basicInfo": "Basic Information",
+      "urlPath": "URL Path",
+      "urlPathPlaceholder": "e.g.: /about",
+      "urlPathRequired": "Please enter URL path",
+      "updateFrequency": "Update Frequency",
+      "selectFrequency": "Please select update frequency",
+      "frequencyOptions": {
+        "always": "always - Always",
+        "hourly": "hourly - Hourly",
+        "daily": "daily - Daily",
+        "weekly": "weekly - Weekly",
+        "monthly": "monthly - Monthly",
+        "yearly": "yearly - Yearly",
+        "never": "never - Never"
+      },
+      "priority": "Priority",
+      "priorityRequired": "Please enter priority",
+      "priorityPlaceholder": "0.0 - 1.0, higher numbers have higher priority",
+      "language": "Language",
+      "selectLanguage": "Please select language",
+      "languageOptions": {
+        "zh": "Chinese",
+        "en": "English"
+      },
+      "lastModified": "Last Modified Time",
+      "selectLastModified": "Select last modified time",
+      "create": "Create",
+      "cancel": "Cancel",
+      "createSuccess": "Sitemap URL created successfully",
+      "createFailed": "Creation failed",
+      "editTitle": "Edit Sitemap URL",
+      "editDescription": "Edit sitemap URL information and settings.",
+      "editSuccess": "Sitemap URL updated successfully",
+      "editFailed": "Update failed",
+      "notFound": "Sitemap URL not found",
+      "fetchFailed": "Failed to fetch data",
+      "update": "Update",
+      "backToList": "Back to List"
+    },
+    "systemLogs": {
+      "action": "Action",
+      "auth": "Auth",
+      "cases": "Cases",
+      "content": "Content",
+      "dateRange": "Date Range",
+      "description": "Description",
+      "error": "Error",
+      "info": "Info",
+      "ip": "IP Address",
+      "level": "Level",
+      "module": "Module",
+      "products": "Products",
+      "reset": "Reset",
+      "search": "Search logs...",
+      "searchButton": "Search",
+      "system": "System",
+      "time": "Time",
+      "title": "System Logs",
+      "user": "User",
+      "userAgent": "User Agent",
+      "warning": "Warning"
+    },
+    "videos": {
+      "addVideo": "Add Video",
+      "batchDelete": "Batch Delete",
+      "batchDeleteConfirmContent": "Are you sure you want to delete the selected videos? This action cannot be undone.",
+      "batchDeleteConfirmTitle": "Confirm Batch Delete",
+      "batchDeleteError": "Batch delete failed",
+      "batchDeleteSuccess": "Batch delete successful",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "deleteConfirmContent": "Are you sure you want to delete this video? This action cannot be undone.",
+      "deleteConfirmTitle": "Confirm Delete",
+      "deleteError": "Delete failed",
+      "deleteSuccess": "Delete successful",
+      "deleteVideo": "Delete Video",
+      "editVideo": "Edit",
+      "enterDescription": "Please enter video description",
+      "enterDuration": "Please enter video duration",
+      "enterSort": "Please enter sort order",
+      "enterTitle": "Please enter video title",
+      "enterViews": "Please enter view count",
+      "fetchError": "Failed to fetch videos",
+      "reset": "Reset",
+      "searchPlaceholder": "Search videos...",
+      "statusArchived": "Archived",
+      "statusDraft": "Draft",
+      "statusFilter": "Status Filter",
+      "statusPublished": "Published",
+      "statusUpdateError": "Failed to update status",
+      "statusUpdateSuccess": "Status updated successfully",
+      "title": "Video Management",
+      "totalItems": "Total {total} items",
+      "uploadThumbnail": "Upload Thumbnail",
+      "uploadVideo": "Upload Video",
+      "form": {
+        "description": "Description",
+        "duration": "Duration",
+        "sort": "Sort Order",
+        "status": "Status",
+        "title": "Title",
+        "videoFile": "Video File",
+        "views": "Views"
+      },
+      "table": {
+        "actions": "Actions",
+        "createdAt": "Created At",
+        "duration": "Duration",
+        "filename": "Filename",
+        "filesize": "Filesize",
+        "filetype": "Filetype",
+        "sort": "Sort",
+        "status": "Status",
+        "title": "Title",
+        "url": "Video",
+        "views": "Views"
+      }
+    },
+    "vip": {
+      "plan": {
+        "duration": "Duration",
+        "manageTitle": "套餐管理",
+        "name": "Plan Name"
+      },
+      "redeem": {
+        "backToList": "Back to Redeem Code List",
+        "basicInfo": "Basic Information",
+        "cancel": "Cancel",
+        "code": "Redeem Code",
+        "createButton": "Create Redeem Code",
+        "createdAt": "Created At",
+        "createDescription": "Create a new VIP redeem code to distribute VIP benefits to users.",
+        "createFailed": "Failed to create redeem codes",
+        "createModalTitle": "Create VIP Redeem Code",
+        "createSuccess": "Redeem codes created successfully",
+        "days": "Duration (Days)",
+        "deleteFailed": "删除兑换码失败",
+        "deleteSuccess": "删除兑换码成功",
+        "duration": "Duration (Months)",
+        "editDescription": "Edit redeem code information and settings.",
+        "editModalTitle": "Edit Redeem Code",
+        "expiresAt": "Expiration Time",
+        "fetchFailed": "Failed to fetch redeem codes",
+        "generateRandom": "Generate Random Code",
+        "manageDescription": "Create, view, and manage VIP membership redeem codes.",
+        "manageTitle": "Redeem Code Management",
+        "maxUses": "Max Uses",
+        "new": "Create",
+        "plan": "Related Plan",
+        "planLabel": "VIP Plan",
+        "planPlaceholder": "Optional, associate with a VIP plan",
+        "planRequired": "Please select a plan.",
+        "redeemSettings": "Redeem Settings",
+        "status": "Status",
+        "type": "Redeem Type",
+        "unused": "Unused",
+        "usage": "Usage",
+        "used": "Used",
+        "usedAt": "Used At",
+        "usedBy": "Used By",
+        "vipLevel": "VIP Level",
+        "deleteConfirm": {
+          "description": "Are you sure you want to delete this redeem code? This action cannot be undone.",
+          "title": "Delete Redeem Code"
+        },
+        "history": {
+          "description": "All users' VIP redeem records, paginated.",
+          "error": "Error",
+          "errorDesc": "Failed to fetch data",
+          "noData": "No data",
+          "title": "VIP Redeem History",
+          "pagination": {
+            "next": "Next",
+            "page": "Page {page} / {total}",
+            "prev": "Previous"
+          },
+          "statusOptions": {
+            "expired": "Expired",
+            "failed": "Failed",
+            "success": "Success"
+          },
+          "table": {
+            "code": "Redeem Code",
+            "id": "ID",
+            "message": "Remark",
+            "redeemedAt": "Redeemed At",
+            "snapshot": "Snapshot",
+            "status": "Status",
+            "user": "User"
+          }
+        },
+        "messages": {
+          "createFailed": "Failed to create redeem code.",
+          "createSuccess": "Redeem code created successfully.",
+          "deleteFailed": "Failed to delete redeem code.",
+          "deleteSuccess": "Redeem code deleted successfully.",
+          "fetchFailed": "Failed to fetch redeem codes.",
+          "updateFailed": "Failed to update redeem code.",
+          "updateSuccess": "Redeem code updated successfully."
+        },
+        "statusOptions": {
+          "active": "Active",
+          "deleted": "Deleted",
+          "expired": "Expired",
+          "inactive": "Inactive",
+          "used_up": "Used Up"
+        },
+        "typeOptions": {
+          "days": "Duration (Days)",
+          "duration": "Duration (Months)",
+          "level": "VIP Level",
+          "plan": "Plan"
+        }
+      }
+    }
+  },
+  "main": {
+    "about": {
+      "subtitle": "Using AI technology to preserve couplet culture, enabling everyone to easily create culturally rich couplet works",
+      "title": "About Us",
+      "contact": {
+        "contactUs": "Contact Us",
+        "description": "If you have any questions, suggestions, or collaboration interests, please feel free to contact us.",
+        "feedback": "Feedback",
+        "title": "Contact Us"
+      },
+      "features": {
+        "title": "Core Features",
+        "aiGeneration": {
+          "description": "Deep learning models automatically generate couplets that meet tonal and rhyming requirements",
+          "title": "AI Generation"
+        },
+        "cultureLibrary": {
+          "description": "Built-in poetry classics and festival templates, ensuring couplets have cultural roots and allusions",
+          "title": "Cultural Library"
+        },
+        "diverseTopics": {
+          "description": "Support 200+ festival templates including New Year, weddings, business openings, schools, etc.",
+          "title": "Diverse Topics"
+        },
+        "visualization": {
+          "description": "Switch between horizontal/vertical layouts, font sizes, and red paper/gold ink styles with one-click preview and export",
+          "title": "Visualization"
+        }
+      },
+      "mission": {
+        "content": "AI Couplet Workshop is committed to preserving and promoting Chinese couplet culture through artificial intelligence technology. We believe that couplets are not only treasures of traditional culture, but also important carriers for modern people to express emotions and convey blessings. Through AI technology, we make couplet creation simple and fun, enabling everyone to express their feelings with beautiful couplets on occasions such as festivals, celebrations, and business openings.",
+        "title": "Our Mission"
+      },
+      "vision": {
+        "content": "To become the world's leading AI couplet creation platform, revitalizing couplet culture in the digital age. We hope to make couplet creation accessible to everyone, not just a privilege of a few. Through the power of technology, we perfectly integrate traditional culture with modern life.",
+        "title": "Our Vision"
+      }
+    },
+    "common": {
+      "backToList": "Back to List",
+      "backToTop": "Back to Top",
+      "date": "Date",
+      "home": "Home",
+      "nextPage": "Next",
+      "prevPage": "Previous",
+      "readMore": "Read More",
+      "siteName": "AI Couplet Workshop",
+      "tags": "Tags",
+      "views": "Views"
+    },
+    "contact": {
+      "subtitle": "We're always ready to help you. Feel free to reach out to us through the following methods",
+      "title": "Contact Us",
+      "breadcrumb": {
+        "contact": "Contact Us",
+        "home": "Home"
+      },
+      "contactInfo": {
+        "title": "Contact Information",
+        "email": {
+          "address": "support@couplet-ai.com",
+          "title": "Email Address"
+        }
+      },
+      "form": {
+        "error": "Failed to send message, please try again later.",
+        "networkError": "Network error, please check your connection.",
+        "sending": "Sending...",
+        "submit": "Send Message",
+        "success": "Message sent successfully! We'll get back to you soon.",
+        "title": "Send Message",
+        "email": {
+          "label": "Email Address *",
+          "placeholder": "Please enter your email address"
+        },
+        "message": {
+          "label": "Message Content *",
+          "placeholder": "Please describe your question or suggestion in detail..."
+        },
+        "name": {
+          "label": "Name *",
+          "placeholder": "Please enter your name"
+        },
+        "subject": {
+          "label": "Subject *",
+          "placeholder": "Please select a subject",
+          "options": {
+            "feedback": "Feedback & Suggestions",
+            "general": "General Inquiry",
+            "other": "Other",
+            "technical": "Technical Support"
+          }
+        }
+      }
+    },
+    "feedback": {
+      "subtitle": "Your suggestions are the driving force of our progress, helping us build a better AI couplet creation platform",
+      "title": "Feedback & Suggestions",
+      "benefits": {
+        "items": [
+          "Help us improve product features",
+          "Get priority access to new features",
+          "Participate in product development discussions",
+          "Receive exclusive user badges and rewards"
+        ],
+        "title": "Benefits of Submitting Feedback"
+      },
+      "breadcrumb": {
+        "feedback": "Feedback",
+        "home": "Home"
+      },
+      "contact": {
+        "description": "If you need more direct help, you can also contact us through the following methods:",
+        "email": "Email: support@xuanwhale.com",
+        "title": "Other Contact Methods",
+        "viewMore": "View more contact methods →"
+      },
+      "form": {
+        "error": "Submission failed, please try again later.",
+        "networkError": "Network error, please check your connection.",
+        "submit": "Submit Feedback",
+        "submitting": "Submitting...",
+        "success": "Feedback submitted successfully! We will carefully consider your suggestions.",
+        "description": {
+          "label": "Detailed Description *",
+          "placeholder": "Please describe your issue, suggestion, or idea in detail..."
+        },
+        "email": {
+          "label": "Email Address *",
+          "placeholder": "Please enter your email address"
+        },
+        "name": {
+          "label": "Name *",
+          "placeholder": "Please enter your name"
+        },
+        "priority": {
+          "label": "Priority",
+          "options": {
+            "high": "High Priority",
+            "low": "Low Priority",
+            "medium": "Medium Priority",
+            "urgent": "Urgent"
+          }
+        },
+        "title": {
+          "label": "Feedback Title *",
+          "placeholder": "Please briefly describe your feedback"
+        },
+        "type": {
+          "label": "Feedback Type *",
+          "placeholder": "Please select feedback type",
+          "options": {
+            "bug": "Bug Reports",
+            "content": "Content Suggestions",
+            "feature": "Feature Suggestions",
+            "other": "Other",
+            "ui": "UI Improvements"
+          }
+        }
+      },
+      "types": {
+        "title": "Feedback Types",
+        "bug": {
+          "description": "Issues or errors encountered during use",
+          "title": "Bug Reports"
+        },
+        "content": {
+          "description": "Historical content or feature improvement suggestions",
+          "title": "Content Suggestions"
+        },
+        "feature": {
+          "description": "New feature requests or improvement suggestions",
+          "title": "Feature Suggestions"
+        },
+        "ui": {
+          "description": "Interface design and user experience suggestions",
+          "title": "UI Improvements"
+        }
+      }
+    },
+    "footer": {
+      "about": "About",
+      "contact": "Contact Us",
+      "copyright": "© {year} AI Couplet Workshop. Powered by Next.js & Tailwind CSS.",
+      "description": "Using AI to preserve couplet culture, making traditional Chinese couplets accessible to everyone.",
+      "feedback": "Feedback",
+      "privacy": "Privacy Policy",
+      "refund": "Refund Policy",
+      "support": "Support",
+      "terms": "Terms of Service",
+      "heritage": "Cultural Heritage",
+      "copyrightText": "© 2024 AI Couplet Workshop",
+      "slogan1": "Inheriting Thousand-Year Culture",
+      "slogan2": "Creating Beautiful Couplets with AI"
+    },
+    "navigation": {
+      "about": "About",
+      "aboutUs": "About Us",
+      "articles": "Articles",
+      "blog": "Blog",
+      "categories": "Categories",
+      "changeLanguage": "Change Language",
+      "closeMenu": "Close Menu",
+      "education": "Couplet Academy",
+      "explore": "Explore",
+      "game": "Game Challenges",
+      "home": "Home",
+      "loginRegister": "Login / Register",
+      "logout": "Logout",
+      "menu": "Menu",
+      "openMenu": "Open Menu",
+      "profile": "Profile",
+      "social": "Social",
+      "toggleTheme": "Toggle Theme",
+      "vipCenter": "VIP Center"
+    },
+    "privacy": {
+      "subtitle": "We value your privacy and are committed to protecting your personal information",
+      "title": "Privacy Policy",
+      "breadcrumb": {
+        "home": "Home",
+        "privacy": "Privacy Policy"
+      },
+      "sections": {
+        "collection": {
+          "description": "The information we collect includes:",
+          "items": [
+            "Email address and username provided during registration",
+            "Couplet content and related data you create or save on the platform",
+            "Browsing history and interaction data during website use",
+            "Basic technical information such as device information and browser type"
+          ],
+          "title": "Information Collection"
+        },
+        "contact": {
+          "button": "Contact Us",
+          "description": "If you have any questions about this privacy policy, please contact us through the following methods:",
+          "email": "Email: support@couplet-ai.com",
+          "title": "Contact Us"
+        },
+        "security": {
+          "description": "We employ industry-standard security measures to protect your information:",
+          "items": [
+            "Using encryption technology to protect data transmission and storage",
+            "Regularly updating security measures and systems",
+            "Limiting employee access to personal information",
+            "Establishing data breach emergency response mechanisms"
+          ],
+          "title": "Data Security"
+        },
+        "usage": {
+          "description": "We use the collected information for:",
+          "items": [
+            "Providing and improving our services",
+            "Personalizing user experience and content recommendations",
+            "Sending service-related notifications and updates",
+            "Preventing fraud and abuse",
+            "Complying with legal and regulatory requirements"
+          ],
+          "title": "Information Usage"
+        }
+      }
+    },
+    "search": {
+      "title": "Search Couplets",
+      "foundResults": "Found {count} related results",
+      "placeholder": "Search couplets, topics, or keywords...",
+      "filters": {
+        "title": "Filters",
+        "category": {
+          "title": "Category",
+          "all": "All Categories",
+          "festival": "Festival",
+          "business": "Business",
+          "wedding": "Wedding",
+          "school": "School"
+        },
+        "sort": {
+          "title": "Sort By",
+          "relevance": "Relevance",
+          "latest": "Latest",
+          "popular": "Most Popular",
+          "views": "Most Views"
+        }
+      },
+      "couplet": {
+        "top": "Top Line",
+        "bottom": "Bottom Line",
+        "horizontal": "Horizontal Banner"
+      },
+      "stats": {
+        "views": "Views: {count}",
+        "likes": "Likes: {count}"
+      }
+    },
+    "studio": {
+      "title": "AI Couplet Studio",
+      "subtitle": "Enter a prompt, AI intelligently generates couplets that meet tonal and rhyming requirements",
+      "form": {
+        "title": "Create Couplet",
+        "prompt": {
+          "label": "Enter theme or top/bottom line",
+          "placeholder": "e.g., New Year celebration, business opening, or enter top line: Spring breeze brings success, or enter bottom line: See all Chang'an flowers in one day",
+          "hint": "💡 You can enter a theme description, or enter a top line or bottom line, AI will automatically generate complete couplets"
+        },
+        "generate": "Generate Now",
+        "generating": "Generating..."
+      },
+      "categories": {
+        "all": "All Topics",
+        "newyear": "New Year",
+        "wedding": "Wedding",
+        "business": "Business Opening",
+        "school": "School Culture",
+        "birthday": "Birthday"
+      },
+      "styles": {
+        "classic": "Classic Style",
+        "modern": "Modern Style",
+        "elegant": "Elegant Style",
+        "festive": "Festive Style"
+      },
+      "tips": {
+        "title": "Creation Tips",
+        "items": [
+          "You can enter a theme description, AI will automatically generate multiple couplets",
+          "You can also enter a top line or bottom line, AI will automatically complete the other half",
+          "Supports any theme input, such as New Year, business opening, wedding, etc.",
+          "After generation, multiple couplets will be displayed, each with detailed analysis"
+        ]
+      },
+      "examples": {
+        "title": "Example Prompts",
+        "items": [
+          "New Year celebration, wishing family health and happiness",
+          "Business opening, prosperous business",
+          "Wedding blessing, eternal love",
+          "School culture, diligent learning"
+        ]
+      },
+      "generating": "AI is generating couplets, please wait...",
+      "results": {
+        "title": "Generated Results ({count} couplets)",
+        "coupletNumber": "Couplet {number}",
+        "analysis": "Analysis"
+      },
+      "couplet": {
+        "top": "Top Line",
+        "bottom": "Bottom Line",
+        "horizontal": "Horizontal Scroll"
+      }
+    },
+    "library": {
+      "title": "Couplet Library",
+      "subtitle": "Browse selected couplet works and discover creative inspiration",
+      "categories": {
+        "all": "All",
+        "festival": "Festival",
+        "business": "Business",
+        "wedding": "Wedding",
+        "school": "School"
+      },
+      "couplet": {
+        "top": "Top Line",
+        "bottom": "Bottom Line",
+        "horizontal": "Horizontal Banner"
+      },
+      "stats": {
+        "views": "Views: {count}",
+        "likes": "Likes: {count}"
+      }
+    },
+    "topics": {
+      "title": "Popular Topics",
+      "subtitle": "Browse popular couplet topics and find suitable scenes",
+      "coupletCount": "{count} couplets"
+    },
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "Sorry, the page you visited does not exist",
+      "details": "The page may have been deleted, moved, or the URL you entered is incorrect",
+      "back": "Go Back",
+      "home": "Return Home",
+      "create": "Start Creating",
+      "autoRedirect": "Automatically return to homepage in {count} seconds"
+    },
+    "refund": {
+      "subtitle": "We are committed to providing satisfactory services to users. Please refer to this policy for refund requests",
+      "title": "Refund Policy",
+      "breadcrumb": {
+        "home": "Home",
+        "refund": "Refund Policy"
+      },
+      "sections": {
+        "conditions": {
+          "items": [
+            "Only supports refunds for orders purchased directly through this website.",
+            "You can apply for a refund within 14 days after purchase. Late applications may not be accepted.",
+            "If you are dissatisfied with subscriptions or digital products, please contact customer service via email support@xuanwhale.com and provide order information."
+          ],
+          "title": "Refund Application Conditions"
+        },
+        "contact": {
+          "button": "Contact Us",
+          "description": "If you have any questions about the refund policy, please feel free to contact us through the following methods:",
+          "email": "Email: support@couplet-ai.com",
+          "title": "Contact Us"
+        },
+        "process": {
+          "items": [
+            "After receiving your refund request, we will process it within 3 business days.",
+            "After the refund is processed, funds may take several business days to arrive, depending on the payment channel.",
+            "In case of special circumstances (such as payment channel issues), we will contact you promptly."
+          ],
+          "title": "Refund Process and Instructions"
+        }
+      }
+    },
+    "terms": {
+      "subtitle": "By using our services, you agree to comply with the following terms and conditions",
+      "title": "Terms of Service",
+      "breadcrumb": {
+        "home": "Home",
+        "terms": "Terms of Service"
+      },
+      "sections": {
+        "availability": {
+          "description": "We are committed to providing stable and reliable services, but please note:",
+          "items": [
+            "Services may be temporarily interrupted due to maintenance, upgrades, etc.",
+            "We are not responsible for service interruptions caused by force majeure",
+            "We reserve the right to modify or terminate services",
+            "We recommend you regularly backup important content"
+          ],
+          "title": "Service Availability"
+        },
+        "contact": {
+          "button": "Contact Us",
+          "description": "If you have any questions about these terms of service, please contact us through the following methods:",
+          "email": "Email: support@couplet-ai.com",
+          "title": "Contact Us"
+        },
+        "content": {
+          "description": "Content you create and share must:",
+          "items": [
+            "Comply with laws, regulations, and moral standards",
+            "Not infringe on others' intellectual property rights",
+            "Not contain false or misleading information",
+            "Not involve violent, hateful, or discriminatory content",
+            "Not contain spam or malicious software"
+          ],
+          "note": "We reserve the right to remove violating content and may suspend or terminate accounts of users who violate the terms.",
+          "title": "Content Policy"
+        },
+        "disclaimer": {
+          "description": "To the extent permitted by law, we are not responsible for:",
+          "items": [
+            "The accuracy or completeness of user-created content",
+            "Content from third-party websites or services",
+            "Indirect losses arising from the use of services",
+            "Service interruptions caused by force majeure",
+            "Losses caused by users violating the terms"
+          ],
+          "title": "Disclaimer"
+        },
+        "intellectual": {
+          "description": "Important information about intellectual property:",
+          "items": [
+            "The website itself and its technology are protected by intellectual property rights",
+            "You retain rights to the content you create",
+            "You authorize us to use your content within the scope of our services",
+            "Please ensure you have the right to share the content you publish",
+            "Respect others' intellectual property rights and do not plagiarize or misappropriate"
+          ],
+          "title": "Intellectual Property"
+        },
+        "modification": {
+          "description": "We may update these terms of service from time to time. For significant changes, we will notify you through website notifications or email. Continuing to use the service indicates your acceptance of the updated terms. If you do not agree to the new terms, please stop using our services.",
+          "title": "Terms Modification"
+        },
+        "responsibility": {
+          "description": "When using our services, you agree to:",
+          "items": [
+            "Provide true and accurate registration information",
+            "Protect your account security and not share your account with others",
+            "Comply with all applicable laws and regulations",
+            "Not publish illegal, harmful, or inappropriate content",
+            "Respect the rights and privacy of other users",
+            "Not engage in any behavior that may harm the service"
+          ],
+          "title": "User Responsibilities"
+        },
+        "service": {
+          "description": "AI Couplet Workshop provides AI couplet generation, creation, and sharing services. Our services include but are not limited to:",
+          "items": [
+            "AI couplet generation",
+            "Couplet style preview and export",
+            "Couplet library browsing and search",
+            "Diverse topic templates"
+          ],
+          "title": "Service Description"
+        }
+      }
+    },
+    "profile": {
+      "title": "Profile Center",
+      "subtitle": "Manage your couplets and account settings",
+      "breadcrumb": {
+        "home": "Home",
+        "profile": "Profile Center"
+      },
+      "tabs": {
+        "overview": "Overview",
+        "couplets": "My Couplets",
+        "likes": "Liked Couplets",
+        "favorites": "Favorite Couplets",
+        "settings": "Settings"
+      },
+      "overview": {
+        "edit": "Edit Profile",
+        "cancel": "Cancel",
+        "save": "Save",
+        "username": "Username",
+        "bio": "Bio",
+        "joined": "Joined: {date}",
+        "email": "Email: {email}",
+        "quickStats": "Quick Stats",
+        "myCouplets": "My Couplets",
+        "likedCouplets": "Liked Couplets",
+        "favoriteCouplets": "Favorite Couplets",
+        "receivedLikes": "Received Likes",
+        "recentActivity": "Recent Activity",
+        "activity": {
+          "0": "Updated \"{couplet}\"",
+          "1": "Favorited \"{couplet}\"",
+          "2": "Created \"{couplet}\""
+        },
+        "ago": {
+          "hour": "{n} hours ago",
+          "day": "{n} days ago"
+        }
+      },
+      "couplets": {
+        "title": "My Couplets",
+        "empty": "No couplets yet",
+        "create": "You haven't created any couplets yet. Go create one!",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "category": "Category",
+        "views": "{count} views",
+        "likes": "{count} likes",
+        "updated": "Updated {date}",
+        "public": "Public",
+        "private": "Private"
+      },
+      "favorites": {
+        "title": "My Favorites",
+        "empty": "No favorites yet",
+        "noFavorites": "You haven't favorited any couplets yet",
+        "view": "View",
+        "remove": "Remove",
+        "unknown": "Unknown",
+        "uncategorized": "Uncategorized",
+        "added": "Added {date}"
+      },
+      "likes": {
+        "title": "Liked Couplets",
+        "empty": "No likes yet",
+        "noLikes": "You haven't liked any couplets yet",
+        "view": "View",
+        "remove": "Remove Like",
+        "unknown": "Unknown",
+        "uncategorized": "Uncategorized",
+        "liked": "Liked {date}"
+      },
+      "settings": {
+        "title": "Account Settings",
+        "basic": "Basic Information",
+        "email": "Email Address",
+        "username": "Username",
+        "save": "Save Settings"
+      }
+    },
+    "couplet": {
+      "exploreTitle": "Explore Couplet World",
+      "exploreDesc": "Discover beautiful couplets and experience the charm and wisdom of traditional culture",
+      "searchPlaceholder": "Search couplets...",
+      "categoryFilter": "Category Filter",
+      "allCategories": "All",
+      "noCategory": "No categories",
+      "hotTags": "Popular Tags",
+      "noTag": "No tags",
+      "totalCouplets": "{count} couplets in total",
+      "sortLatest": "Latest",
+      "sortHot": "Popular",
+      "sortContents": "Contents",
+      "loading": "Loading...",
+      "notFound": "No couplets found",
+      "uncategorized": "Uncategorized",
+      "unknown": "Unknown",
+      "contentsCount": "{count} contents",
+      "noUpperLine": "No upper line",
+      "noLowerLine": "No lower line",
+      "noHorizontalScroll": "No horizontal banner",
+      "upperLineLabel": "Upper Line",
+      "lowerLineLabel": "Lower Line",
+      "detail": {
+        "backToHome": "← Back to Home",
+        "aiGeneratedResult": "AI Generated Result",
+        "regenerate": "Regenerate",
+        "regenerating": "Generating...",
+        "viewVersions": "View Versions",
+        "loadingCouplet": "Loading couplet...",
+        "getCoupletFailed": "Failed to get couplet",
+        "regenerateFailed": "Regeneration failed",
+        "returnHome": "Back to Home",
+        "generatedAt": "Generated at: {time}",
+        "saveAsImage": "Save as Image",
+        "exportPdf": "Export PDF",
+        "imageSaveFailed": "Image save failed, please try again later.",
+        "pdfExportFailed": "PDF export failed, please try again later.",
+        "noTitle": "No Title",
+        "noDescription": "",
+        "uncategorized": "Uncategorized",
+        "aiCreating": "AI is creating couplets...",
+        "pleaseWait": "Please wait, generating beautiful couplet works for you",
+        "problemOccurred": "Something went wrong",
+        "versionManagement": "Version Management",
+        "coupletNumber": "Couplet #{number}",
+        "upperLine": "Upper Line",
+        "lowerLine": "Lower Line",
+        "horizontalScroll": "Horizontal Banner",
+        "appreciation": "Appreciation & Analysis",
+        "aiAnalysis": "AI Smart Analysis",
+        "noContentToShow": "No couplet content to display at the moment",
+        "clickRegenerateHint": "You can click the \"Regenerate\" button above to let AI create new couplets for you",
+        "startCreating": "Start Creating",
+        "commentSection": "Comments & Discussion",
+        "aiCoupletWorkshop": "AI Couplet Workshop"
+      },
+      "version": {
+        "noVersionHistory": "No version history",
+        "version": "Version",
+        "latest": "Latest",
+        "current": "Current",
+        "coupletCount": "{count} couplets",
+        "versionDescription": "Version Description"
+      },
+      "comment": {
+        "title": "Comments",
+        "loadingComments": "Loading comments...",
+        "noComments": "No comments yet, be the first to comment!",
+        "anonymousUser": "Anonymous User",
+        "commentPlaceholder": "Write your comment...",
+        "publishing": "Publishing...",
+        "publish": "Publish",
+        "commentFailed": "Failed to publish comment",
+        "pleaseLogin": "Please login first",
+        "justNow": "Just now",
+        "minutesAgo": "{minutes} minutes ago",
+        "hoursAgo": "{hours} hours ago",
+        "daysAgo": "{days} days ago"
+      },
+      "favorite": {
+        "favorite": "Favorite",
+        "favorited": "Favorited",
+        "pleaseLogin": "Please login first"
+      },
+      "like": {
+        "like": "Like",
+        "liked": "Liked",
+        "pleaseLogin": "Please login first"
+      }
+    },
+    "home": {
+      "aiModels": {
+        "deepseek-chat": "DeepSeek Chat",
+        "deepseek-coder": "DeepSeek Coder"
+      },
+      "audience": {
+        "title": "Target Audience",
+        "description": "Whether you are a culture enthusiast or professional creator, you can find suitable couplet creation solutions here",
+        "developers": {
+          "description": "AI technology enthusiasts, creative writing, cultural preservation",
+          "title": "AI Enthusiasts / Developers"
+        },
+        "enterprises": {
+          "description": "Festival celebrations, business openings, corporate culture",
+          "title": "Enterprises / Teams"
+        },
+        "media": {
+          "description": "Content creation, cultural promotion, traditional art",
+          "title": "Media / Content Creators"
+        },
+        "students": {
+          "description": "Traditional culture learning, calligraphy practice, literary creation",
+          "title": "Students / Teachers"
+        }
+      },
+      "cta": {
+        "description": "Create beautiful couplets with cultural roots, let AI help you write elegant traditional couplets",
+        "title": "Start Your Couplet Creation Journey"
+      },
+      "errors": {
+        "networkError": "Network connection error, please check your connection",
+        "serverError": "Server error, please try again later",
+        "unknownError": "Unknown error, please try again later"
+      },
+      "features": {
+        "title": "What can we do for you?",
+        "description": "Using AI technology to inherit couplet culture, enabling everyone to create beautiful couplet works",
+        "aiGeneration": {
+          "description": "Input a theme or topic, AI automatically generates couplets that meet tonal and rhyming requirements",
+          "title": "AI Couplet Generation"
+        },
+        "knowledgeSorting": {
+          "description": "Built-in poetry classics and festival templates, ensuring couplets have cultural roots and allusions",
+          "title": "Cultural Library"
+        },
+        "multiModel": {
+          "description": "Support for mainstream models like GPT, Claude, covering Chinese and English",
+          "title": "Multi-Model Multi-Language Support"
+        },
+        "visualization": {
+          "description": "Switch between horizontal/vertical layouts, font sizes, and red paper/gold ink styles with one-click preview",
+          "title": "Rich Visualization Effects"
+        }
+      },
+      "hero": {
+        "badge": "✨ AI-Powered Couplet Generation",
+        "title": "AI Couplet Workshop",
+        "subtitle1": "Inheriting Thousand-Year Culture",
+        "subtitle2": "Creating Beautiful Couplets with AI",
+        "description": "Using AI to preserve couplet culture, making traditional Chinese couplets accessible to everyone",
+        "subDescription": "Balanced Tones · Neat Antithesis · Profound Meaning · Cultural Heritage",
+        "enterPrompt": "Please enter a theme or topic",
+        "generateButton": "Generate Couplet",
+        "generateError": "AI generation failed, please try again later",
+        "limitExceeded": "You've used up today's generation quota. Try again tomorrow or upgrade to VIP.",
+        "generating": "Generating...",
+        "networkError": "Network error, please check your connection",
+        "placeholder": "Please enter a theme, e.g.: 'New Year celebration', 'Business opening', 'Wedding blessing'",
+        "exampleCouplet": {
+          "topLine": "Spring breeze brings success to galloping horses",
+          "bottomLine": "One day to see all Chang'an flowers",
+          "horizontal": "All Things Go Well"
+        },
+        "aiCreationTitle": "AI Couplet Creation",
+        "aiCreationDesc": "Intelligently recognizes input, AI creates exclusive couplets for you",
+        "inputPlaceholder": "Please enter content to create...",
+        "generateButtonText": "Generate Couplet with AI",
+        "generatingText": "Creating couplets...",
+        "usageTip": "Tip: Supports theme creation, line pairing, acrostic, scene customization, style specification, length limitation and more intelligent modes"
+      },
+      "loading": {
+        "generating": "Generating...",
+        "loading": "Loading...",
+        "pleaseWait": "Please wait..."
+      },
+      "meta": {
+        "keywords": "couplet, poetry, AI, Pairray, Pairray Couplet, smart generation, visualization"
+      },
+      "coupletCard": {
+        "viewButton": "View Details",
+        "hotLevel": "Popularity",
+        "noData": "No data available",
+        "category": "Category",
+        "topLine": "Top Line",
+        "bottomLine": "Bottom Line",
+        "horizontal": "Horizontal Banner",
+        "defaultCategory": "Traditional Festival",
+        "noTopLine": "No top line",
+        "noBottomLine": "No bottom line",
+        "noHorizontal": "No horizontal banner",
+        "noDataMessage": "No couplet content available at the moment, please check back later"
+      },
+      "sections": {
+        "featured": {
+          "description": "Hand-picked quality couplets, worth savoring",
+          "title": "Featured Couplets"
+        },
+        "hot": {
+          "description": "Ranked by overall popularity to help you quickly find what everyone is viewing",
+          "title": "Popular Couplets"
+        },
+        "latest": {
+          "description": "Show the latest generated couplets, keeping up with creative trends",
+          "title": "Latest Couplets"
+        }
+      },
+      "culture": {
+        "title": "Couplet Cultural Knowledge",
+        "description": "Learn the basics of couplets to create works with deeper cultural significance",
+        "balance": {
+          "title": "Balanced Antithesis",
+          "description": "The upper and lower lines should correspond in terms of parts of speech and structure, with nouns matching nouns and verbs matching verbs, forming neat antithesis"
+        },
+        "rhythm": {
+          "title": "Tonal Harmony",
+          "description": "Follow the tonal patterns of level and oblique tones, with the upper line usually ending in oblique tone and the lower line in level tone, creating pleasant rhythm"
+        },
+        "meaning": {
+          "title": "Profound Meaning",
+          "description": "Express beautiful wishes and deep connotations, conveying rich emotions and philosophical thoughts through concise words"
+        },
+        "application": {
+          "title": "Wide Application",
+          "description": "Suitable for various occasions such as Spring Festival, weddings, business openings, and housewarmings, serving as important carriers of Chinese culture"
+        }
+      },
+      "ctaSection": {
+        "topLine": "Top Line",
+        "bottomLine": "Bottom Line",
+        "topText": "AI Creation",
+        "bottomText": "Cultural Heritage",
+        "buttonText": "Try Now",
+        "horizontal": "Innovation & Tradition"
+      }
+    },
+    "vip": {
+      "centerTitle": "VIP Member Center",
+      "upgradeTitle": "Upgrade to VIP",
+      "centerDesc": "Enjoy exclusive benefits and boost your creativity",
+      "upgradeDesc": "Unlock more features and enhance your experience",
+      "statusVip": "VIP Member",
+      "statusFree": "Free User",
+      "expireAt": "Membership valid until: {date}",
+      "expired": "Membership expired",
+      "upgradeBtn": "Upgrade Now",
+      "renewBtn": "Renew Membership",
+      "aiUsageToday": "Today's AI Usage",
+      "timelineCreated": "Couplets Created",
+      "timelineFavorited": "Couplets Favorited",
+      "level": "Membership Level",
+      "levelVip": "VIP",
+      "levelFree": "Free",
+      "benefitCompare": "Membership Benefits Comparison",
+      "noPlans": "No available plans",
+      "plans": "VIP Plans",
+      "plansDesc": "View VIP plans and pricing",
+      "redeem": "Redeem Code",
+      "redeemDesc": "Use a code to activate membership",
+      "orders": "Order History",
+      "ordersDesc": "View purchase records and order status",
+      "aiTimes": "AI Generation Limit",
+      "aiTimesFree": "10/day",
+      "aiTimesVip": "100/day",
+      "advancedModel": "Advanced AI Models",
+      "advancedModelFree": "✗",
+      "advancedModelVip": "✓",
+      "exclusiveTemplate": "Exclusive Templates",
+      "exclusiveTemplateFree": "✗",
+      "exclusiveTemplateVip": "✓",
+      "prioritySupport": "Priority Support",
+      "prioritySupportFree": "✗",
+      "prioritySupportVip": "✓",
+      "plansPage": {
+        "title": "VIP Membership Plans",
+        "subtitle": "Choose the VIP membership plan that best suits you and unlock exclusive benefits",
+        "pageTitle": "Choose Your Membership Plan",
+        "pageDesc": "Unlock more features, enhance your experience, choose the membership plan that best suits you",
+        "popular": "Most Popular",
+        "month": "month",
+        "months": "months",
+        "save": "Save",
+        "purchase": "Purchase Now",
+        "loading": "Loading membership plans...",
+        "loadError": "Unable to load membership plans, please try again later",
+        "purchaseError": "Purchase failed, please try again",
+        "orderError": "Failed to create order, please try again",
+        "loginRequired": "Please login first"
+      },
+      "redeemPage": {
+        "title": "Redeem Code",
+        "subtitle": "Use a code to activate VIP membership",
+        "pageTitle": "Redeem VIP Membership",
+        "pageDesc": "Enter your VIP redeem code and enjoy membership benefits immediately",
+        "codePlaceholder": "Please enter your VIP redeem code",
+        "submit": "Redeem Now",
+        "submitting": "Redeeming...",
+        "success": "Redeem successful!",
+        "error": "Redeem failed, please check your code",
+        "invalidCode": "Invalid redeem code",
+        "expiredCode": "Redeem code has expired",
+        "usedCode": "Redeem code has been used",
+        "loginRequired": "Please login first",
+        "enterCode": "Please enter redeem code",
+        "redeemSuccess": "Redeem successful! You have received {planName}, valid for {duration}. Please refresh the page or go to the VIP page to see the latest status.",
+        "redeemFailed": "Redeem failed, please try again later",
+        "historyError": "Failed to get redeem history",
+        "formTitle": "Enter Redeem Code",
+        "codeLabel": "Redeem Code",
+        "instructions": {
+          "title": "Redeem Instructions",
+          "step1": {
+            "title": "Get Redeem Code",
+            "desc": "Obtain VIP redeem codes through official events, purchases, or gifts from friends"
+          },
+          "step2": {
+            "title": "Enter Redeem Code",
+            "desc": "Enter your VIP redeem code in the input box above"
+          },
+          "step3": {
+            "title": "Redeem Now",
+            "desc": "Click the redeem button, and the system will automatically verify and activate membership benefits"
+          },
+          "step4": {
+            "title": "Enjoy Benefits",
+            "desc": "After successful redemption, immediately enjoy all VIP membership exclusive benefits"
+          }
+        },
+        "history": {
+          "title": "Redeem History",
+          "noHistory": "No redeem records",
+          "status": {
+            "success": "Success",
+            "failed": "Failed",
+            "expired": "Expired"
+          },
+          "table": {
+            "code": "Code: ",
+            "duration": "Duration: ",
+            "redeemTime": "Redeem Time: "
+          }
+        },
+        "faq": {
+          "title": "Frequently Asked Questions",
+          "q1": "Where can I get redeem codes?",
+          "a1": "Redeem codes can be obtained through official events, VIP membership purchases, or gifts from friends.",
+          "q2": "Do redeem codes have expiration dates?",
+          "a2": "Yes, redeem codes usually have expiration dates, please use them within the validity period.",
+          "q3": "What should I do if redemption fails?",
+          "a3": "Please check if the redeem code is correct, or contact customer service for help.",
+          "q4": "Can redeem codes be used multiple times?",
+          "a4": "Each redeem code can only be used once and becomes invalid after use."
+        },
+        "backToVip": "Back to VIP Center"
+      },
+      "ordersPage": {
+        "title": "Order Management",
+        "pageTitle": "My Orders",
+        "pageDesc": "View your VIP membership purchase history and order details",
+        "totalOrders": "Total Orders",
+        "paid": "Paid",
+        "pending": "Pending",
+        "totalAmount": "Total Spent",
+        "orderHistory": "Order History",
+        "noOrders": "No Orders",
+        "noOrdersDesc": "You haven't purchased any VIP membership yet",
+        "buyNow": "Buy Now",
+        "orderNo": "Order No.",
+        "paymentMethod": "Payment Method",
+        "createdAt": "Created",
+        "amount": "Order Amount",
+        "payTime": "Payment Time",
+        "continuePay": "Continue Payment",
+        "orderDetail": "Order Details",
+        "close": "Close",
+        "plan": "Membership Plan",
+        "expireAt": "Expires At",
+        "status": "Order Status",
+        "paidAt": "Payment Time",
+        "backToVip": "Back to VIP Center",
+        "statusMap": {
+          "pending": "Pending",
+          "completed": "Paid",
+          "in_review": "In Review",
+          "rejected": "Rejected",
+          "cancelled": "Cancelled",
+          "refunded": "Refunded",
+          "unknown": "Unknown"
+        }
+      },
+      "benefitsPage": {
+        "title": "Membership Benefits",
+        "subtitle": "Learn about exclusive VIP membership benefits",
+        "aiGeneration": {
+          "title": "AI Generation Limit",
+          "free": "Free users: 10/day",
+          "vip": "VIP members: 100/day"
+        },
+        "advancedModels": {
+          "title": "Advanced AI Models",
+          "free": "Free users: Basic models",
+          "vip": "VIP members: All models"
+        },
+        "templates": {
+          "title": "Exclusive Templates",
+          "free": "Free users: Basic templates",
+          "vip": "VIP members: All templates"
+        },
+        "support": {
+          "title": "Customer Support",
+          "free": "Free users: Email support",
+          "vip": "VIP members: Priority support"
+        }
+      },
+      "faqPage": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Common questions about VIP membership",
+        "q1": "What is VIP membership?",
+        "a1": "VIP membership is Pairray Couplet's paid membership service, providing more AI generation times, advanced models, exclusive templates and other benefits.",
+        "q2": "How to upgrade to VIP membership?",
+        "a2": "You can choose a plan to purchase on the membership page, or use a redeem code to activate membership.",
+        "q3": "Can VIP membership be refunded?",
+        "a3": "According to our refund policy, refunds can be requested under certain conditions.",
+        "q4": "Will data be lost after membership expires?",
+        "a4": "No, all your data will be preserved, you just won't be able to enjoy VIP benefits.",
+        "plansFaq": {
+          "title": "Frequently Asked Questions",
+          "q1": "Can membership be cancelled anytime?",
+          "a1": "Yes, you can cancel your membership subscription at any time, and the purchased membership time will remain valid until expiration.",
+          "q2": "What payment methods are supported?",
+          "a2": "We support WeChat Pay, Alipay, bank cards and other payment methods, safe and convenient.",
+          "q3": "Will membership benefits be updated?",
+          "a3": "We will continuously optimize membership benefits, and new features will be prioritized for VIP members.",
+          "q4": "How to contact customer service?",
+          "a4": "VIP members enjoy 24-hour exclusive customer service support, and can contact us through multiple channels."
+        },
+        "backToVip": "Back to VIP Center"
+      },
+      "paymentPage": {
+        "title": "Order Payment",
+        "subtitle": "Please select a payment method below to complete your order",
+        "orderNo": "Order No.",
+        "manualReview": "Manual review, fake payments will result in account ban and police report",
+        "orderDetails": "Order Details",
+        "productName": "Product Name",
+        "membershipDuration": "Membership Duration",
+        "createTime": "Created At",
+        "totalAmount": "Total Amount",
+        "orderStatus": "Order Status",
+        "selectPaymentMethod": "Select Payment Method",
+        "paymentOrderNo": "Payment Platform Order No.",
+        "paymentOrderNoPlaceholder": "Please enter the transaction ID from your payment receipt",
+        "confirmPayment": "I Have Completed Payment",
+        "submitting": "Submitting...",
+        "submitSuccess": "Submitted successfully! We will activate your membership after review.",
+        "submitError": "Submission failed, please try again later.",
+        "enterOrderNo": "Please enter payment order number!",
+        "loadingOrder": "Loading order information...",
+        "pleaseWait": "Please wait",
+        "orderLoadError": "Failed to load order",
+        "orderNotFound": "Order not found",
+        "checkOrderNo": "Please check if the order number is correct",
+        "paymentMethods": {
+          "alipay": {
+            "name": "Alipay",
+            "description": "Recommended, safe and convenient",
+            "title": "Alipay QR Code Payment",
+            "instruction": "Please use Alipay to scan the QR code below to complete payment"
+          },
+          "wechat": {
+            "name": "WeChat Pay",
+            "description": "QR code payment, instant arrival",
+            "title": "WeChat QR Code Payment",
+            "instruction": "Please use WeChat to scan the QR code below to complete payment"
+          },
+          "bank": {
+            "name": "Bank Transfer",
+            "description": "Bank transfer, safe and reliable",
+            "title": "Bank Transfer Information",
+            "bankName": "Bank: ",
+            "accountName": "Account Name: ",
+            "accountNumber": "Account Number: ",
+            "reminder": "Please include the order number in the remarks when transferring: "
+          }
+        },
+        "statusMap": {
+          "pending": "Pending",
+          "in_review": "In Review",
+          "completed": "Completed",
+          "rejected": "Rejected",
+          "cancelled": "Cancelled",
+          "refunded": "Refunded"
+        }
+      }
+    },
+    "social": {
+      "title": "Social Features",
+      "subtitle": "Connect with couplet enthusiasts worldwide and experience rich social interactions",
+      "battles": {
+        "title": "Couplet Battles",
+        "subtitle": "Join exciting couplet competitions and showcase your literary talent",
+        "createBattle": "Create Battle",
+        "joinBattle": "Join Battle",
+        "viewDetails": "View Details",
+        "theme": "Theme",
+        "participants": "Participants",
+        "type": "Type",
+        "anonymous": "Anonymous User",
+        "status": {
+          "recruiting": "Recruiting",
+          "ongoing": "Ongoing",
+          "voting": "Voting",
+          "completed": "Completed"
+        }
+      },
+      "collaborations": {
+        "title": "Collaborative Creation",
+        "subtitle": "Work together with others to create beautiful couplets",
+        "createCollaboration": "Start Collaboration",
+        "joinCollaboration": "Join Collaboration",
+        "theme": "Theme",
+        "collaborators": "Collaborators",
+        "progress": "Progress",
+        "anonymous": "Anonymous User",
+        "status": {
+          "recruiting": "Recruiting",
+          "ongoing": "Ongoing",
+          "completed": "Completed"
+        }
+      },
+      "chains": {
+        "title": "Couplet Chains",
+        "subtitle": "Participate in fun couplet chain games and show your creativity",
+        "createChain": "Start Chain",
+        "joinChain": "Join Chain",
+        "startLine": "Starting Line",
+        "entries": "Entries",
+        "status": {
+          "active": "Active",
+          "completed": "Completed",
+          "closed": "Closed"
+        }
+      },
+      "mentors": {
+        "title": "Mentor System",
+        "subtitle": "Learn from experienced mentors and master couplet creation skills",
+        "applyMentor": "Apply as Mentor",
+        "findMentor": "Find Mentor",
+        "expertise": "Expertise",
+        "students": "Students",
+        "rating": "Rating"
+      }
+    },
+    "seo": {
+      "home": {
+        "title": "Couplet Generator - AI-Powered Chinese Couplet Creation Platform",
+        "description": "Professional AI couplet generator for creating Spring Festival couplets, wedding couplets, elegiac couplets and more. Preserve traditional Chinese culture with intelligent couplet creation.",
+        "keywords": "couplet generator, AI couplets, Spring Festival couplets, couplet creation, intelligent couplets, traditional culture"
+      },
+      "contact": {
+        "title": "Contact Us - Couplet Generator",
+        "description": "Contact the Couplet Generator team. We are dedicated to preserving couplet culture and providing the highest quality couplet creation services.",
+        "keywords": "contact us, couplet generator, customer support, couplet services, user feedback"
+      },
+      "couplet": {
+        "title": "Couplet Collection - Selected Couplet Works Appreciation",
+        "description": "Extensive collection of exquisite couplet works including Spring Festival couplets, wedding couplets, elegiac couplets, and dedicatory couplets. Experience the beauty of traditional culture.",
+        "keywords": "couplet collection, Spring Festival couplets, wedding couplets, elegiac couplets, couplet appreciation, traditional couplets",
+        "generating": "AI Generating - Couplet Generator",
+        "generatingDesc": "Generating couplet, content will be displayed in real time",
+        "notFound": "Couplet Not Found - Couplet Generator",
+        "notFoundDesc": "The corresponding couplet content was not found",
+        "defaultTitle": "AI Couplet",
+        "defaultDesc": "AI generated couplet",
+        "defaultKeywords": "AI, couplets, traditional culture",
+        "siteName": "Couplet Generator"
+      },
+      "education": {
+        "title": "Couplet Academy - Systematic Couplet Knowledge Learning",
+        "description": "From basic couplet knowledge to advanced creation techniques, systematically learn couplet tones, parallelism, artistic conception and other elements to become a couplet creation master.",
+        "keywords": "couplet learning, couplet tutorial, couplet tones, couplet parallelism, couplet creation techniques"
+      },
+      "game": {
+        "title": "Couplet Games - Fun Learning of Couplet Knowledge",
+        "description": "Master couplet knowledge easily through fun games like couplet chains, couplet fill-in-the-blanks, and couplet competitions while improving literary literacy.",
+        "keywords": "couplet games, couplet chains, couplet competitions, word games, couplet learning"
+      },
+      "social": {
+        "title": "Couplet Community - Exchange Platform for Couplet Enthusiasts",
+        "description": "Gather couplet enthusiasts, share couplet works, exchange creative insights, participate in couplet competitions, and jointly preserve couplet culture.",
+        "keywords": "couplet community, couplet exchange, couplet competitions, couplet sharing, literary community"
+      },
+      "vip": {
+        "title": "VIP Membership - Unlock Advanced Couplet Features",
+        "description": "Become a VIP member to enjoy unlimited couplet generation, premium templates, dedicated customer service and other exclusive services to enhance your couplet creation experience.",
+        "keywords": "VIP membership, couplet membership, advanced features, couplet templates, member privileges"
+      },
+      "privacy": {
+        "title": "Privacy Policy - Couplet Generator",
+        "description": "Learn how Couplet Generator protects your privacy information. We strictly comply with data protection regulations to safeguard user rights.",
+        "keywords": "privacy policy, data protection, user privacy, information security"
+      },
+      "terms": {
+        "title": "Terms of Service - Couplet Generator Usage Agreement",
+        "description": "View the Couplet Generator platform terms of service, understand user rights and obligations, and regulate the use of couplet creation services.",
+        "keywords": "terms of service, usage agreement, user agreement, service standards"
+      },
+      "feedback": {
+        "title": "Feedback - Couplet Generator",
+        "description": "Welcome to provide valuable feedback on Couplet Generator to help us improve couplet creation features and enhance user experience.",
+        "keywords": "feedback, user suggestions, feature improvements, user experience"
+      },
+      "refund": {
+        "title": "Refund Policy - Couplet Generator Membership Services",
+        "description": "Learn about Couplet Generator VIP membership refund policy to protect your consumer rights and provide transparent refund service process.",
+        "keywords": "refund policy, membership refund, consumer rights, refund process"
+      },
+      "about": {
+        "title": "About Us - Couplet Generator",
+        "description": "Learn about Couplet Generator's mission, vision and core functions, preserving traditional Chinese culture and making couplet creation easier.",
+        "keywords": "about us, couplet generator, team introduction, traditional culture, mission vision"
+      }
+    }
+  },
+  "education": {
+    "title": "Couplet Academy",
+    "description": "Systematic learning of couplet knowledge, from basic to advanced complete learning path",
+    "subtitle": "Inherit Chinese culture, master the art of couplets",
+    "overview": {
+      "title": "Learning Overview",
+      "quickStart": "Quick Start",
+      "recommendedCourses": "Recommended Courses",
+      "viewAllCourses": "View All Courses"
+    },
+    "dailyPractice": {
+      "title": "Daily Practice",
+      "subtitle": "Keep daily practice to improve couplet skills",
+      "streak": "Current Streak",
+      "longestStreak": "Longest Streak",
+      "todayCompleted": "Today Completed",
+      "todayScore": "Today Score",
+      "progress": "Today's Practice Progress",
+      "timeLeft": "Time Left",
+      "submit": "Submit Answer",
+      "nextQuestion": "Next Question",
+      "getHint": "Get Hint",
+      "nextHint": "Next Hint",
+      "correct": "Correct Answer!",
+      "incorrect": "Incorrect Answer",
+      "correctAnswer": "Correct Answer",
+      "explanation": "Explanation",
+      "completed": "Today's Practice Completed!",
+      "congratulations": "🎉 Congratulations on completing today's practice!",
+      "totalScore": "Total Score",
+      "keepGoing": "Keep going tomorrow, maintain learning consistency!",
+      "loginRequired": "Please login first",
+      "loginToStart": "Login to start daily practice",
+      "loginNow": "Login Now"
+    },
+    "courses": {
+      "title": "Systematic Courses",
+      "subtitle": "Complete learning path from basic to advanced",
+      "allCourses": "All Courses",
+      "noCourses": "No Courses Available",
+      "coursesPreparation": "Courses are being prepared, please stay tuned",
+      "startLearning": "Start Learning",
+      "continueLearning": "Continue Learning",
+      "lessons": "Lessons",
+      "duration": "Duration",
+      "learningObjectives": "Learning Objectives",
+      "prerequisites": "Prerequisites",
+      "level": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced",
+        "expert": "Expert"
+      },
+      "category": {
+        "basic": "Basic Knowledge",
+        "rhythm": "Rhythm & Meter",
+        "theme": "Thematic Creation",
+        "advanced": "Advanced Techniques"
+      },
+      "difficulty": {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
+      }
+    },
+    "exercises": {
+      "types": {
+        "fill_blank": "Fill in the Blank",
+        "error_correction": "Error Correction",
+        "creation": "Creative Writing",
+        "matching": "Matching",
+        "choice": "Multiple Choice"
+      }
+    },
+    "aiTutor": {
+      "title": "AI Tutor",
+      "subtitle": "Personalized learning guidance and real-time Q&A",
+      "startSession": "Start Conversation",
+      "askQuestion": "Ask Question",
+      "guidance": "Learning Guidance",
+      "feedback": "Work Review",
+      "recommendation": "Personalized Recommendation"
+    },
+    "achievements": {
+      "title": "Achievement System",
+      "subtitle": "Unlock badges and showcase learning achievements",
+      "badges": "Badges",
+      "progress": "Progress",
+      "earned": "Earned",
+      "locked": "Locked",
+      "categories": {
+        "course_completion": "Course Completion",
+        "streak": "Learning Streak",
+        "mastery": "Skill Mastery",
+        "creativity": "Creative Performance"
+      },
+      "rarity": {
+        "common": "Common",
+        "rare": "Rare",
+        "epic": "Epic",
+        "legendary": "Legendary"
+      }
+    },
+    "stats": {
+      "studyTime": "Study Time",
+      "coursesCompleted": "Courses Completed",
+      "exercisesCompleted": "Exercises Completed",
+      "currentStreak": "Current Streak",
+      "level": "Level",
+      "experience": "Experience",
+      "nextLevel": "Experience needed for next level",
+      "levelProgress": "Level Progress",
+      "totalExperience": "Total Experience"
+    },
+    "navigation": {
+      "overview": "Learning Overview",
+      "dailyPractice": "Daily Practice",
+      "courses": "All Courses",
+      "aiTutor": "AI Tutor",
+      "achievements": "Achievement System",
+      "stats": "Learning Statistics"
+    }
+  }
+}

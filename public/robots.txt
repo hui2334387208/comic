@@ -1,0 +1,31 @@
+User-agent: *
+
+# 禁止收录认证相关页面
+Disallow: /sign-in
+# Disallow: /sign-up
+# Disallow: /verify-email
+Disallow: /verify-email-change
+Disallow: /resend-verification
+Disallow: /forgot-password
+Disallow: /reset-password
+
+# 禁止收录用户相关页面
+# Disallow: /profile
+Disallow: /vip/orders
+Disallow: /vip/payment
+Disallow: /vip/redeem
+
+# 禁止收录管理后台
+Disallow: /admin
+Disallow: /admin/*
+
+# 禁止爬取 Next.js 静态资源和无意义文件
+Disallow: /_next/
+Disallow: /icons/
+Disallow: /manifest.json
+
+# 站点主机（部分搜索引擎支持） 
+# Host: www.xuanwhale.com
+
+# 站点地图
+Sitemap: https://www.pairray.com/sitemap.xml
