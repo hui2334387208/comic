@@ -1506,21 +1506,21 @@
         "save": "Save Settings"
       }
     },
-    "couplet": {
-      "exploreTitle": "Explore Couplet World",
-      "exploreDesc": "Discover beautiful couplets and experience the charm and wisdom of traditional culture",
-      "searchPlaceholder": "Search couplets...",
+    "comic": {
+      "exploreTitle": "AI Comic World",
+      "exploreDesc": "Explore AI-generated comic stories and discover unlimited creativity and imagination",
+      "searchPlaceholder": "Search comic titles, authors or descriptions...",
       "categoryFilter": "Category Filter",
-      "allCategories": "All",
+      "allCategories": "All Categories",
       "noCategory": "No categories",
-      "hotTags": "Popular Tags",
+      "hotTags": "Hot Tags",
       "noTag": "No tags",
-      "totalCouplets": "{count} couplets in total",
+      "totalComics": "Total {count} comics",
       "sortLatest": "Latest",
-      "sortHot": "Popular",
+      "sortHot": "Hot",
       "sortContents": "Contents",
       "loading": "Loading...",
-      "notFound": "No couplets found",
+      "notFound": "No comics found",
       "uncategorized": "Uncategorized",
       "unknown": "Unknown",
       "contentsCount": "{count} contents",
@@ -2070,18 +2070,18 @@
         "description": "Contact the Couplet Generator team. We are dedicated to preserving couplet culture and providing the highest quality couplet creation services.",
         "keywords": "contact us, couplet generator, customer support, couplet services, user feedback"
       },
-      "couplet": {
-        "title": "Couplet Collection - Selected Couplet Works Appreciation",
-        "description": "Extensive collection of exquisite couplet works including Spring Festival couplets, wedding couplets, elegiac couplets, and dedicatory couplets. Experience the beauty of traditional culture.",
-        "keywords": "couplet collection, Spring Festival couplets, wedding couplets, elegiac couplets, couplet appreciation, traditional couplets",
-        "generating": "AI Generating - Couplet Generator",
-        "generatingDesc": "Generating couplet, content will be displayed in real time",
-        "notFound": "Couplet Not Found - Couplet Generator",
-        "notFoundDesc": "The corresponding couplet content was not found",
-        "defaultTitle": "AI Couplet",
-        "defaultDesc": "AI generated couplet",
-        "defaultKeywords": "AI, couplets, traditional culture",
-        "siteName": "Couplet Generator"
+      "comic": {
+        "title": "AI Comic Collection - Selected AI-Generated Comic Works Appreciation",
+        "description": "Extensive collection of exquisite AI-generated comic works including various styles and themes. Experience the unlimited possibilities of AI creation.",
+        "keywords": "AI comics, comic collection, AI generated, comic creation, artificial intelligence comics, digital comics",
+        "generating": "AI Generating - AI Comic Platform",
+        "generatingDesc": "Generating comic, content will be displayed in real time",
+        "notFound": "Comic Not Found - AI Comic Platform",
+        "notFoundDesc": "The corresponding comic content was not found",
+        "defaultTitle": "AI Comic",
+        "defaultDesc": "AI generated comic",
+        "defaultKeywords": "AI, comics, artificial intelligence",
+        "siteName": "AI Comic Platform"
       },
       "education": {
         "title": "Couplet Academy - Systematic Couplet Knowledge Learning",

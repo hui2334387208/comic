@@ -1506,21 +1506,21 @@
         "save": "保存设置"
       }
     },
-    "couplet": {
-      "exploreTitle": "探索对联世界",
-      "exploreDesc": "发现精美对联，感受传统文化的魅力与智慧",
-      "searchPlaceholder": "搜索对联...",
+    "comic": {
+      "exploreTitle": "AI漫画世界",
+      "exploreDesc": "探索AI生成的精彩漫画世界，发现无限创意与想象力",
+      "searchPlaceholder": "搜索漫画标题、作者或描述...",
       "categoryFilter": "分类筛选",
       "allCategories": "全部",
       "noCategory": "暂无分类",
       "hotTags": "热门标签",
       "noTag": "暂无标签",
-      "totalCouplets": "共 {count} 副对联",
+      "totalComics": "共 {count} 部漫画",
       "sortLatest": "最新",
       "sortHot": "热门",
       "sortContents": "内容数",
       "loading": "加载中...",
-      "notFound": "暂无对联",
+      "notFound": "暂无漫画",
       "uncategorized": "未分类",
       "unknown": "未知",
       "contentsCount": "{count} 个内容",
@@ -2070,18 +2070,18 @@
         "description": "欢迎联系对联生成器团队，我们致力于传承对联文化，为您提供最优质的对联创作服务。",
         "keywords": "联系我们, 对联生成器, 客服支持, 对联服务, 用户反馈"
       },
-      "couplet": {
-        "title": "对联大全 - 精选对联作品欣赏",
-        "description": "收录海量精美对联作品，包含春联、婚联、挽联、题赠联等各类对联，品味传统文化之美。",
-        "keywords": "对联大全, 春联大全, 婚联集锦, 挽联精选, 对联欣赏, 传统对联",
-        "generating": "AI 生成中 - 对联生成器",
-        "generatingDesc": "正在生成对联，内容将实时显示",
-        "notFound": "对联未找到 - 对联生成器",
-        "notFoundDesc": "未找到对应的对联内容",
-        "defaultTitle": "AI 对联",
-        "defaultDesc": "AI 生成的对联",
-        "defaultKeywords": "AI, 对联, 传统文化",
-        "siteName": "对联生成器"
+      "comic": {
+        "title": "AI漫画大全 - 精选AI生成漫画作品欣赏",
+        "description": "收录海量精美AI生成漫画作品，包含各种风格和主题的漫画故事，体验AI创作的无限可能。",
+        "keywords": "AI漫画, 漫画大全, AI生成, 漫画创作, 人工智能漫画, 数字漫画",
+        "generating": "AI 生成中 - AI漫画平台",
+        "generatingDesc": "正在生成漫画，内容将实时显示",
+        "notFound": "漫画未找到 - AI漫画平台",
+        "notFoundDesc": "未找到对应的漫画内容",
+        "defaultTitle": "AI 漫画",
+        "defaultDesc": "AI 生成的漫画",
+        "defaultKeywords": "AI, 漫画, 人工智能",
+        "siteName": "AI漫画平台"
       },
       "education": {
         "title": "对联学堂 - 系统学习对联知识",

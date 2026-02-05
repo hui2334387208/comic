@@ -117,14 +117,14 @@ const SmartSearch: React.FC<SmartSearchProps> = ({
             placeholder={placeholder}
             className={`w-full px-4 py-3 pl-12 pr-12 rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 text-gray-900 dark:text-white ${
               isFocused
-                ? 'border-red-400 dark:border-red-600 bg-white/95 dark:bg-gray-700/95 shadow-xl focus:ring-red-400/30 dark:focus:ring-red-600/30'
-                : 'border-red-200 dark:border-red-800 bg-white/90 dark:bg-gray-800/90 shadow-lg'
+                ? 'border-purple-400 dark:border-purple-600 bg-white/95 dark:bg-gray-700/95 shadow-xl focus:ring-purple-400/30 dark:focus:ring-purple-600/30'
+                : 'border-purple-200 dark:border-purple-800 bg-white/90 dark:bg-gray-800/90 shadow-lg'
             }`}
           />
 
           {/* 搜索图标 */}
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <svg className="h-5 w-5 text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-5 w-5 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
@@ -134,7 +134,7 @@ const SmartSearch: React.FC<SmartSearchProps> = ({
             type="submit"
             className="absolute inset-y-0 right-0 pr-4 flex items-center"
           >
-            <div className="px-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-xl text-sm font-bold hover:from-red-700 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <div className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
               搜索
             </div>
           </button>
@@ -142,10 +142,10 @@ const SmartSearch: React.FC<SmartSearchProps> = ({
       </form>
       {/* 搜索建议 */}
       {isFocused && showSuggestions && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-gradient-to-br from-white/95 to-red-50/80 dark:from-gray-800/95 dark:to-red-900/30 rounded-2xl shadow-2xl border-2 border-red-200/50 dark:border-red-800/50 z-[9999] max-h-96 overflow-y-auto backdrop-blur-sm">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-gradient-to-br from-white/95 to-purple-50/80 dark:from-gray-800/95 dark:to-purple-900/30 rounded-2xl shadow-2xl border-2 border-purple-200/50 dark:border-purple-800/50 z-[9999] max-h-96 overflow-y-auto backdrop-blur-sm">
           {isLoading ? (
-            <div className="p-6 text-center text-red-600 dark:text-red-400">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500 mx-auto" />
+            <div className="p-6 text-center text-purple-600 dark:text-purple-400">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mx-auto" />
               <p className="mt-3 text-sm font-medium">搜索中...</p>
             </div>
           ) : suggestions.length > 0 ? (
@@ -154,11 +154,11 @@ const SmartSearch: React.FC<SmartSearchProps> = ({
                 <div
                   key={item.id}
                   onClick={() => handleSuggestionClick(item)}
-                  className="mx-2 px-4 py-3 hover:bg-gradient-to-r hover:from-red-50 hover:to-orange-50 dark:hover:from-red-900/20 dark:hover:to-orange-900/20 cursor-pointer transition-all duration-300 rounded-xl border border-transparent hover:border-red-200 dark:hover:border-red-800 transform hover:scale-105"
+                  className="mx-2 px-4 py-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 dark:hover:from-purple-900/20 dark:hover:to-pink-900/20 cursor-pointer transition-all duration-300 rounded-xl border border-transparent hover:border-purple-200 dark:hover:border-purple-800 transform hover:scale-105"
                 >
                   <div className="flex items-start space-x-3">
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate text-left hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200">
+                      <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate text-left hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200">
                         {item.title}
                       </h4>
                     </div>
@@ -167,9 +167,9 @@ const SmartSearch: React.FC<SmartSearchProps> = ({
               ))}
             </div>
           ) : query.length > 0 ? (
-            <div className="p-6 text-center text-red-500 dark:text-red-400">
-              <div className="text-2xl mb-2">🎋</div>
-              <p className="text-sm font-medium">未找到相关对联</p>
+            <div className="p-6 text-center text-purple-500 dark:text-purple-400">
+              <div className="text-2xl mb-2">🎨</div>
+              <p className="text-sm font-medium">未找到相关漫画</p>
               <p className="text-xs mt-1 text-gray-500 dark:text-gray-400">尝试使用不同的关键词</p>
             </div>
           ) : null}

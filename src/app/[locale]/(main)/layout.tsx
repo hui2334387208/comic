@@ -61,32 +61,31 @@ export default function MainLayout({
   ]
 
   const defaultMenus = [
-    { id: '0', path: '/', name: t('navigation.home') },
-    { id: '1', path: '/couplet', name: t('navigation.explore') },
-    // { id: '2', path: '/education', name: t('navigation.education') },
-    // { id: '3', path: '/social', name: t('navigation.social') },
-    // { id: '4', path: '/game', name: t('navigation.game') },
-    { id: '5', path: 'https://blog.jumpnav.com', name: t('navigation.blog') },
-    { id: '6', path: '/about', name: t('navigation.aboutUs') },
+    { id: '0', path: '/', name: '首页' },
+    { id: '1', path: '/comic', name: '漫画广场' },
+    { id: '2', path: '/create', name: '创作中心' },
+    { id: '3', path: '/gallery', name: '作品展示' },
+    { id: '4', path: 'https://blog.jumpnav.com', name: '博客' },
+    { id: '5', path: '/about', name: '关于我们' },
   ]
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 dark:from-gray-900 dark:via-red-900/20 dark:to-orange-900/20">
-      {/* 传统中国风导航栏 - 增强设计 */}
-      <nav className="sticky top-0 z-50 bg-gradient-to-r from-white/95 to-red-50/95 dark:from-gray-900/95 dark:to-red-900/30 backdrop-blur-md border-b-2 border-red-200/40 dark:border-red-800/40 shadow-xl">
-        {/* 传统装饰线 */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-orange-600 to-red-600"></div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20">
+      {/* AI漫画风格导航栏 */}
+      <nav className="sticky top-0 z-50 bg-gradient-to-r from-white/95 to-purple-50/95 dark:from-gray-900/95 dark:to-purple-900/30 backdrop-blur-md border-b-2 border-purple-200/40 dark:border-purple-800/40 shadow-xl">
+        {/* 漫画风格装饰线 */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo - 增强设计 */}
+            {/* Logo - 漫画风格设计 */}
             <div className="relative">
               <BrandLogo />
-              {/* 传统印章装饰 */}
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-600 rounded-full opacity-80"></div>
+              {/* 漫画风格装饰 */}
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-purple-600 rounded-full opacity-80"></div>
             </div>
 
-            {/* 桌面端导航链接 - 增强中国风样式 */}
+            {/* 桌面端导航链接 - 漫画风格样式 */}
             <div className="hidden md:flex items-center space-x-8">
               {(menus.length === 0 ? defaultMenus : menus).map(menu => {
                 const isExternal = /^https?:\/\//.test(menu.path)
@@ -96,16 +95,16 @@ export default function MainLayout({
                     href={menu.path}
                     target={isExternal ? '_blank' : undefined}
                     rel={isExternal ? 'noopener noreferrer' : undefined}
-                    className={`relative px-4 py-2 text-base font-bold transition-all duration-300 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20
+                    className={`relative px-4 py-2 text-base font-bold transition-all duration-300 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20
                       ${pathname === menu.path ? 
-                        'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 shadow-md after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:w-8 after:h-1 after:rounded-full after:bg-gradient-to-r after:from-red-600 after:to-orange-600' : 
-                        'text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400'
+                        'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 shadow-md after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:w-8 after:h-1 after:rounded-full after:bg-gradient-to-r after:from-purple-600 after:to-pink-600' : 
+                        'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400'
                       }
                     `}
                   >
                     {menu.name || menu.path}
                     {pathname === menu.path && (
-                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-600 rounded-full animate-pulse"></div>
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-purple-600 rounded-full animate-pulse"></div>
                     )}
                   </Link>
                 )
@@ -132,15 +131,15 @@ export default function MainLayout({
                   <Button 
                     onClick={() => signIn()} 
                     type="primary" 
-                    className="!bg-gradient-to-r !from-red-600 !to-red-700 hover:!from-red-700 hover:!to-red-800 !border-red-600 hover:!border-red-700 shadow-lg hover:shadow-xl !font-bold !rounded-xl transition-all duration-300 transform hover:scale-105"
+                    className="!bg-gradient-to-r !from-purple-600 !to-pink-600 hover:!from-purple-700 hover:!to-pink-700 !border-purple-600 hover:!border-purple-700 shadow-lg hover:shadow-xl !font-bold !rounded-xl transition-all duration-300 transform hover:scale-105"
                     style={{ 
-                      background: 'linear-gradient(135deg, #dc2626, #b91c1c)', 
-                      borderColor: '#dc2626',
-                      boxShadow: '0 4px 12px rgba(220, 38, 38, 0.4)'
+                      background: 'linear-gradient(135deg, #9333ea, #ec4899)', 
+                      borderColor: '#9333ea',
+                      boxShadow: '0 4px 12px rgba(147, 51, 234, 0.4)'
                     }}
                   >
                     <span className="flex items-center gap-2">
-                      <span>🎋</span>
+                      <span>�</span>
                       {t('navigation.loginRegister')}
                     </span>
                   </Button>
@@ -148,9 +147,9 @@ export default function MainLayout({
 
                 {status === 'authenticated' && session?.user && (
                   <Dropdown menu={{ items: userMenuItems }} trigger={['click']}>
-                    <div className="flex items-center space-x-2 cursor-pointer transition-all duration-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl p-2">
+                    <div className="flex items-center space-x-2 cursor-pointer transition-all duration-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-xl p-2">
                       <div className="relative">
-                        <Avatar src={session.user.image || session.user.avatar} icon={<UserOutlined />} alt={session.user.image || session.user.avatar} className="border-2 border-red-200 dark:border-red-800" />
+                        <Avatar src={session.user.image || session.user.avatar} icon={<UserOutlined />} alt={session.user.image || session.user.avatar} className="border-2 border-purple-200 dark:border-purple-800" />
                         <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
                       </div>
                       <span className="text-sm font-bold text-gray-700 dark:text-gray-300 hidden sm:inline">
@@ -186,8 +185,8 @@ export default function MainLayout({
             <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
               <Link href="/" className="flex items-center space-x-2" onClick={() => setMobileMenuOpen(false)}>
                 <img src="/logo.jpg" alt="Logo" className="w-12 h-12 rounded-lg object-cover" />
-                <span className="text-lg font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
-                  {tCommon('siteName')}
+                <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  AI漫画平台
                 </span>
               </Link>
               <button className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800" onClick={() => setMobileMenuOpen(false)} aria-label={t('navigation.closeMenu')}>
@@ -207,7 +206,7 @@ export default function MainLayout({
                     target={isExternal ? '_blank' : undefined}
                     rel={isExternal ? 'noopener noreferrer' : undefined}
                     className={`block rounded-xl py-4 px-3 text-lg font-semibold transition-colors duration-200 text-left relative
-                      ${pathname === menu.path ? 'text-red-700 dark:text-red-400 font-bold after:absolute after:left-3 after:bottom-1 after:w-8 after:h-1.5 after:rounded-full after:bg-gradient-to-r after:from-red-600 after:to-orange-600' : 'text-gray-600 dark:text-gray-300 hover:text-red-600 hover:bg-red-50 dark:hover:text-red-400 dark:hover:bg-gray-800'}
+                      ${pathname === menu.path ? 'text-purple-700 dark:text-purple-400 font-bold after:absolute after:left-3 after:bottom-1 after:w-8 after:h-1.5 after:rounded-full after:bg-gradient-to-r after:from-purple-600 after:to-pink-600' : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 hover:bg-purple-50 dark:hover:text-purple-400 dark:hover:bg-gray-800'}
                     `}
                     onClick={() => setMobileMenuOpen(false)}
                   >{menu.name || menu.path}</Link>
@@ -223,26 +222,24 @@ export default function MainLayout({
         {children}
       </main>
 
-      {/* 传统中国风页脚 - 增强设计 */}
-      <footer className="bg-gradient-to-br from-white/90 to-red-50/80 dark:from-gray-900/90 dark:to-red-900/30 backdrop-blur-sm border-t-2 border-red-200/40 dark:border-red-800/40">
-        {/* 传统装饰线 */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-orange-600 to-red-600"></div>
+      {/* AI漫画风格页脚 */}
+      <footer className="bg-gradient-to-br from-white/90 to-purple-50/80 dark:from-gray-900/90 dark:to-purple-900/30 backdrop-blur-sm border-t-2 border-purple-200/40 dark:border-purple-800/40">
+        {/* 漫画风格装饰线 */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* 传统装饰元素 - 增强设计 */}
+          {/* 漫画装饰元素 */}
           <div className="relative">
             <div className="absolute top-0 left-0 w-20 h-20 opacity-8">
-              <svg viewBox="0 0 100 100" className="w-full h-full text-red-600">
-                <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <path d="M30 50 Q50 30, 70 50 Q50 70, 30 50" fill="currentColor" opacity="0.4"/>
-                <circle cx="50" cy="50" r="12" fill="currentColor" opacity="0.6"/>
+              <svg viewBox="0 0 100 100" className="w-full h-full text-purple-600">
+                <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <circle cx="50" cy="50" r="15" fill="currentColor" opacity="0.4"/>
               </svg>
             </div>
             <div className="absolute top-0 right-0 w-16 h-16 opacity-8">
-              <svg viewBox="0 0 100 100" className="w-full h-full text-orange-600">
-                <path d="M20 20 L80 20 L80 40 L40 40 L40 60 L80 60 L80 80 L20 80 L20 60 L60 60 L60 40 L20 40 Z" 
-                      fill="none" stroke="currentColor" strokeWidth="2"/>
-                <circle cx="50" cy="50" r="8" fill="currentColor" opacity="0.5"/>
+              <svg viewBox="0 0 100 100" className="w-full h-full text-pink-600">
+                <path d="M30 30 L70 30 L70 70 L30 70 Z" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <path d="M40 40 L60 40 L60 60 L40 60 Z" fill="currentColor" opacity="0.5"/>
               </svg>
             </div>
           </div>
@@ -251,36 +248,36 @@ export default function MainLayout({
             <div className="md:col-span-2">
               <div className="flex items-center gap-4 mb-6">
                 <BrandLogo className="mb-0" />
-                <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-800 text-white rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-lg font-black">联</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 text-white rounded-2xl flex items-center justify-center shadow-lg">
+                  <span className="text-lg font-black">漫</span>
                 </div>
               </div>
               <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-md">
-                {t('footer.description')}
+                AI驱动的漫画创作平台，让每个人都能成为漫画家。用人工智能释放你的创意，创作属于你的精彩故事。
               </p>
               <div className="flex items-center gap-2 mt-4">
-                <div className="w-16 h-0.5 bg-gradient-to-r from-red-600 to-orange-600"></div>
-                <span className="text-xs text-red-600 dark:text-red-400 font-bold">{t('footer.heritage')}</span>
-                <div className="w-16 h-0.5 bg-gradient-to-r from-orange-600 to-red-600"></div>
+                <div className="w-16 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600"></div>
+                <span className="text-xs text-purple-600 dark:text-purple-400 font-bold">创意无限</span>
+                <div className="w-16 h-0.5 bg-gradient-to-r from-pink-600 to-blue-600"></div>
               </div>
             </div>
 
             <div>
               <h3 className="font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <span className="w-6 h-6 bg-red-600 text-white rounded-lg flex items-center justify-center text-xs font-bold">支</span>
-                {t('footer.support')}
+                <span className="w-6 h-6 bg-purple-600 text-white rounded-lg flex items-center justify-center text-xs font-bold">帮</span>
+                帮助支持
               </h3>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <Link href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
-                    <span className="w-1 h-1 bg-red-600 rounded-full"></span>
-                    {t('footer.contact')}
+                  <Link href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
+                    <span className="w-1 h-1 bg-purple-600 rounded-full"></span>
+                    联系我们
                   </Link>
                 </li>
                 <li>
-                  <Link href="/feedback" className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
-                    <span className="w-1 h-1 bg-red-600 rounded-full"></span>
-                    {t('footer.feedback')}
+                  <Link href="/feedback" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
+                    <span className="w-1 h-1 bg-purple-600 rounded-full"></span>
+                    意见反馈
                   </Link>
                 </li>
               </ul>
@@ -288,26 +285,26 @@ export default function MainLayout({
 
             <div>
               <h3 className="font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <span className="w-6 h-6 bg-orange-600 text-white rounded-lg flex items-center justify-center text-xs font-bold">关</span>
-                {t('footer.about')}
+                <span className="w-6 h-6 bg-pink-600 text-white rounded-lg flex items-center justify-center text-xs font-bold">关</span>
+                关于我们
               </h3>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <Link href="/about" className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
-                    <span className="w-1 h-1 bg-orange-600 rounded-full"></span>
-                    {t('navigation.aboutUs')}
+                  <Link href="/about" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
+                    <span className="w-1 h-1 bg-pink-600 rounded-full"></span>
+                    关于平台
                   </Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
-                    <span className="w-1 h-1 bg-orange-600 rounded-full"></span>
-                    {t('footer.privacy')}
+                  <Link href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
+                    <span className="w-1 h-1 bg-pink-600 rounded-full"></span>
+                    隐私政策
                   </Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
-                    <span className="w-1 h-1 bg-orange-600 rounded-full"></span>
-                    {t('footer.terms')}
+                  <Link href="/terms" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 hover:translate-x-1">
+                    <span className="w-1 h-1 bg-pink-600 rounded-full"></span>
+                    服务条款
                   </Link>
                 </li>
               </ul>
@@ -315,14 +312,14 @@ export default function MainLayout({
           </div>
           
           {/* 底部版权信息 */}
-          <div className="relative mt-12 pt-8 border-t border-red-200/30 dark:border-red-800/30">
+          <div className="relative mt-12 pt-8 border-t border-purple-200/30 dark:border-purple-800/30">
             <div className="text-center">
               <div className="inline-flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <span>{t('footer.copyrightText')}</span>
-                <div className="w-1 h-1 bg-red-600 rounded-full"></div>
-                <span>{t('footer.slogan1')}</span>
-                <div className="w-1 h-1 bg-orange-600 rounded-full"></div>
-                <span>{t('footer.slogan2')}</span>
+                <span>© 2024 AI漫画平台 版权所有</span>
+                <div className="w-1 h-1 bg-purple-600 rounded-full"></div>
+                <span>用AI创作精彩漫画</span>
+                <div className="w-1 h-1 bg-pink-600 rounded-full"></div>
+                <span>释放无限创意</span>
               </div>
             </div>
           </div>

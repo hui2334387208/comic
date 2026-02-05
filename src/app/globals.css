@@ -121,58 +121,58 @@ body {
   animation: golden-sparkle 2s ease-in-out infinite;
 }
 
-/* 自定义滚动条 - 中国风样式 */
+/* 自定义滚动条 - 漫画风格样式 */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(220, 38, 38, 0.1);
+  background: rgba(147, 51, 234, 0.1);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #dc2626, #ea580c);
+  background: linear-gradient(135deg, #9333ea, #ec4899);
   border-radius: 4px;
-  border: 1px solid rgba(234, 179, 8, 0.3);
+  border: 1px solid rgba(147, 51, 234, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #b91c1c, #c2410c);
-  box-shadow: 0 0 8px rgba(220, 38, 38, 0.4);
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  box-shadow: 0 0 8px rgba(147, 51, 234, 0.4);
 }
 
-/* 玻璃态效果增强 - 中国风 */
+/* 玻璃态效果增强 - 漫画风格 */
 .glass-effect {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(220, 38, 38, 0.2);
-  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(147, 51, 234, 0.2);
+  box-shadow: 0 8px 32px rgba(147, 51, 234, 0.1);
 }
 
-/* 传统渐变文字效果 */
+/* 漫画渐变文字效果 */
 .gradient-text {
-  background: linear-gradient(135deg, #dc2626, #ea580c, #f59e0b);
+  background: linear-gradient(135deg, #9333ea, #ec4899, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: bold;
 }
 
-/* 传统印章效果 */
+/* 漫画印章效果 */
 .traditional-seal {
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  background: linear-gradient(135deg, #9333ea, #7c3aed);
   color: #fbbf24;
   border: 2px solid #fbbf24;
   box-shadow: 
-    0 0 0 2px #dc2626,
-    0 4px 12px rgba(220, 38, 38, 0.3),
+    0 0 0 2px #9333ea,
+    0 4px 12px rgba(147, 51, 234, 0.3),
     inset 0 1px 0 rgba(251, 191, 36, 0.2);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* 悬停效果增强 - 中国风 */
+/* 悬停效果增强 - 漫画风格 */
 .hover-lift {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -180,11 +180,11 @@ body {
 .hover-lift:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 
-    0 20px 40px rgba(220, 38, 38, 0.15),
-    0 0 0 1px rgba(220, 38, 38, 0.1);
+    0 20px 40px rgba(147, 51, 234, 0.15),
+    0 0 0 1px rgba(147, 51, 234, 0.1);
 }
 
-/* 传统边框装饰 */
+/* 漫画边框装饰 */
 .traditional-border {
   position: relative;
 }
@@ -196,17 +196,17 @@ body {
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, #dc2626, #ea580c, #f59e0b, #dc2626);
+  background: linear-gradient(45deg, #9333ea, #ec4899, #3b82f6, #9333ea);
   border-radius: inherit;
   z-index: -1;
   opacity: 0.6;
 }
 
-/* 传统纹样背景 */
+/* 漫画纹样背景 */
 .traditional-pattern {
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(220, 38, 38, 0.1) 2px, transparent 2px),
-    radial-gradient(circle at 75% 75%, rgba(234, 88, 12, 0.1) 2px, transparent 2px);
+    radial-gradient(circle at 25% 25%, rgba(147, 51, 234, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.1) 2px, transparent 2px);
   background-size: 20px 20px;
 }
 
@@ -218,8 +218,10 @@ body {
 }
 
 /* 自定义焦点样式 */
-.focus-ring {
-  @apply focus:outline-none focus:ring-4 focus:ring-red-500/30 focus:ring-offset-2;
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.3);
+  border-radius: 0.375rem;
 }
 
 /* 加载动画 */

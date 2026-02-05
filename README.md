@@ -1,5 +1,7 @@
 # 文鳐 Couplet - AI驱动的智能对联创作平台
 
+二次元/动漫风格
+
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.1-black)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.0.0-blue)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
@@ -490,3 +492,26 @@ npm start
 域名 pairray.com
 风格 传统的中国风红色主题
 FLUSHDB
+
+漫画
+├── 名称 (title)
+├── 描述 (description) 
+├── 标签 (tags)
+├── 分类 (category)
+├── 风格 (style)
+└── 卷 (Volume)
+    └── 话/章节 (episodes)
+        ├── 第1话
+        │   ├── 标题 (episode title)
+        │   └── 分镜 (panels)
+        │       ├── 第1个分镜
+        │       │   ├── 画面描述 (scene description)
+        │       │   ├── 对话 (dialogue)
+        │       │   ├── 旁白 (narration)
+        │       │   ├── 情感氛围 (emotion)
+        │       │   ├── 镜头角度 (camera angle)
+        │       │   └── 角色信息 (characters)
+        │       ├── 第2个分镜
+        │       └── ...
+        └── 第2话...
+
