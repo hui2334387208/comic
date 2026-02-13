@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 
-import ClientCoupletListPage from './ClientComicListPage'
+import ClientComicListPage from './ClientComicListPage'
 import { routing } from '@/i18n/routing'
 import { fetchMenuByPath } from '@/server/menus'
-import { fetchCoupletListForServer } from '@/server/couplets'
-import { fetchCoupletCategoriesForServer } from '@/server/categories'
-import { fetchCoupletTagsForServer } from '@/server/tags'
+import { fetchComicListForServer } from '@/server/comics'
+import { fetchComicCategoriesForServer } from '@/server/comics'
+import { fetchComicTagsForServer } from '@/server/comics'
 
 export async function generateMetadata({ params }: {
   params: Promise<{ locale: string }>;
@@ -68,8 +68,8 @@ export default async function ComicListPageServer({ params }: { params: Promise<
   const initialCategory = 'all'
   const initialSearch = ''
   
-  // 拉取漫画列表 (使用现有的对联API作为数据源)
-  const comicData = await fetchCoupletListForServer({
+  // 拉取漫画列表
+  const comicData = await fetchComicListForServer({
     page: initialPage,
     limit: 12,
     sort: initialSort,
@@ -78,48 +78,52 @@ export default async function ComicListPageServer({ params }: { params: Promise<
     language: locale,
   })
   
-  const comics = (comicData?.data?.couplets || []).map((item: any) => ({
-    id: item.id,
-    title: item.title || '',
-    description: item.description || '',
-    authorId: item.authorId,
-    author: item.author?.name || item.author?.username || '未知',
-    category: item.category || {},
-    coverImage: item.coverImage,
-    frameCount: item.contentCount || 4, // 将contentCount映射为frameCount
-    viewCount: item.viewCount,
-    likeCount: item.likeCount,
-    createdAt: item.createdAt,
-    tags: Array.isArray(item.tags) ? item.tags.map((t: any) => t.name || t) : [],
-    style: item.model || 'manga', // 将model映射为style
-    type: item.type,
-    contents: item.contents || [],
+  // 处理数据，确保类型正确
+  const comics = (comicData?.data?.comics || []).map((comic: any) => ({
+    id: comic.id,
+    title: comic.title || '',
+    description: comic.description || '',
+    authorId: comic.authorId,
+    author: comic.author?.name || comic.author?.username || '未知',
+    category: comic.category,
+    coverImage: comic.coverImage,
+    volumeCount: comic.volumeCount || 0,
+    episodeCount: comic.episodeCount || 0,
+    viewCount: comic.viewCount || 0,
+    likeCount: comic.likeCount || 0,
+    createdAt: comic.createdAt,
+    tags: (comic.tags || []).map((tag: any) => tag.name || tag),
+    style: comic.style,
+    contents: [],
   }))
   
   const totalPages = comicData?.data?.pagination?.totalPages || 1
   
   // 拉取分类
-  const categoriesData = await fetchCoupletCategoriesForServer()
+  const categoriesData = await fetchComicCategoriesForServer()
   const categories = [
     { id: 0, name: '全部', slug: 'all', count: undefined },
     ...categoriesData.map((c: any) => ({
       id: c.id,
       name: c.name || '',
       slug: c.slug,
+      icon: c.icon,
+      color: c.color,
       count: undefined,
     })),
   ]
   
   // 拉取标签
-  const tagsData = await fetchCoupletTagsForServer()
+  const tagsData = await fetchComicTagsForServer()
   const tags = tagsData.map((t: any) => ({
     id: t.id,
     name: t.name || '',
     slug: t.slug,
+    color: t.color,
   }))
   
   return (
-    <ClientCoupletListPage
+    <ClientComicListPage
       comics={comics}
       categories={categories}
       tags={tags}
