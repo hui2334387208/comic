@@ -515,3 +515,33 @@ FLUSHDB
         │       └── ...
         └── 第2话...
 
+
+漫画 (Comic)
+├── 基本信息
+│   ├── 名称 (title)
+│   ├── 描述 (description)
+│   ├── 标签 (tags)
+│   ├── 分类 (category)
+│   ├── 风格 (style)
+│   └── 封面 (cover)
+│
+└── 卷 (Volumes)
+    └── 第1卷
+        ├── 卷标题 (volume title)
+        ├── 卷封面 (volume cover)
+        └── 话/章节 (Episodes/Chapters)
+            └── 第1话
+                ├── 话标题 (episode title)
+                └── 页 (Pages)
+                    └── 第1页
+                        ├── 页面布局 (page layout)
+                        └── 格/分镜 (Panels)
+                            └── 第1格
+                                ├── 画面描述 (scene description)
+                                ├── 对话 (dialogue)
+                                ├── 旁白 (narration)
+                                ├── 情感氛围 (emotion)
+                                ├── 镜头角度 (camera angle)
+                                └── 角色信息 (characters)
+
+

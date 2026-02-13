@@ -8,6 +8,14 @@ import { useLocale } from 'next-intl'
 function ComicSection({ title, desc, comics = [] }: { title: string; desc: string; comics?: any[] }) {
   const t = useTranslations('main.home.comicCard')
   const router = useRouter()
+  const locale = useLocale()
+
+  const handleCardClick = (comic: any) => {
+    // 构建漫画详情页路由
+    const categorySlug = comic.category?.slug || 'uncategorized'
+    const promptSlug = comic.prompt ? encodeURIComponent(comic.prompt.substring(0, 50)) : 'comic'
+    router.push(`/${locale}/comic/${categorySlug}/${promptSlug}/${comic.id}`)
+  }
 
   return (
     <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 mt-0">
@@ -15,115 +23,183 @@ function ComicSection({ title, desc, comics = [] }: { title: string; desc: strin
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">{title}</h2>
         <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">{desc}</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {comics.map((item, index) => {
-          return (
+      
+      {comics.length === 0 ? (
+        <div className="text-center py-16">
+          <div className="inline-flex items-center justify-center w-24 h-24 mb-6 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-3xl">
+            <span className="text-5xl">🎨</span>
+          </div>
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">暂无漫画</h3>
+          <p className="text-gray-500 dark:text-gray-400">快来创作第一个AI漫画吧！</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {comics.map((comic, index) => (
             <div
-              key={item.id}
-              className="group relative bg-gradient-to-br from-white/95 to-purple-50/80 dark:from-gray-800/95 dark:to-purple-900/30 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 p-6 border-2 border-purple-100/50 dark:border-purple-800/50 hover:border-purple-300 dark:hover:border-purple-600 overflow-hidden"
+              key={comic.id}
+              onClick={() => handleCardClick(comic)}
+              className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden cursor-pointer border border-gray-100 dark:border-gray-700"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              {/* 漫画装饰背景 */}
-              <div className="absolute top-0 right-0 w-20 h-20 opacity-5">
-                <svg viewBox="0 0 100 100" className="w-full h-full text-purple-600">
-                  <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="3"/>
-                  <circle cx="50" cy="50" r="15" fill="currentColor"/>
-                </svg>
-              </div>
-              
-              {/* 分类标签 */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/40 dark:to-pink-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold border border-purple-200 dark:border-purple-800">
-                  <span className="w-2 h-2 bg-purple-500 rounded-full mr-2 animate-pulse" />
-                  {item?.category?.name || '漫画'}
-                </div>
-                <div className="relative w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-800 text-white rounded-2xl flex items-center justify-center text-sm font-black shadow-lg transform rotate-3 group-hover:rotate-0 transition-transform duration-300">
-                  <span>漫</span>
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full"></div>
-                </div>
-              </div>
-
-              {/* 标题 */}
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 tracking-wide">
-                {item.title}
-              </h3>
-
-              {/* 漫画封面展示区 */}
-              <div className="relative mb-6">
-                <div className="aspect-[4/3] bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl overflow-hidden border-2 border-purple-200 dark:border-purple-800">
-                  {item.coverImage ? (
-                    <img 
-                      src={item.coverImage} 
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="text-6xl mb-2">🎨</div>
-                        <div className="text-purple-600 dark:text-purple-400 font-medium">AI漫画</div>
-                      </div>
+              {/* 封面图片区域 */}
+              <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30">
+                {comic.coverImage ? (
+                  <img 
+                    src={comic.coverImage} 
+                    alt={comic.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-6xl mb-2">🎨</div>
+                      <div className="text-purple-600 dark:text-purple-400 font-medium text-sm">AI漫画</div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
                 
-                {/* 漫画信息 */}
-                <div className="absolute bottom-2 left-2 right-2 bg-black/70 backdrop-blur-sm rounded-xl p-3 text-white">
-                  <div className="flex items-center justify-between text-xs">
-                    <span>{item.episodeCount || 1} 话</span>
-                    <span>{item.style || '未知风格'}</span>
+                {/* 分类标签 */}
+                {comic.category && (
+                  <div className="absolute top-3 left-3">
+                    <div 
+                      className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm border"
+                      style={{
+                        backgroundColor: comic.category.color ? `${comic.category.color}20` : 'rgba(147, 51, 234, 0.2)',
+                        borderColor: comic.category.color || '#9333ea',
+                        color: comic.category.color || '#9333ea'
+                      }}
+                    >
+                      {comic.category.icon && <span className="mr-1">{comic.category.icon}</span>}
+                      {comic.category.name}
+                    </div>
+                  </div>
+                )}
+                
+                {/* 精选标记 */}
+                {comic.isFeatured && (
+                  <div className="absolute top-3 right-3">
+                    <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-lg">⭐</span>
+                    </div>
+                  </div>
+                )}
+                
+                {/* 悬停遮罩 */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* 悬停时显示的快速信息 */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <div className="flex items-center justify-between text-white text-sm">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1">
+                        <span>👁️</span>
+                        <span>{comic.viewCount || 0}</span>
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <span>❤️</span>
+                        <span>{comic.likeCount || 0}</span>
+                      </span>
+                    </div>
+                    {comic.style && (
+                      <span className="px-2 py-1 bg-white/20 backdrop-blur-sm rounded-lg text-xs">
+                        {comic.style}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
 
-              {/* 描述 */}
-              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                {item.description || '这是一个精彩的AI生成漫画故事...'}
-              </p>
+              {/* 内容区域 */}
+              <div className="p-5">
+                {/* 标题 */}
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
+                  {comic.title}
+                </h3>
 
-              {/* 操作按钮和统计 */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4 text-gray-400 dark:text-gray-500 text-xs">
-                  <span className="flex items-center gap-1">
-                    <span>👁️</span>
-                    {item.viewCount || 0}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span>❤️</span>
-                    {item.likeCount || 0}
-                  </span>
+                {/* 描述 */}
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2 leading-relaxed">
+                  {comic.description || '这是一个精彩的AI生成漫画故事...'}
+                </p>
+
+                {/* 标签 */}
+                {comic.tags && comic.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {comic.tags.slice(0, 3).map((tag: any) => (
+                      <span
+                        key={tag.id}
+                        className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium"
+                        style={{
+                          backgroundColor: tag.color ? `${tag.color}15` : 'rgba(147, 51, 234, 0.1)',
+                          color: tag.color || '#9333ea'
+                        }}
+                      >
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* 底部信息栏 */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                  <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                    {comic.volumeCount > 0 && (
+                      <span className="flex items-center gap-1">
+                        <span>📚</span>
+                        <span>{comic.volumeCount} 卷</span>
+                      </span>
+                    )}
+                    {comic.episodeCount > 0 && (
+                      <span className="flex items-center gap-1">
+                        <span>📖</span>
+                        <span>{comic.episodeCount} 话</span>
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* 阅读按钮 */}
+                  <button 
+                    className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                  >
+                    <span>📖</span>
+                    <span>阅读</span>
+                  </button>
                 </div>
-                <button 
-                  onClick={() => {
-                    router.push(`/comic/${item.id}`)
-                  }}
-                  className="relative px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl text-sm font-bold hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer flex items-center gap-2 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                  <span className="relative text-lg">📖</span>
-                  <span className="relative">阅读</span>
-                </button>
+
+                {/* 作者信息 */}
+                {comic.author && (
+                  <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold overflow-hidden">
+                      {comic.author.avatar ? (
+                        <img src={comic.author.avatar} alt={comic.author.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <span>{(comic.author.name || comic.author.username || 'A')[0].toUpperCase()}</span>
+                      )}
+                    </div>
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      {comic.author.name || comic.author.username || '匿名作者'}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* 悬停光效 */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-100/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-3xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
             </div>
-          )
-        })}
-        {comics.length === 0 && (
-          <div className="col-span-3 text-center text-gray-400 py-12">
-            <div className="text-6xl mb-4">🎨</div>
-            <div className="text-lg">暂无漫画</div>
-            <div className="text-sm text-gray-500 mt-2">快来创作第一个AI漫画吧！</div>
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   )
 }
 
-export default function ClientHomePage({ hotComics = [], latestComics = [], featuredComics = [] }: {
-  hotComics?: any[], latestComics?: any[], featuredComics?: any[]
+export default function ClientHomePage({ 
+  hotComics = [], 
+  latestComics = [], 
+  featuredComics = []
+}: {
+  hotComics?: any[], 
+  latestComics?: any[], 
+  featuredComics?: any[]
 }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const router = useRouter()
@@ -246,7 +322,7 @@ export default function ClientHomePage({ hotComics = [], latestComics = [], feat
       }
 
       // 6. 使用AI为每个分镜生成图片
-      const imagesResponse = await fetch('/api/comic/generate/panels', {
+      const imagesResponse = await fetch('/api/comic/generate/pages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -262,32 +338,14 @@ export default function ClientHomePage({ hotComics = [], latestComics = [], feat
         // 图片生成失败不阻断流程
       }
 
-      // 7. 更新漫画图片URL
-      const saveResponse = await fetch('/api/comic/generate/update-images', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          comicId,
-          coverUrl: coverData?.data?.coverUrl || null,
-          volumes, // 完整的卷结构数据，包含所有话和分镜信息
-          imageUrls: imagesData?.data?.imageUrls || [],
-          style
-        }),
-      })
-
-      if (!saveResponse.ok) {
-        const saveError = await saveResponse.json()
-        throw new Error(saveError?.error || '更新图片URL失败')
-      }
-
-      // 8. 增加生成计数
+      // 7. 增加生成计数
       try {
         await fetch('/api/comic/generate/increment', { method: 'POST' })
       } catch (error) {
         console.warn('计数更新失败:', error)
       }
       
-      // 9. 跳转到漫画详情页
+      // 8. 跳转到漫画详情页
       router.push(`/comic/${categorySlug}/${encodeURIComponent(aiPrompt)}/${comicId}`)
       
     } catch (error) {

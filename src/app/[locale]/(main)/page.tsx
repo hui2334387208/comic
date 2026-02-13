@@ -5,9 +5,9 @@ import ClientHomePage from './ClientHomePage'
 import { routing } from '@/i18n/routing'
 import { fetchMenuByPath } from '@/server/menus'
 import {
-  fetchHomeHotCouplets,
-  fetchHomeLatestCouplets,
-  fetchHomeFeaturedCouplets,
+  fetchHomeHotComics,
+  fetchHomeLatestComics,
+  fetchHomeFeaturedComics,
 } from '@/server/home'
 
 export async function generateMetadata({ params }: {
@@ -67,16 +67,17 @@ export default async function HomePageServer({ params }: {
 }) {
   const { locale = routing.defaultLocale } = await params
 
-  const [hot, latest, featured] = await Promise.all([
-    fetchHomeHotCouplets(locale),
-    fetchHomeLatestCouplets(locale),
-    fetchHomeFeaturedCouplets(locale),
+  const [hotComics, latestComics, featuredComics] = await Promise.all([
+    fetchHomeHotComics(locale),
+    fetchHomeLatestComics(locale),
+    fetchHomeFeaturedComics(locale),
   ])
+  
   return (
     <ClientHomePage
-      hotCouplets={Array.isArray(hot?.data) ? hot.data : []}
-      latestCouplets={Array.isArray(latest?.data) ? latest.data : []}
-      featuredCouplets={Array.isArray(featured?.data) ? featured.data : []}
+      hotComics={Array.isArray(hotComics?.data) ? hotComics.data : []}
+      latestComics={Array.isArray(latestComics?.data) ? latestComics.data : []}
+      featuredComics={Array.isArray(featuredComics?.data) ? featuredComics.data : []}
     />
   )
 }

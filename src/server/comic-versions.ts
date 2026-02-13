@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm'
+import { eq, desc, count } from 'drizzle-orm'
 import { db } from '@/db'
-import { comicVersions, comicPanels, comicEpisodes } from '@/db/schema'
+import { comicVersions, comicPanels, comicEpisodes, comicPages } from '@/db/schema'
 
 export async function fetchComicVersionsForServer(comicId: number) {
   try {
@@ -18,29 +18,25 @@ export async function fetchComicVersionsForServer(comicId: number) {
       })
       .from(comicVersions)
       .where(eq(comicVersions.comicId, comicId))
-      .orderBy(comicVersions.version)
+      .orderBy(desc(comicVersions.version))
 
-    // 为每个版本计算帧数
+    // 为每个版本计算帧数（分镜格数）
     const versionsWithFrameCount = await Promise.all(
       versions.map(async (version) => {
-        const [frameCountResult] = await db
+        // 统计该版本下所有的分镜格数量
+        // 路径：version -> episodes -> pages -> panels
+        const [result] = await db
           .select({
-            frameCount: comicPanels.id
+            frameCount: count(comicPanels.id)
           })
           .from(comicPanels)
-          .innerJoin(comicEpisodes, eq(comicPanels.episodeId, comicEpisodes.id))
-          .where(eq(comicEpisodes.versionId, version.id))
-
-        // 计算实际帧数
-        const frameCountQuery = await db
-          .select()
-          .from(comicPanels)
-          .innerJoin(comicEpisodes, eq(comicPanels.episodeId, comicEpisodes.id))
+          .innerJoin(comicPages, eq(comicPanels.pageId, comicPages.id))
+          .innerJoin(comicEpisodes, eq(comicPages.episodeId, comicEpisodes.id))
           .where(eq(comicEpisodes.versionId, version.id))
 
         return {
           ...version,
-          frameCount: frameCountQuery.length
+          frameCount: result?.frameCount || 0
         }
       })
     )

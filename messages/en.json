@@ -1561,7 +1561,8 @@
         "clickRegenerateHint": "You can click the \"Regenerate\" button above to let AI create new couplets for you",
         "startCreating": "Start Creating",
         "commentSection": "Comments & Discussion",
-        "aiCoupletWorkshop": "AI Couplet Workshop"
+        "aiCoupletWorkshop": "AI Couplet Workshop",
+        "aiComicWorkshop": "AI Comic Workshop"
       },
       "version": {
         "noVersionHistory": "No version history",

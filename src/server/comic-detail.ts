@@ -6,6 +6,7 @@ import {
   comicVersions, 
   comicVolumes, 
   comicEpisodes, 
+  comicPages,
   comicPanels,
   comicTags,
   comicTagRelations
@@ -85,7 +86,7 @@ export async function fetchComicDetailForServer(comicId: number, versionId?: num
             episodeNumber: comicEpisodes.episodeNumber,
             title: comicEpisodes.title,
             description: comicEpisodes.description,
-            imageCount: comicEpisodes.imageCount,
+            pageCount: comicEpisodes.pageCount,
           })
           .from(comicEpisodes)
           .where(and(
@@ -94,36 +95,57 @@ export async function fetchComicDetailForServer(comicId: number, versionId?: num
           ))
           .orderBy(comicEpisodes.episodeNumber)
 
-        // 获取每话的分镜
-        const episodesWithPanels = await Promise.all(
+        // 获取每话的页和分镜
+        const episodesWithPages = await Promise.all(
           episodes.map(async (episode) => {
-            const panels = await db
+            const pages = await db
               .select({
-                id: comicPanels.id,
-                imageNumber: comicPanels.imageNumber,
-                imageUrl: comicPanels.imageUrl,
-                sceneDescription: comicPanels.sceneDescription,
-                dialogue: comicPanels.dialogue,
-                narration: comicPanels.narration,
-                emotion: comicPanels.emotion,
-                cameraAngle: comicPanels.cameraAngle,
-                characters: comicPanels.characters,
-                generationStatus: comicPanels.generationStatus,
+                id: comicPages.id,
+                pageNumber: comicPages.pageNumber,
+                pageLayout: comicPages.pageLayout,
+                panelCount: comicPages.panelCount,
+                imageUrl: comicPages.imageUrl,
+                status: comicPages.status,
               })
-              .from(comicPanels)
-              .where(eq(comicPanels.episodeId, episode.id))
-              .orderBy(comicPanels.imageNumber)
+              .from(comicPages)
+              .where(eq(comicPages.episodeId, episode.id))
+              .orderBy(comicPages.pageNumber)
+
+            // 获取每页的分镜
+            const pagesWithPanels = await Promise.all(
+              pages.map(async (page) => {
+                const panels = await db
+                  .select({
+                    id: comicPanels.id,
+                    panelNumber: comicPanels.panelNumber,
+                    sceneDescription: comicPanels.sceneDescription,
+                    dialogue: comicPanels.dialogue,
+                    narration: comicPanels.narration,
+                    emotion: comicPanels.emotion,
+                    cameraAngle: comicPanels.cameraAngle,
+                    characters: comicPanels.characters,
+                  })
+                  .from(comicPanels)
+                  .where(eq(comicPanels.pageId, page.id))
+                  .orderBy(comicPanels.panelNumber)
+
+                return {
+                  ...page,
+                  panels
+                }
+              })
+            )
 
             return {
               ...episode,
-              panels
+              pages: pagesWithPanels
             }
           })
         )
 
         return {
           ...volume,
-          episodes: episodesWithPanels
+          episodes: episodesWithPages
         }
       })
     )

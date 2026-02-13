@@ -1561,7 +1561,8 @@
         "clickRegenerateHint": "您可以点击上方\"重新生成\"按钮，让 AI 为您创作新的对联",
         "startCreating": "开始创作",
         "commentSection": "评论交流",
-        "aiCoupletWorkshop": "AI 对联工坊"
+        "aiCoupletWorkshop": "AI 对联工坊",
+        "aiComicWorkshop": "AI 漫画工坊"
       },
       "version": {
         "noVersionHistory": "暂无版本历史",

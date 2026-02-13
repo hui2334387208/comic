@@ -121,18 +121,15 @@ export default async function Page({ params }: { params: Promise<{ id: string; l
         episodeNumber: episode.episodeNumber,
         title: episode.title,
         description: episode.description,
-        imageCount: episode.imageCount,
-        panels: episode.panels?.map((panel: any) => ({
-          id: panel.id,
-          imageNumber: panel.imageNumber,
-          imageUrl: panel.imageUrl || '',
-          sceneDescription: panel.sceneDescription || '',
-          dialogue: panel.dialogue || '',
-          narration: panel.narration || '',
-          emotion: panel.emotion || '',
-          cameraAngle: panel.cameraAngle || '',
-          characters: panel.characters || '',
-          generationStatus: panel.generationStatus || 'pending',
+        pageCount: episode.pageCount,
+        pages: episode.pages?.map((page: any) => ({
+          id: page.id,
+          pageNumber: page.pageNumber,
+          pageLayout: page.pageLayout || '',
+          panelCount: page.panelCount || 0,
+          imageUrl: page.imageUrl || '',
+          status: page.status || 'pending',
+          panels: page.panels || []
         })) || []
       })) || []
     })) || [],

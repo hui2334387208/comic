@@ -735,18 +735,22 @@ export async function generateComicMetaFromPrompt(prompt: string, model: string 
    - 最适合的漫画风格（如anime动漫风、realistic写实风、cartoon卡通风、watercolor水彩风、sketch素描风、chibi萌系风等）
 
 2. 漫画完整卷结构：
-   - 根据故事内容，规划合理的卷数（通常1-3卷）
+   - 根据故事内容，规划合理的卷数（1-200卷）
    - 每卷包含：
      * 卷标题（吸引人的标题）
      * 卷简介（80-120字，描述这一卷的主要故事内容和发展）
-     * 卷中的话数（每卷通常包含3-8话）
+     * 卷中的话数（4-12话/卷）
    - 每话包含：
      * 话标题（具体的章节标题）
      * 话简介（50-80字，描述这一话的具体内容）
-     * 4-6个连续的漫画分镜
+     * 话中的页数（15-50页/话）
+   - 每页包含：
+     * 页面布局（single单格、double双格、multi多格）
+     * 格子数量（4-8格/页）
+     * 每个格子包含一个分镜的完整信息
 
-3. 分镜详细信息：
-每个分镜包含完整信息：
+3. 每个格子的详细信息：
+每个格子包含完整的分镜信息：
      * 画面描述（详细的场景、人物、动作、表情等，适合AI绘画模型理解）
      * 对话内容（角色说的话，如果没有对话就留空）
      * 旁白内容（故事叙述或心理描述）
@@ -756,13 +760,13 @@ export async function generateComicMetaFromPrompt(prompt: string, model: string 
 
 【重要】角色一致性要求：
 - 所有角色（主角、配角、次要角色）的性别、外貌、性格必须在整个漫画中保持完全一致
-- 如果某个角色在首次出现时是女性，那么在所有后续分镜中都必须是女性
-- 如果某个角色在首次出现时是男性，那么在所有后续分镜中都必须是男性
+- 如果某个角色在首次出现时是女性，那么在所有后续格子中都必须是女性
+- 如果某个角色在首次出现时是男性，那么在所有后续格子中都必须是男性
 - 严禁在故事中途改变任何角色的性别、基本外貌特征或核心性格
-- 每个分镜的画面描述中都要明确指出所有出现角色的性别和外貌特征
+- 每个格子的画面描述中都要明确指出所有出现角色的性别和外貌特征
 - 为每个角色建立清晰的设定档案，包括性别、年龄、外貌、服装、性格等
 - 确保所有角色设定前后呼应，避免出现性别混乱或角色错位
-- 特别注意：同一个角色不能在不同分镜中变成不同性别的人
+- 特别注意：同一个角色不能在不同格子中变成不同性别的人
 
 【内容健康要求】：
 - 所有内容必须健康向上，适合全年龄段观看
@@ -773,7 +777,9 @@ export async function generateComicMetaFromPrompt(prompt: string, model: string 
 要求：
 - 故事要有完整的起承转合
 - 每卷要有明确的主题和发展脉络
-- 分镜要连贯，能够清晰地讲述故事
+- 每话要有清晰的故事段落
+- 每页要有合理的格子布局
+- 格子内容要连贯，能够清晰地讲述故事
 - 对话要自然，符合角色性格
 - 画面描述要详细，便于AI理解和生成图像
 - 严格保持角色一致性，特别是主角的性别和外貌
@@ -818,42 +824,48 @@ JSON格式：
         {
           "title": "第1话", 
           "description": "第1话简介",
-          "panels": [
+          "pages": [
             {
-              "panelNumber": 1,
-              "sceneDescription": "分镜1画面描述",
-              "dialogue": "对话1",
-              "narration": "旁白1",
-              "emotion": "情感1",
-              "cameraAngle": "角度1",
-              "characters": "角色1"
-            },
-            {
-              "panelNumber": 2,
-              "sceneDescription": "分镜2画面描述", 
-              "dialogue": "对话2",
-              "narration": "旁白2",
-              "emotion": "情感2",
-              "cameraAngle": "角度2",
-              "characters": "角色2"
-            },
-            {
-              "panelNumber": 3,
-              "sceneDescription": "分镜3画面描述",
-              "dialogue": "对话3", 
-              "narration": "旁白3",
-              "emotion": "情感3",
-              "cameraAngle": "角度3",
-              "characters": "角色3"
-            },
-            {
-              "panelNumber": 4,
-              "sceneDescription": "分镜4画面描述",
-              "dialogue": "对话4",
-              "narration": "旁白4",
-              "emotion": "情感4",
-              "cameraAngle": "角度4",
-              "characters": "角色4"
+              "pageNumber": 1,
+              "pageLayout": "multi",
+              "panels": [
+                {
+                  "panelNumber": 1,
+                  "sceneDescription": "格子1画面描述",
+                  "dialogue": "对话1",
+                  "narration": "旁白1",
+                  "emotion": "情感1",
+                  "cameraAngle": "角度1",
+                  "characters": "角色1"
+                },
+                {
+                  "panelNumber": 2,
+                  "sceneDescription": "格子2画面描述", 
+                  "dialogue": "对话2",
+                  "narration": "旁白2",
+                  "emotion": "情感2",
+                  "cameraAngle": "角度2",
+                  "characters": "角色2"
+                },
+                {
+                  "panelNumber": 3,
+                  "sceneDescription": "格子3画面描述",
+                  "dialogue": "对话3", 
+                  "narration": "旁白3",
+                  "emotion": "情感3",
+                  "cameraAngle": "角度3",
+                  "characters": "角色3"
+                },
+                {
+                  "panelNumber": 4,
+                  "sceneDescription": "格子4画面描述",
+                  "dialogue": "对话4",
+                  "narration": "旁白4",
+                  "emotion": "情感4",
+                  "cameraAngle": "角度4",
+                  "characters": "角色4"
+                }
+              ]
             }
           ]
         }
@@ -863,12 +875,11 @@ JSON格式：
 }`
 
   try {
-    console.log('开始调用DeepSeek生成漫画内容...')
     const result = await streamText({
       model: aiModel,
       prompt: `${system}\n\n${user}`,
       temperature: 0.8,
-      maxTokens: 4000, // 增加token限制，因为需要更多内容
+      maxTokens: 4000,
     })
 
     let full = ''
@@ -876,188 +887,17 @@ JSON格式：
       full += chunk
     }
     
-    console.log('DeepSeek响应长度:', full.length)
-    console.log('DeepSeek响应前500字符:', full.substring(0, 500))
-    
-    // 更灵活的JSON提取逻辑
-    let jsonMatch = full.match(/\{[\s\S]*\}/)
-    if (!jsonMatch) {
-      // 尝试查找第一个{到最后一个}
-      const firstBrace = full.indexOf('{')
-      const lastBrace = full.lastIndexOf('}')
-      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-        const jsonStr = full.substring(firstBrace, lastBrace + 1)
-        jsonMatch = [jsonStr]
-      }
-    }
-    
-    if (!jsonMatch) {
-      console.error('无法从响应中提取JSON:', full)
-      throw new Error('No JSON found in response')
-    }
+    const parsed: any = JSON.parse(full)
 
-    console.log('提取的JSON字符串长度:', jsonMatch[0].length)
-    
-    // 清理和修复JSON字符串
-    let jsonStr = jsonMatch[0]
-    // 移除可能的markdown代码块标记
-    jsonStr = jsonStr.replace(/```json\s*/g, '').replace(/```\s*/g, '')
-    // 移除多余的换行和空格
-    jsonStr = jsonStr.trim()
-    
-    let parsed: any
-    try {
-      parsed = JSON.parse(jsonStr)
-    } catch (parseError) {
-      console.error('JSON解析失败:', parseError)
-      console.error('错误位置附近的内容:', jsonStr.substring(Math.max(0, 9640), 9670))
-      
-      // 尝试修复常见的JSON错误
-      try {
-        // 移除尾随逗号
-        let fixedJson = jsonStr.replace(/,(\s*[}\]])/g, '$1')
-        // 修复未闭合的引号和转义字符
-        fixedJson = fixedJson.replace(/([^"\\])"([^",:}\]\s])/g, '$1\\"$2')
-        // 移除可能的重复逗号
-        fixedJson = fixedJson.replace(/,,+/g, ',')
-        
-        parsed = JSON.parse(fixedJson)
-        console.log('JSON修复成功')
-      } catch (secondError) {
-        console.error('JSON修复也失败:', secondError)
-        // 返回默认结构而不是抛出错误
-        parsed = {
-          title: prompt,
-          description: `一个关于${prompt}的精彩漫画故事`,
-          style: 'anime',
-          category: {
-            name: 'AI生成',
-            slug: 'ai-generated',
-            description: '由AI智能生成的漫画作品',
-            icon: '🎨',
-            color: '#8b5cf6',
-            isNew: false,
-          },
-          tags: [],
-          volumes: [
-            {
-              title: '第1卷',
-              description: '故事开始...',
-              episodes: [
-                {
-                  title: '第1话',
-                  description: '故事开始...',
-                  panels: []
-                }
-              ]
-            }
-          ]
-        }
-        console.log('使用默认JSON结构')
-      }
-    }
-
-    const title = parsed.title || prompt
-    const description = parsed.description || `一个关于${prompt}的精彩漫画故事`
-    const style = parsed.style || 'anime'
-    
-    // 处理卷结构
-    const volumes = Array.isArray(parsed.volumes) ? parsed.volumes.map((vol: any, volIndex: number) => ({
-      title: vol.title || `第${volIndex + 1}卷`,
-      description: vol.description || '精彩的故事开始...',
-      episodes: Array.isArray(vol.episodes) ? vol.episodes.map((ep: any, epIndex: number) => ({
-        title: ep.title || `第${epIndex + 1}话`,
-        description: ep.description || '故事继续...',
-        panels: Array.isArray(ep.panels) ? ep.panels.map((panel: any, panelIndex: number) => ({
-          panelNumber: panel.panelNumber || (panelIndex + 1),
-          sceneDescription: panel.sceneDescription || panel.description || '场景描述',
-          dialogue: panel.dialogue || '',
-          narration: panel.narration || '',
-          emotion: panel.emotion || '平静',
-          cameraAngle: panel.cameraAngle || '正面视角',
-          characters: panel.characters || '主角'
-        })) : []
-      })) : []
-    })) : [
-      {
-        title: '第1卷',
-        description: '故事开始...',
-        episodes: [
-          {
-            title: '第1话',
-            description: '故事开始...',
-            panels: []
-          }
-        ]
-      }
-    ]
-
-    const rawCategory = parsed.category || {}
-    const categoryName = rawCategory.name || 'AI生成'
-    const category = {
-      name: categoryName,
-      slug: rawCategory.slug || slugify(categoryName),
-      description: rawCategory.description || `${categoryName}类型的漫画作品`,
-      icon: rawCategory.icon || '🎨',
-      color: rawCategory.color || '#8b5cf6',
-      isNew: rawCategory.isNew || false,
-    }
-
-    const tagsArray = Array.isArray(parsed.tags) ? parsed.tags.slice(0, 5) : []
-    const tags = tagsArray.map((t: any) => {
-      const name = t?.name || 'AI生成'
-      return {
-        name,
-        slug: t?.slug || slugify(name),
-        color: t?.color || '#8b5cf6',
-      }
-    })
-
-    console.log('漫画内容生成成功:', { title, volumeCount: volumes.length })
     return {
       success: true,
-      data: {
-        title,
-        description,
-        style,
-        category,
-        tags,
-        volumes
-      },
+      data: parsed,
     }
   } catch (error: any) {
-    console.error('漫画内容生成失败:', error)
     return {
       success: false,
       error: '漫画内容生成失败',
       detail: error?.message || 'unknown error',
-      data: {
-        title: prompt,
-        description: `一个关于${prompt}的精彩漫画故事`,
-        style: 'anime',
-        category: {
-          name: 'AI生成',
-          slug: 'ai-generated',
-          description: '由AI智能生成的漫画作品',
-          icon: '🎨',
-          color: '#8b5cf6',
-          isNew: false,
-        },
-        tags: [],
-        volumes: [
-          {
-            title: '第1卷',
-            description: '故事开始...',
-            episodes: [
-              {
-                title: '第1话',
-                description: '故事开始...',
-                panels: []
-              }
-            ]
-          }
-        ]
-      },
     }
   }
 }

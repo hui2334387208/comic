@@ -1,6 +1,7 @@
-export const runtime = 'edge'
-
 import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/db'
+import { comics } from '@/db/schema/comic'
+import { eq } from 'drizzle-orm'
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,6 +56,23 @@ export async function POST(request: NextRequest) {
     
     if (result.output?.choices?.[0]?.message?.content?.[0]?.image) {
       const coverUrl = result.output?.choices?.[0]?.message?.content?.[0]?.image
+      
+      // 如果提供了comicId，更新数据库中的封面
+      if (comicId) {
+        try {
+          await db.update(comics)
+            .set({ 
+              coverImage: coverUrl,
+              updatedAt: new Date()
+            })
+            .where(eq(comics.id, comicId))
+          
+          console.log(`漫画${comicId}封面已更新到数据库`)
+        } catch (dbError) {
+          console.error('更新封面到数据库失败:', dbError)
+          // 不影响返回结果，只记录错误
+        }
+      }
       
       return NextResponse.json({
         success: true,

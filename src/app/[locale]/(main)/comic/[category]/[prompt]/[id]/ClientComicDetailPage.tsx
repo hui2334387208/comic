@@ -23,15 +23,24 @@ const modelMap: Record<string, string> = {
 // 漫画分镜数据结构
 export interface ComicPanel {
   id: number | string;
-  imageNumber: number;
-  imageUrl: string;
+  panelNumber: number;
   sceneDescription: string;
   dialogue: string;
   narration: string;
   emotion: string;
   cameraAngle: string;
   characters: string;
-  generationStatus: string;
+}
+
+// 漫画页数据结构
+export interface ComicPage {
+  id: number;
+  pageNumber: number;
+  pageLayout: string;
+  panelCount: number;
+  imageUrl: string;
+  status: string;
+  panels: ComicPanel[];
 }
 
 // 漫画话数据结构
@@ -40,8 +49,8 @@ export interface ComicEpisode {
   episodeNumber: number;
   title: string;
   description: string;
-  imageCount: number;
-  panels: ComicPanel[];
+  pageCount: number;
+  pages: ComicPage[];
 }
 
 // 漫画卷数据结构
@@ -681,91 +690,77 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
                         )}
                       </div>
 
-                      {/* 分镜展示 */}
+                      {/* 页面展示 */}
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {episode.panels?.map((panel, panelIndex) => (
-                          <div 
-                            key={panel.id} 
-                            className="group relative bg-gradient-to-br from-white/95 to-purple-50/80 dark:from-gray-800/95 dark:to-purple-900/30 rounded-2xl shadow-xl border-2 border-purple-200/50 dark:border-purple-800/50 overflow-hidden hover:shadow-2xl transition-all duration-300"
-                          >
-                            {/* 分镜编号 */}
-                            <div className="absolute top-4 left-4 z-10 bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold shadow-lg">
-                              {panel.imageNumber}
-                            </div>
-
-                            {/* 分镜图片 */}
-                            <div className="aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                              {panel.imageUrl ? (
-                                <img 
-                                  src={panel.imageUrl} 
-                                  alt={`分镜 ${panel.imageNumber}`}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <div className="text-center p-4">
-                                  <div className="w-16 h-16 bg-purple-200 dark:bg-purple-800 rounded-full flex items-center justify-center mx-auto mb-2">
-                                    <span className="text-2xl">🎨</span>
-                                  </div>
-                                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                                    {panel.generationStatus === 'pending' ? '等待生成' : '生成中...'}
-                                  </p>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* 分镜信息 */}
-                            <div className="p-4 space-y-3">
-                              {/* 场景描述 */}
-                              {panel.sceneDescription && (
-                                <div>
-                                  <div className="text-xs font-bold text-purple-600 dark:text-purple-400 mb-1">场景描述</div>
-                                  <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{panel.sceneDescription}</p>
-                                </div>
-                              )}
-
-                              {/* 对话 */}
-                              {panel.dialogue && (
-                                <div>
-                                  <div className="text-xs font-bold text-blue-600 dark:text-blue-400 mb-1">对话</div>
-                                  <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2 italic">"{panel.dialogue}"</p>
-                                </div>
-                              )}
-
-                              {/* 旁白 */}
-                              {panel.narration && (
-                                <div>
-                                  <div className="text-xs font-bold text-green-600 dark:text-green-400 mb-1">旁白</div>
-                                  <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{panel.narration}</p>
-                                </div>
-                              )}
-
-                              {/* 情感和镜头角度 */}
-                              <div className="flex gap-2 flex-wrap">
-                                {panel.emotion && (
-                                  <span className="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs rounded-full">
-                                    {panel.emotion}
-                                  </span>
-                                )}
-                                {panel.cameraAngle && (
-                                  <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs rounded-full">
-                                    {panel.cameraAngle}
-                                  </span>
-                                )}
-                              </div>
-
-                              {/* 角色信息 */}
-                              {panel.characters && (
-                                <div>
-                                  <div className="text-xs font-bold text-orange-600 dark:text-orange-400 mb-1">角色</div>
-                                  <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-1">{panel.characters}</p>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* 悬停效果 */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-100/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
+                        {episode.pages?.map((page, pageIndex) => (
+                        <div 
+                          key={page.id} 
+                          className="group relative bg-gradient-to-br from-white/95 to-purple-50/80 dark:from-gray-800/95 dark:to-purple-900/30 rounded-2xl shadow-xl border-2 border-purple-200/50 dark:border-purple-800/50 overflow-hidden hover:shadow-2xl transition-all duration-300"
+                        >
+                          {/* 页面编号 */}
+                          <div className="absolute top-4 left-4 z-10 bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold shadow-lg">
+                            {page.pageNumber}
                           </div>
-                        ))}
+
+                          {/* 页面图片 */}
+                          <div className="aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                            {page.imageUrl ? (
+                              <img 
+                                src={page.imageUrl} 
+                                alt={`第${page.pageNumber}页`}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="text-center p-4">
+                                <div className="w-16 h-16 bg-purple-200 dark:bg-purple-800 rounded-full flex items-center justify-center mx-auto mb-2">
+                                  <span className="text-2xl">🎨</span>
+                                </div>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                  {page.status === 'pending' ? '等待生成' : page.status === 'generating' ? '生成中...' : '生成失败'}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* 页面信息 */}
+                          <div className="p-4 space-y-2">
+                            <div className="text-xs font-bold text-purple-600 dark:text-purple-400">
+                              页面布局：{page.pageLayout || '多格'}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-gray-400">
+                              包含 {page.panelCount} 个分镜格
+                            </div>
+                            
+                            {/* 分镜详情（可折叠） */}
+                            {page.panels && page.panels.length > 0 && (
+                              <details className="mt-2">
+                                <summary className="text-xs font-bold text-blue-600 dark:text-blue-400 cursor-pointer hover:text-blue-700">
+                                  查看分镜详情 ({page.panels.length}格)
+                                </summary>
+                                <div className="mt-2 space-y-2 pl-2 border-l-2 border-purple-200 dark:border-purple-800">
+                                  {page.panels.map((panel: any, panelIdx: number) => (
+                                    <div key={panel.id} className="text-xs space-y-1">
+                                      <div className="font-bold text-purple-600 dark:text-purple-400">第{panel.panelNumber}格</div>
+                                      {panel.sceneDescription && (
+                                        <div className="text-gray-700 dark:text-gray-300">{panel.sceneDescription}</div>
+                                      )}
+                                      {panel.dialogue && (
+                                        <div className="text-blue-600 dark:text-blue-400 italic">"{panel.dialogue}"</div>
+                                      )}
+                                      {panel.narration && (
+                                        <div className="text-green-600 dark:text-green-400">{panel.narration}</div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </details>
+                            )}
+                          </div>
+
+                          {/* 悬停效果 */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-100/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
+                        </div>
+                      ))}
                       </div>
                     </div>
                   ))}

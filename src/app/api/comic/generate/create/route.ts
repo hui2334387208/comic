@@ -4,7 +4,7 @@ import { or, eq } from 'drizzle-orm'
 
 import { authOptions } from '@/lib/authOptions'
 import { db } from '@/db'
-import { comics, comicCategories, comicVersions, comicTags, comicTagRelations, comicVolumes, comicEpisodes, comicPanels } from '@/db/schema'
+import { comics, comicCategories, comicVersions, comicTags, comicTagRelations, comicVolumes, comicEpisodes, comicPages, comicPanels } from '@/db/schema'
 
 export async function POST(request: NextRequest) {
   try {
@@ -132,6 +132,9 @@ export async function POST(request: NextRequest) {
               const episode = volume.episodes[episodeIndex]
               totalEpisodes++
 
+              // 计算这一话的页数
+              const pageCount = episode.pages?.length || 0
+
               // 创建话记录
               const [newEpisode] = await tx
                 .insert(comicEpisodes)
@@ -142,29 +145,47 @@ export async function POST(request: NextRequest) {
                   episodeNumber: totalEpisodes,
                   title: episode.title || `第${totalEpisodes}话`,
                   description: episode.description || '',
-                  imageCount: episode.panels?.length || 0
+                  pageCount
                 })
                 .returning()
 
               const episodeId = newEpisode.id
 
-              // 保存话中的每个分镜（不含图片URL）
-              if (episode.panels && Array.isArray(episode.panels)) {
-                for (let panelIndex = 0; panelIndex < episode.panels.length; panelIndex++) {
-                  const panel = episode.panels[panelIndex]
+              // 保存话中的每一页和每页的分镜
+              if (episode.pages && Array.isArray(episode.pages)) {
+                for (let pageIndex = 0; pageIndex < episode.pages.length; pageIndex++) {
+                  const page = episode.pages[pageIndex]
+                  
+                  // 创建页记录
+                  const [newPage] = await tx
+                    .insert(comicPages)
+                    .values({
+                      episodeId,
+                      pageNumber: page.pageNumber || (pageIndex + 1),
+                      pageLayout: page.pageLayout || 'multi',
+                      panelCount: page.panels?.length || 0
+                    })
+                    .returning()
 
-                  await tx.insert(comicPanels).values({
-                    episodeId,
-                    imageNumber: panelIndex + 1,
-                    imageUrl: '', // 图片URL稍后更新
-                    sceneDescription: panel.sceneDescription || '',
-                    dialogue: panel.dialogue || '',
-                    narration: panel.narration || '',
-                    emotion: panel.emotion || '平静',
-                    cameraAngle: panel.cameraAngle || '正面视角',
-                    characters: panel.characters || '',
-                    generationStatus: 'pending'
-                  })
+                  const pageId = newPage.id
+
+                  // 保存页中的每个分镜（分镜信息用于生成页面图片）
+                  if (page.panels && Array.isArray(page.panels)) {
+                    for (let panelIndex = 0; panelIndex < page.panels.length; panelIndex++) {
+                      const panel = page.panels[panelIndex]
+
+                      await tx.insert(comicPanels).values({
+                        pageId,
+                        panelNumber: panel.panelNumber || (panelIndex + 1),
+                        sceneDescription: panel.sceneDescription || '',
+                        dialogue: panel.dialogue || '',
+                        narration: panel.narration || '',
+                        emotion: panel.emotion || '平静',
+                        cameraAngle: panel.cameraAngle || '正面视角',
+                        characters: panel.characters || ''
+                      })
+                    }
+                  }
                 }
               }
             }

@@ -87,28 +87,38 @@ export const comicEpisodes = pgTable('comic_episodes', {
   episodeNumber: integer('episode_number').notNull(), // 第几话
   title: varchar('title', { length: 255 }).notNull(), // 话标题
   description: text('description'), // 话描述
-  imageCount: integer('panel_count').default(0), // 这话有多少个分镜
+  pageCount: integer('page_count').default(0), // 这话有多少页
   status: varchar('status', { length: 20 }).notNull().default('published'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
-// 漫画分镜表（每话的具体分镜）
-export const comicPanels = pgTable('comic_panels', {
+// 漫画页表（每话的具体页面）
+export const comicPages = pgTable('comic_pages', {
   id: serial('id').primaryKey(),
   episodeId: integer('episode_id').references(() => comicEpisodes.id, { onDelete: 'cascade' }).notNull(),
-  imageNumber: integer('panel_number').notNull(), // 第几个分镜
-  imageUrl: varchar('image_url', { length: 500 }), // 图片URL
+  pageNumber: integer('page_number').notNull(), // 第几页
+  pageLayout: varchar('page_layout', { length: 50 }), // 页面布局类型（单格、双格、多格等）
+  panelCount: integer('panel_count').default(0), // 这页有多少格
+  imageUrl: varchar('image_url', { length: 500 }), // 页面合成图片URL
+  status: varchar('status', { length: 20 }).notNull().default('published'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+// 漫画分镜/格表（每页的具体分镜格子）
+// 注意：每一格不需要单独的图片，而是组合成页面图片
+export const comicPanels = pgTable('comic_panels', {
+  id: serial('id').primaryKey(),
+  pageId: integer('page_id').references(() => comicPages.id, { onDelete: 'cascade' }).notNull(),
+  panelNumber: integer('panel_number').notNull(), // 第几格
   // 分镜信息
   sceneDescription: text('scene_description'), // 画面描述
   dialogue: text('dialogue'), // 对话
   narration: text('narration'), // 旁白
   emotion: varchar('emotion', { length: 50 }), // 情感氛围
   cameraAngle: varchar('camera_angle', { length: 50 }), // 镜头角度
-  characters: text('characters'), // 角色信息
-  // 生成状态
-  generationStatus: varchar('generation_status', { length: 20 }).default('pending'), // pending, generating, success, failed
-  generationError: text('generation_error'),
+  characters: text('characters'), // 角色信息（JSON格式）
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
