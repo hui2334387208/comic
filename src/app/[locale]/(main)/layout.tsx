@@ -63,8 +63,8 @@ export default function MainLayout({
   const defaultMenus = [
     { id: '0', path: '/', name: '首页' },
     { id: '1', path: '/comic', name: '漫画广场' },
-    { id: '2', path: '/create', name: '创作中心' },
-    { id: '3', path: '/gallery', name: '作品展示' },
+    // { id: '2', path: '/create', name: '创作中心' },
+    // { id: '3', path: '/gallery', name: '作品展示' },
     { id: '4', path: 'https://blog.jumpnav.com', name: '博客' },
     { id: '5', path: '/about', name: '关于我们' },
   ]
