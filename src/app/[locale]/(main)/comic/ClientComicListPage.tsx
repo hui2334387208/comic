@@ -26,7 +26,12 @@ interface Comic {
   viewCount: number;
   likeCount: number;
   createdAt: string;
-  tags?: string[];
+  tags?: Array<{
+    id: number;
+    name: string;
+    slug: string;
+    color?: string;
+  }>;
   style?: string;
   contents?: {
     upperLine?: string;
@@ -110,11 +115,7 @@ export default function ClientComicListPage({
       .then(res => res.json())
       .then(res => {
         if (res.success && res.data) {
-          const processedComics = (res.data.comics || []).map((comic: any) => ({
-            ...comic,
-            tags: (comic.tags || []).map((tag: any) => tag.name || tag),
-          }))
-          setComics(processedComics)
+          setComics(res.data.comics || [])
           setTotalPages(res.data.pagination?.totalPages || 1)
         }
       })
@@ -142,7 +143,7 @@ export default function ClientComicListPage({
 
   // 加载标签
   useEffect(() => {
-    fetch('/api/couplet/tags')
+    fetch('/api/comic/tags')
       .then(res => res.json())
       .then((data: Tag[]) => {
         setTags(data.map((t: any) => ({
@@ -490,12 +491,12 @@ export default function ClientComicListPage({
                           {/* 标签 */}
                           {comic.tags && comic.tags.length > 0 && (
                             <div className="flex flex-wrap gap-2 mb-4">
-                              {(comic.tags as string[]).slice(0, 3).map((tag: string, idx: number) => (
+                              {comic.tags.slice(0, 3).map((tag) => (
                                 <span
-                                  key={idx}
+                                  key={tag.id}
                                   className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300"
                                 >
-                                  #{tag}
+                                  #{tag.name}
                                 </span>
                               ))}
                               {comic.tags.length > 3 && (
@@ -644,8 +645,8 @@ export default function ClientComicListPage({
                             
                             <div className="flex flex-wrap gap-2 mb-3">
                               {(comic.tags || []).slice(0, 4).map((tag) => (
-                                <span key={tag} className="px-2 py-1 bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/40 dark:to-purple-900/40 text-pink-700 dark:text-pink-300 rounded-full text-xs font-medium border border-pink-200 dark:border-pink-800">
-                                  #{tag}
+                                <span key={tag.id} className="px-2 py-1 bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/40 dark:to-purple-900/40 text-pink-700 dark:text-pink-300 rounded-full text-xs font-medium border border-pink-200 dark:border-pink-800">
+                                  #{tag.name}
                                 </span>
                               ))}
                               {(comic.tags || []).length > 4 && (
