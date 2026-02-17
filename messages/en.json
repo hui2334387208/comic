@@ -1349,7 +1349,7 @@
       }
     },
     "terms": {
-      "subtitle": "By using our services, you agree to comply with the following terms and conditions",
+      "subtitle": "By using our AI comic creation services, you agree to comply with the following terms and conditions",
       "title": "Terms of Service",
       "breadcrumb": {
         "home": "Home",
@@ -1357,37 +1357,37 @@
       },
       "sections": {
         "availability": {
-          "description": "We are committed to providing stable and reliable services, but please note:",
+          "description": "We are committed to providing stable and reliable AI comic generation services, but please note:",
           "items": [
             "Services may be temporarily interrupted due to maintenance, upgrades, etc.",
             "We are not responsible for service interruptions caused by force majeure",
             "We reserve the right to modify or terminate services",
-            "We recommend you regularly backup important content"
+            "We recommend you regularly backup important comic works"
           ],
           "title": "Service Availability"
         },
         "contact": {
           "button": "Contact Us",
           "description": "If you have any questions about these terms of service, please contact us through the following methods:",
-          "email": "Email: support@couplet-ai.com",
+          "email": "Email: support@comic-ai.com",
           "title": "Contact Us"
         },
         "content": {
-          "description": "Content you create and share must:",
+          "description": "Comic content you create and share must:",
           "items": [
             "Comply with laws, regulations, and moral standards",
             "Not infringe on others' intellectual property rights",
             "Not contain false or misleading information",
             "Not involve violent, hateful, or discriminatory content",
-            "Not contain spam or malicious software"
+            "Not contain spam or malicious content"
           ],
-          "note": "We reserve the right to remove violating content and may suspend or terminate accounts of users who violate the terms.",
+          "note": "We reserve the right to remove violating comic content and may suspend or terminate accounts of users who violate the terms.",
           "title": "Content Policy"
         },
         "disclaimer": {
           "description": "To the extent permitted by law, we are not responsible for:",
           "items": [
-            "The accuracy or completeness of user-created content",
+            "The accuracy or completeness of AI-generated comic content",
             "Content from third-party websites or services",
             "Indirect losses arising from the use of services",
             "Service interruptions caused by force majeure",
@@ -1396,13 +1396,13 @@
           "title": "Disclaimer"
         },
         "intellectual": {
-          "description": "Important information about intellectual property:",
+          "description": "Important information about comic work intellectual property:",
           "items": [
-            "The website itself and its technology are protected by intellectual property rights",
-            "You retain rights to the content you create",
-            "You authorize us to use your content within the scope of our services",
-            "Please ensure you have the right to share the content you publish",
-            "Respect others' intellectual property rights and do not plagiarize or misappropriate"
+            "The website itself and its AI technology are protected by intellectual property rights",
+            "You retain rights to the comic works you create",
+            "You authorize us to display your comic works within the scope of our services",
+            "Please ensure you have the right to share the comic content you publish",
+            "Respect others' intellectual property rights and do not plagiarize or misappropriate others' works"
           ],
           "title": "Intellectual Property"
         },
@@ -1411,24 +1411,24 @@
           "title": "Terms Modification"
         },
         "responsibility": {
-          "description": "When using our services, you agree to:",
+          "description": "When using our AI comic creation services, you agree to:",
           "items": [
             "Provide true and accurate registration information",
             "Protect your account security and not share your account with others",
             "Comply with all applicable laws and regulations",
-            "Not publish illegal, harmful, or inappropriate content",
+            "Not publish illegal, harmful, or inappropriate comic content",
             "Respect the rights and privacy of other users",
             "Not engage in any behavior that may harm the service"
           ],
           "title": "User Responsibilities"
         },
         "service": {
-          "description": "AI Couplet Workshop provides AI couplet generation, creation, and sharing services. Our services include but are not limited to:",
+          "description": "AI Comic Creation Platform provides AI comic generation, creation, and sharing services. Our services include but are not limited to:",
           "items": [
-            "AI couplet generation",
-            "Couplet style preview and export",
-            "Couplet library browsing and search",
-            "Diverse topic templates"
+            "AI intelligent comic generation",
+            "Multiple comic style options",
+            "Comic work browsing and search",
+            "Comic sharing and community interaction"
           ],
           "title": "Service Description"
         }
@@ -2118,9 +2118,9 @@
         "keywords": "privacy policy, data protection, user privacy, information security, AI comics"
       },
       "terms": {
-        "title": "Terms of Service - Couplet Generator Usage Agreement",
-        "description": "View the Couplet Generator platform terms of service, understand user rights and obligations, and regulate the use of couplet creation services.",
-        "keywords": "terms of service, usage agreement, user agreement, service standards"
+        "title": "Terms of Service - AI Comic Creation Platform Usage Agreement",
+        "description": "View the AI Comic Creation Platform terms of service, understand user rights and obligations, and regulate the use of AI comic creation services.",
+        "keywords": "terms of service, usage agreement, user agreement, service standards, AI comics, comic creation"
       },
       "feedback": {
         "title": "Feedback - AI Comic Creation Platform",
