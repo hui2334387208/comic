@@ -1026,11 +1026,11 @@
       }
     },
     "feedback": {
-      "subtitle": "Your suggestions are the driving force of our progress, helping us build a better AI couplet creation platform",
+      "subtitle": "Your suggestions are the driving force of our progress, helping us build a better AI comic creation platform",
       "title": "Feedback & Suggestions",
       "benefits": {
         "items": [
-          "Help us improve product features",
+          "Help us improve comic creation features",
           "Get priority access to new features",
           "Participate in product development discussions",
           "Receive exclusive user badges and rewards"
@@ -1043,7 +1043,7 @@
       },
       "contact": {
         "description": "If you need more direct help, you can also contact us through the following methods:",
-        "email": "Email: support@xuanwhale.com",
+        "email": "Email: support@comic-ai.com",
         "title": "Other Contact Methods",
         "viewMore": "View more contact methods →"
       },
@@ -1097,7 +1097,7 @@
           "title": "Bug Reports"
         },
         "content": {
-          "description": "Historical content or feature improvement suggestions",
+          "description": "Comic content or feature improvement suggestions",
           "title": "Content Suggestions"
         },
         "feature": {
@@ -2123,9 +2123,9 @@
         "keywords": "terms of service, usage agreement, user agreement, service standards"
       },
       "feedback": {
-        "title": "Feedback - Couplet Generator",
-        "description": "Welcome to provide valuable feedback on Couplet Generator to help us improve couplet creation features and enhance user experience.",
-        "keywords": "feedback, user suggestions, feature improvements, user experience"
+        "title": "Feedback - AI Comic Creation Platform",
+        "description": "Welcome to provide valuable feedback on AI Comic Creation Platform to help us improve comic creation features and enhance user experience.",
+        "keywords": "feedback, user suggestions, feature improvements, user experience, AI comics"
       },
       "refund": {
         "title": "Refund Policy - Couplet Generator Membership Services",
