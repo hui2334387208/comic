@@ -1,7 +1,10 @@
 import dayjs from 'dayjs'
 import { useParams } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import React, { useState, useEffect } from 'react'
+
+import LoginPromptModal from '@/components/LoginPromptModal'
 
 interface Comment {
   id: number;
@@ -18,12 +21,15 @@ interface Comment {
 
 function CommentSection() {
   const params = useParams()
+  const { data: session } = useSession()
   const t = useTranslations('main.comic.comment')
   const id = params.id as string
   const [comments, setComments] = useState<Comment[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [error, setError] = useState('')
 
   // 获取评论列表
   useEffect(() => {
@@ -53,7 +59,14 @@ function CommentSection() {
   const handleSubmit = async () => {
     if (!input.trim() || !id || submitting) return
 
+    // 检查登录状态
+    if (!session) {
+      setShowLoginModal(true)
+      return
+    }
+
     setSubmitting(true)
+    setError('')
     try {
       const response = await fetch(`/api/comic/${id}/comments`, {
         method: 'POST',
@@ -68,14 +81,12 @@ function CommentSection() {
       if (data.success) {
         setComments([data.data, ...comments])
         setInput('')
-      } else if (data.message === 'Unauthorized' || data.message === '未登录') {
-        alert(t('pleaseLogin'))
       } else {
-        alert(data.message || t('commentFailed'))
+        setError(data.message || t('commentFailed'))
       }
     } catch (error) {
       console.error('Failed to publish comment:', error)
-      alert(t('commentFailed'))
+      setError(t('commentFailed'))
     } finally {
       setSubmitting(false)
     }
@@ -235,6 +246,14 @@ function CommentSection() {
                     disabled={submitting}
                     rows={3}
                   />
+                  {error && (
+                    <div className="mt-3 px-4 py-2 bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl">
+                      <p className="text-sm text-red-600 dark:text-red-400 flex items-center gap-2">
+                        <span>⚠️</span>
+                        <span>{error}</span>
+                      </p>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="flex flex-col justify-end">
@@ -261,6 +280,14 @@ function CommentSection() {
           </div>
         </>
       )}
+
+      <LoginPromptModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        title="请先登录"
+        description="登录后即可发表评论"
+        icon="💬"
+      />
     </section>
   )
 }

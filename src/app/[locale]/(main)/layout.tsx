@@ -139,7 +139,7 @@ export default function MainLayout({
                     }}
                   >
                     <span className="flex items-center gap-2">
-                      <span>�</span>
+                      <span>🔐</span>
                       {t('navigation.loginRegister')}
                     </span>
                   </Button>
