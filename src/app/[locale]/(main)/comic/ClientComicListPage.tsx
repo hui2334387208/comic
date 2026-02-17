@@ -89,7 +89,7 @@ export default function ClientComicListPage({
   const [search, setSearch] = useState(initialSearch)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const isFirstRender = useRef(true)
-  const t = useTranslations('main.comic') // 使用漫画翻译
+  const t = useTranslations('main.comic')
   const locale = useLocale()
 
   // 仅在交互时 fetch 数据
@@ -120,39 +120,7 @@ export default function ClientComicListPage({
         }
       })
       .finally(() => setLoading(false))
-  }, [page, sort, selectedCategory, search])
-
-  // 加载分类
-  useEffect(() => {
-    fetch('/api/comic/categories')
-      .then(res => res.json())
-      .then((data: any[]) => {
-        setCategories([
-          { id: 0, name: t('allCategories') || '全部分类', slug: 'all', count: undefined },
-          ...data.map((c: any) => ({
-            id: c.id,
-            name: c.name || '',
-            slug: c.slug,
-            icon: c.icon,
-            color: c.color,
-            count: undefined,
-          })),
-        ])
-      })
-  }, [])
-
-  // 加载标签
-  useEffect(() => {
-    fetch('/api/comic/tags')
-      .then(res => res.json())
-      .then((data: Tag[]) => {
-        setTags(data.map((t: any) => ({
-          id: t.id,
-          name: t.name || '',
-          slug: t.slug,
-        })))
-      })
-  }, [])
+  }, [page, sort, selectedCategory, search, locale])
 
   // 搜索
   const handleSearch = (query: string) => {
@@ -245,11 +213,11 @@ export default function ClientComicListPage({
 
             <h1 className="text-4xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-wide">
               <span className="block bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent mb-2 drop-shadow-sm">
-                {t('exploreTitle') || 'AI漫画世界'}
+                {t('exploreTitle')}
               </span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
-              {t('exploreDesc') || '探索AI生成的精彩漫画世界，发现无限创意与想象力'}
+              {t('exploreDesc')}
             </p>
 
             {/* 搜索框 - 漫画风格 */}
@@ -271,7 +239,7 @@ export default function ClientComicListPage({
                 <SmartSearch
                   onSearch={handleSearch}
                   onResultSelect={handleResultSelect}
-                  placeholder={t('searchPlaceholder') || '搜索漫画标题、作者或描述...'}
+                  placeholder={t('searchPlaceholder')}
                   className="w-full"
                 />
               </div>
@@ -292,11 +260,11 @@ export default function ClientComicListPage({
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-purple-800 text-white rounded-xl flex items-center justify-center mr-3 shadow-lg">
                   <span className="text-sm font-black">类</span>
                 </div>
-                <h3 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{t('categoryFilter') || '分类筛选'}</h3>
+                <h3 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{t('categoryFilter')}</h3>
               </div>
               <div className="space-y-2 max-h-96 overflow-y-auto pr-2">
                 {categories.length <= 1 ? (
-                  <div className="text-gray-400 text-sm text-center py-4">{t('noCategory') || '暂无分类'}</div>
+                  <div className="text-gray-400 text-sm text-center py-4">{t('noCategory')}</div>
                 ) : (
                   categories.map((category) => (
                     <button
@@ -329,11 +297,11 @@ export default function ClientComicListPage({
                 <div className="w-8 h-8 bg-gradient-to-br from-pink-600 to-purple-600 text-white rounded-xl flex items-center justify-center mr-3 shadow-lg">
                   <span className="text-sm font-black">标</span>
                 </div>
-                <h3 className="text-lg font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">{t('hotTags') || '热门标签'}</h3>
+                <h3 className="text-lg font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">{t('hotTags')}</h3>
               </div>
               <div className="flex flex-wrap gap-2 max-h-96 overflow-y-auto pr-2">
                 {tags.length === 0 ? (
-                  <div className="text-gray-400 text-sm text-center py-4 w-full">{t('noTag') || '暂无标签'}</div>
+                  <div className="text-gray-400 text-sm text-center py-4 w-full">{t('noTag')}</div>
                 ) : (
                   tags.map((tag) => (
                     <span
@@ -360,9 +328,9 @@ export default function ClientComicListPage({
                   <span className="text-gray-600 dark:text-gray-400 font-medium">{t('totalComics', { count: comics.length })}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button onClick={() => { setSort('latest'); setPage(1) }} className={`px-4 py-2 rounded-2xl text-sm font-bold transition-all duration-300 transform hover:scale-105 ${sort === 'latest' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-800/40 dark:hover:to-pink-800/40 border border-purple-200 dark:border-purple-800'}`}>{t('sortLatest') || '最新'}</button>
-                  <button onClick={() => { setSort('hot'); setPage(1) }} className={`px-4 py-2 rounded-2xl text-sm font-bold transition-all duration-300 transform hover:scale-105 ${sort === 'hot' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-800/40 dark:hover:to-pink-800/40 border border-purple-200 dark:border-purple-800'}`}>{t('sortHot') || '热门'}</button>
-                  <button onClick={() => { setSort('contents'); setPage(1) }} className={`px-4 py-2 rounded-2xl text-sm font-bold transition-all duration-300 transform hover:scale-105 ${sort === 'contents' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-800/40 dark:hover:to-pink-800/40 border border-purple-200 dark:border-purple-800'}`}>{t('sortContents') || '内容'}</button>
+                  <button onClick={() => { setSort('latest'); setPage(1) }} className={`px-4 py-2 rounded-2xl text-sm font-bold transition-all duration-300 transform hover:scale-105 ${sort === 'latest' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-800/40 dark:hover:to-pink-800/40 border border-purple-200 dark:border-purple-800'}`}>{t('sortLatest')}</button>
+                  <button onClick={() => { setSort('hot'); setPage(1) }} className={`px-4 py-2 rounded-2xl text-sm font-bold transition-all duration-300 transform hover:scale-105 ${sort === 'hot' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-800/40 dark:hover:to-pink-800/40 border border-purple-200 dark:border-purple-800'}`}>{t('sortHot')}</button>
+                  <button onClick={() => { setSort('contents'); setPage(1) }} className={`px-4 py-2 rounded-2xl text-sm font-bold transition-all duration-300 transform hover:scale-105 ${sort === 'contents' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-800/40 dark:hover:to-pink-800/40 border border-purple-200 dark:border-purple-800'}`}>{t('sortContents')}</button>
                 </div>
               </div>
               <div className="flex items-center space-x-2">

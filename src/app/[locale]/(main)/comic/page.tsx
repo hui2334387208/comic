@@ -4,9 +4,11 @@ import { getTranslations } from 'next-intl/server'
 import ClientComicListPage from './ClientComicListPage'
 import { routing } from '@/i18n/routing'
 import { fetchMenuByPath } from '@/server/menus'
-import { fetchComicListForServer } from '@/server/comics'
-import { fetchComicCategoriesForServer } from '@/server/comics'
-import { fetchComicTagsForServer } from '@/server/comics'
+import { 
+  fetchComicListForServer,
+  fetchComicCategoriesForServer,
+  fetchComicTagsForServer 
+} from '@/server/comics'
 
 export async function generateMetadata({ params }: {
   params: Promise<{ locale: string }>;
@@ -92,7 +94,7 @@ export default async function ComicListPageServer({ params }: { params: Promise<
     viewCount: comic.viewCount || 0,
     likeCount: comic.likeCount || 0,
     createdAt: comic.createdAt,
-    tags: (comic.tags || []).map((tag: any) => tag.name || tag),
+    tags: comic.tags || [],  // 直接使用完整的tag对象数组
     style: comic.style,
     contents: [],
   }))
