@@ -502,7 +502,7 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
     const currentVolume = getCurrentVolume()
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
         {/* 背景装饰 */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-32 h-32 opacity-5">
@@ -520,7 +520,7 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
         </div>
 
         {/* 顶部导航栏 */}
-        <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/90 via-black/70 to-transparent backdrop-blur-sm">
+        <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-white/95 via-white/80 to-transparent dark:from-black/90 dark:via-black/70 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 py-6">
             <div className="flex items-center justify-between">
               <button
@@ -531,16 +531,16 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
                 <span>返回目录</span>
               </button>
               
-              <div className="text-center bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/10">
-                <div className="text-sm text-purple-300 font-medium mb-1">
+              <div className="text-center bg-gray-100/90 dark:bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-3 border border-gray-200 dark:border-white/10">
+                <div className="text-sm text-purple-600 dark:text-purple-300 font-medium mb-1">
                   第{currentVolume?.volumeNumber}卷 · 第{currentEpisode?.episodeNumber}话
                 </div>
-                <div className="font-bold text-lg text-white">{currentEpisode?.title}</div>
+                <div className="font-bold text-lg text-gray-900 dark:text-white">{currentEpisode?.title}</div>
               </div>
               
-              <div className="bg-black/40 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/10">
-                <div className="text-sm text-gray-300 text-center">
-                  <div className="font-bold text-white">{currentPageIndex + 1}</div>
+              <div className="bg-gray-100/90 dark:bg-black/40 backdrop-blur-sm rounded-2xl px-4 py-3 border border-gray-200 dark:border-white/10">
+                <div className="text-sm text-gray-600 dark:text-gray-300 text-center">
+                  <div className="font-bold text-gray-900 dark:text-white">{currentPageIndex + 1}</div>
                   <div className="text-xs">/ {getCurrentEpisode()?.pages?.length || 0}</div>
                 </div>
               </div>
@@ -600,17 +600,17 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
         </div>
 
         {/* 底部控制栏 */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent backdrop-blur-sm">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/95 via-white/80 to-transparent dark:from-black/90 dark:via-black/70 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 py-6">
             {/* 进度条 */}
             <div className="flex items-center gap-4 mb-4">
-              <div className="bg-black/40 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/10">
-                <span className="text-sm font-bold text-white">
+              <div className="bg-gray-100/90 dark:bg-black/40 backdrop-blur-sm rounded-xl px-4 py-2 border border-gray-200 dark:border-white/10">
+                <span className="text-sm font-bold text-gray-900 dark:text-white">
                   {currentPageIndex + 1} / {getCurrentEpisode()?.pages?.length || 0}
                 </span>
               </div>
               
-              <div className="flex-1 bg-white/20 rounded-full h-3 overflow-hidden">
+              <div className="flex-1 bg-gray-200 dark:bg-white/20 rounded-full h-3 overflow-hidden">
                 <div 
                   className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-full h-full transition-all duration-500 shadow-lg"
                   style={{ 
@@ -619,8 +619,8 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
                 />
               </div>
 
-              <div className="bg-black/40 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/10">
-                <span className="text-xs text-gray-300">
+              <div className="bg-gray-100/90 dark:bg-black/40 backdrop-blur-sm rounded-xl px-4 py-2 border border-gray-200 dark:border-white/10">
+                <span className="text-xs text-gray-600 dark:text-gray-300">
                   {Math.round(((currentPageIndex + 1) / (getCurrentEpisode()?.pages?.length || 1)) * 100)}%
                 </span>
               </div>
@@ -628,18 +628,18 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
             
             {/* 操作提示 */}
             <div className="text-center">
-              <div className="inline-flex items-center gap-6 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/10">
-                <div className="flex items-center gap-2 text-sm text-gray-300">
+              <div className="inline-flex items-center gap-6 bg-gray-100/90 dark:bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-3 border border-gray-200 dark:border-white/10">
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
                   <span className="w-6 h-6 bg-purple-600/50 rounded flex items-center justify-center text-xs font-bold">←</span>
                   <span>上一页</span>
                 </div>
-                <div className="w-px h-4 bg-white/20"></div>
-                <div className="flex items-center gap-2 text-sm text-gray-300">
+                <div className="w-px h-4 bg-gray-300 dark:bg-white/20"></div>
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
                   <span className="w-6 h-6 bg-pink-600/50 rounded flex items-center justify-center text-xs font-bold">→</span>
                   <span>下一页</span>
                 </div>
-                <div className="w-px h-4 bg-white/20"></div>
-                <div className="flex items-center gap-2 text-sm text-gray-300">
+                <div className="w-px h-4 bg-gray-300 dark:bg-white/20"></div>
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
                   <span className="px-2 py-1 bg-gray-600/50 rounded text-xs font-bold">ESC</span>
                   <span>返回目录</span>
                 </div>
