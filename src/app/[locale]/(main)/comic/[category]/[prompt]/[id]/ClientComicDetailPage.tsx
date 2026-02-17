@@ -117,6 +117,114 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
   const { data: session } = useSession()
   const [isVip, setIsVip] = useState<boolean>(false)
   const locale = useLocale()
+  
+  // 阅读模式相关状态
+  const [readingMode, setReadingMode] = useState<'overview' | 'reading'>('overview')
+  const [currentVolumeIndex, setCurrentVolumeIndex] = useState(0)
+  const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0)
+  const [currentPageIndex, setCurrentPageIndex] = useState(0)
+  
+  // 折叠状态 - 记录哪些卷是展开的
+  const [expandedVolumes, setExpandedVolumes] = useState<Set<number>>(new Set()) // 空Set表示全部展开
+  
+  // 初始化时展开所有卷
+  useEffect(() => {
+    if (comic?.volumes) {
+      setExpandedVolumes(new Set(comic.volumes.map((_, index) => index)))
+    }
+  }, [comic?.volumes])
+
+  // 切换卷的展开/折叠状态
+  const toggleVolume = (volumeIndex: number) => {
+    setExpandedVolumes(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(volumeIndex)) {
+        newSet.delete(volumeIndex)
+      } else {
+        newSet.add(volumeIndex)
+      }
+      return newSet
+    })
+  }
+
+  // 阅读导航函数
+  const startReading = (volumeIndex: number, episodeIndex: number) => {
+    setCurrentVolumeIndex(volumeIndex)
+    setCurrentEpisodeIndex(episodeIndex)
+    setCurrentPageIndex(0)
+    setReadingMode('reading')
+  }
+
+  const goToNextPage = () => {
+    if (!comic?.volumes) return
+    
+    const currentVolume = comic.volumes[currentVolumeIndex]
+    const currentEpisode = currentVolume?.episodes[currentEpisodeIndex]
+    
+    if (currentPageIndex < (currentEpisode?.pages?.length || 0) - 1) {
+      setCurrentPageIndex(prev => prev + 1)
+    } else if (currentEpisodeIndex < (currentVolume?.episodes?.length || 0) - 1) {
+      setCurrentEpisodeIndex(prev => prev + 1)
+      setCurrentPageIndex(0)
+    } else if (currentVolumeIndex < comic.volumes.length - 1) {
+      setCurrentVolumeIndex(prev => prev + 1)
+      setCurrentEpisodeIndex(0)
+      setCurrentPageIndex(0)
+    }
+  }
+
+  const goToPrevPage = () => {
+    if (!comic?.volumes) return
+    
+    if (currentPageIndex > 0) {
+      setCurrentPageIndex(prev => prev - 1)
+    } else if (currentEpisodeIndex > 0) {
+      setCurrentEpisodeIndex(prev => prev - 1)
+      const prevEpisode = comic.volumes[currentVolumeIndex]?.episodes[currentEpisodeIndex - 1]
+      setCurrentPageIndex((prevEpisode?.pages?.length || 1) - 1)
+    } else if (currentVolumeIndex > 0) {
+      setCurrentVolumeIndex(prev => prev - 1)
+      const prevVolume = comic.volumes[currentVolumeIndex - 1]
+      setCurrentEpisodeIndex((prevVolume?.episodes?.length || 1) - 1)
+      const lastEpisode = prevVolume?.episodes[(prevVolume?.episodes?.length || 1) - 1]
+      setCurrentPageIndex((lastEpisode?.pages?.length || 1) - 1)
+    }
+  }
+
+  const getCurrentPage = () => {
+    if (!comic?.volumes) return null
+    return comic.volumes[currentVolumeIndex]?.episodes[currentEpisodeIndex]?.pages[currentPageIndex]
+  }
+
+  const getCurrentEpisode = () => {
+    if (!comic?.volumes) return null
+    return comic.volumes[currentVolumeIndex]?.episodes[currentEpisodeIndex]
+  }
+
+  const getCurrentVolume = () => {
+    if (!comic?.volumes) return null
+    return comic.volumes[currentVolumeIndex]
+  }
+
+  // 键盘导航
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (readingMode === 'reading') {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+          e.preventDefault()
+          goToNextPage()
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault()
+          goToPrevPage()
+        } else if (e.key === 'Escape') {
+          setReadingMode('overview')
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [readingMode, currentVolumeIndex, currentEpisodeIndex, currentPageIndex])
 
   // 获取漫画数据
   useEffect(() => {
@@ -247,61 +355,101 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
     }
   }
 
-  const handleSaveAsImage = useCallback(() => {
-    if (contentToCaptureRef.current === null) {
+  // 下载所有漫画图片
+  const handleDownloadAllImages = useCallback(async () => {
+    if (!comic) return
+
+    const images: { url: string; filename: string }[] = []
+    
+    // 1. 收集封面
+    if (comic.coverImage) {
+      images.push({
+        url: comic.coverImage,
+        filename: `${comic.title || 'comic'}_封面.png`
+      })
+    }
+
+    // 2. 收集所有卷的所有话的所有页面
+    comic.volumes?.forEach((volume) => {
+      volume.episodes?.forEach((episode) => {
+        episode.pages?.forEach((page) => {
+          if (page.imageUrl) {
+            images.push({
+              url: page.imageUrl,
+              filename: `${comic.title || 'comic'}_第${volume.volumeNumber}卷_第${episode.episodeNumber}话_第${page.pageNumber}页.png`
+            })
+          }
+        })
+      })
+    })
+
+    if (images.length === 0) {
+      setError('暂无可下载的图片')
       return
     }
-    htmlToImage.toPng(contentToCaptureRef.current, {
-      cacheBust: true,
-      pixelRatio: 2,
-      backgroundColor: '#f9fafb', // Using a light gray similar to the page background
-    })
-      .then((dataUrl) => {
+
+    // 3. 逐个下载图片
+    for (let i = 0; i < images.length; i++) {
+      const { url, filename } = images[i]
+      try {
+        const response = await fetch(url)
+        const blob = await response.blob()
+        const blobUrl = window.URL.createObjectURL(blob)
+        
         const link = document.createElement('a')
-        link.download = `${comic?.title || 'comic'}.png`
-        link.href = dataUrl
+        link.href = blobUrl
+        link.download = filename
+        document.body.appendChild(link)
         link.click()
-      })
-      .catch((err) => {
-        console.error('oops, something went wrong!', err)
-        setError(t('imageSaveFailed'))
-      })
-  }, [contentToCaptureRef, comic?.title, t])
-
-  const handleExportAsPdf = useCallback(() => {
-    if (contentToCaptureRef.current === null) {
-      return
-    }
-
-    htmlToImage.toPng(contentToCaptureRef.current, {
-      cacheBust: true,
-      pixelRatio: 2,
-      backgroundColor: '#ffffff',
-    })
-      .then((dataUrl) => {
-        const img = new Image()
-        img.src = dataUrl
-        img.onload = () => {
-          const pdf = new jsPDF({
-            orientation: img.width > img.height ? 'l' : 'p',
-            unit: 'px',
-            format: [img.width, img.height],
-          })
-
-          const pdfWidth = pdf.internal.pageSize.getWidth()
-          const pdfHeight = pdf.internal.pageSize.getHeight()
-
-          pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight)
-          pdf.save(`${comic?.title || 'comic'}.pdf`)
+        document.body.removeChild(link)
+        
+        window.URL.revokeObjectURL(blobUrl)
+        
+        // 延迟避免浏览器阻止
+        if (i < images.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500))
         }
-      })
-      .catch((err) => {
-        console.error('oops, something went wrong!', err)
-        setError(t('pdfExportFailed'))
-      })
-  }, [contentToCaptureRef, comic?.title, t])
+      } catch (error) {
+        console.error(`下载失败: ${filename}`, error)
+      }
+    }
+  }, [comic])
+
+  // const handleExportAsPdf = useCallback(() => {
+  //   if (contentToCaptureRef.current === null) {
+  //     return
+  //   }
+
+  //   htmlToImage.toPng(contentToCaptureRef.current, {
+  //     cacheBust: true,
+  //     pixelRatio: 2,
+  //     backgroundColor: '#ffffff',
+  //   })
+  //     .then((dataUrl) => {
+  //       const img = new Image()
+  //       img.src = dataUrl
+  //       img.onload = () => {
+  //         const pdf = new jsPDF({
+  //           orientation: img.width > img.height ? 'l' : 'p',
+  //           unit: 'px',
+  //           format: [img.width, img.height],
+  //         })
+
+  //         const pdfWidth = pdf.internal.pageSize.getWidth()
+  //         const pdfHeight = pdf.internal.pageSize.getHeight()
+
+  //         pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight)
+  //         pdf.save(`${comic?.title || 'comic'}.pdf`)
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error('oops, something went wrong!', err)
+  //       setError(t('pdfExportFailed'))
+  //     })
+  // }, [contentToCaptureRef, comic?.title, t])
 
   // 获取用户VIP状态
+  
   useEffect(() => {
     if (session?.user?.id) {
       fetch('/api/user/profile')
@@ -398,6 +546,162 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
               <span className="text-xl">🏠</span>
               <span>{t('returnHome')}</span>
             </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // 阅读模式界面
+  if (readingMode === 'reading') {
+    const currentPage = getCurrentPage()
+    const currentEpisode = getCurrentEpisode()
+    const currentVolume = getCurrentVolume()
+    
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
+        {/* 背景装饰 */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-32 h-32 opacity-5">
+            <svg viewBox="0 0 100 100" className="w-full h-full text-purple-400">
+              <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="3"/>
+              <circle cx="50" cy="50" r="15" fill="currentColor"/>
+            </svg>
+          </div>
+          <div className="absolute bottom-1/4 right-1/4 w-24 h-24 opacity-5">
+            <svg viewBox="0 0 100 100" className="w-full h-full text-pink-400">
+              <path d="M30 30 L70 30 L70 70 L30 70 Z" fill="none" stroke="currentColor" strokeWidth="3"/>
+              <path d="M40 40 L60 40 L60 60 L40 60 Z" fill="currentColor" opacity="0.5"/>
+            </svg>
+          </div>
+        </div>
+
+        {/* 顶部导航栏 */}
+        <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/90 via-black/70 to-transparent backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 py-6">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => setReadingMode('overview')}
+                className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-600/80 to-pink-600/80 backdrop-blur-sm text-white rounded-2xl font-bold hover:from-purple-700/90 hover:to-pink-700/90 transition-all duration-300 transform hover:scale-105 shadow-lg border border-white/20"
+              >
+                <span className="text-lg">←</span>
+                <span>返回目录</span>
+              </button>
+              
+              <div className="text-center bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/10">
+                <div className="text-sm text-purple-300 font-medium mb-1">
+                  第{currentVolume?.volumeNumber}卷 · 第{currentEpisode?.episodeNumber}话
+                </div>
+                <div className="font-bold text-lg text-white">{currentEpisode?.title}</div>
+              </div>
+              
+              <div className="bg-black/40 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/10">
+                <div className="text-sm text-gray-300 text-center">
+                  <div className="font-bold text-white">{currentPageIndex + 1}</div>
+                  <div className="text-xs">/ {getCurrentEpisode()?.pages?.length || 0}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 主要阅读区域 */}
+        <div className="flex items-center justify-center min-h-screen p-4 pt-24 pb-20">
+          {currentPage?.imageUrl ? (
+            <div className="relative max-w-5xl max-h-[75vh] group">
+              {/* 漫画页面 */}
+              <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden border-4 border-white/20">
+                <img 
+                  src={currentPage.imageUrl} 
+                  alt={`第${currentPage.pageNumber}页`}
+                  className="w-full h-full object-contain"
+                />
+                
+                {/* 页面编号标识 */}
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg border-2 border-white/30">
+                  第 {currentPage.pageNumber} 页
+                </div>
+              </div>
+              
+              {/* 左右导航按钮 */}
+              <button
+                onClick={goToPrevPage}
+                className="absolute left-6 top-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-r from-purple-600/90 to-purple-700/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-2xl font-bold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-110 shadow-2xl border-2 border-white/20 opacity-0 group-hover:opacity-100"
+                disabled={currentVolumeIndex === 0 && currentEpisodeIndex === 0 && currentPageIndex === 0}
+              >
+                ←
+              </button>
+              
+              <button
+                onClick={goToNextPage}
+                className="absolute right-6 top-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-r from-pink-600/90 to-pink-700/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-2xl font-bold hover:from-pink-700 hover:to-pink-800 transition-all duration-300 transform hover:scale-110 shadow-2xl border-2 border-white/20 opacity-0 group-hover:opacity-100"
+              >
+                →
+              </button>
+
+              {/* 点击区域提示 */}
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute left-0 top-0 w-1/3 h-full opacity-0 group-hover:opacity-10 bg-gradient-to-r from-purple-500 to-transparent transition-opacity duration-300"></div>
+                <div className="absolute right-0 top-0 w-1/3 h-full opacity-0 group-hover:opacity-10 bg-gradient-to-l from-pink-500 to-transparent transition-opacity duration-300"></div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center bg-black/40 backdrop-blur-sm rounded-3xl p-12 border border-white/10">
+              <div className="w-24 h-24 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                <span className="text-4xl">📖</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">页面生成中...</h3>
+              <p className="text-gray-400">AI正在绘制精彩内容，请稍候</p>
+            </div>
+          )}
+        </div>
+
+        {/* 底部控制栏 */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 py-6">
+            {/* 进度条 */}
+            <div className="flex items-center gap-4 mb-4">
+              <div className="bg-black/40 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/10">
+                <span className="text-sm font-bold text-white">
+                  {currentPageIndex + 1} / {getCurrentEpisode()?.pages?.length || 0}
+                </span>
+              </div>
+              
+              <div className="flex-1 bg-white/20 rounded-full h-3 overflow-hidden">
+                <div 
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-full h-full transition-all duration-500 shadow-lg"
+                  style={{ 
+                    width: `${((currentPageIndex + 1) / (getCurrentEpisode()?.pages?.length || 1)) * 100}%` 
+                  }}
+                />
+              </div>
+
+              <div className="bg-black/40 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/10">
+                <span className="text-xs text-gray-300">
+                  {Math.round(((currentPageIndex + 1) / (getCurrentEpisode()?.pages?.length || 1)) * 100)}%
+                </span>
+              </div>
+            </div>
+            
+            {/* 操作提示 */}
+            <div className="text-center">
+              <div className="inline-flex items-center gap-6 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/10">
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <span className="w-6 h-6 bg-purple-600/50 rounded flex items-center justify-center text-xs font-bold">←</span>
+                  <span>上一页</span>
+                </div>
+                <div className="w-px h-4 bg-white/20"></div>
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <span className="w-6 h-6 bg-pink-600/50 rounded flex items-center justify-center text-xs font-bold">→</span>
+                  <span>下一页</span>
+                </div>
+                <div className="w-px h-4 bg-white/20"></div>
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <span className="px-2 py-1 bg-gray-600/50 rounded text-xs font-bold">ESC</span>
+                  <span>返回目录</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -661,111 +965,98 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
               </div>
             )}
 
-            {/* 漫画卷和话展示 */}
-            <div className="space-y-16">
-              {comic?.volumes?.map((volume, volumeIndex) => (
-                <div key={volume.id} className="space-y-12">
-                  {/* 卷标题 */}
-                  <div className="text-center">
-                    <div className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-3xl shadow-xl border-2 border-blue-400/50">
-                      <span className="text-2xl mr-3">📖</span>
-                      <span className="font-black text-xl tracking-wider">{volume.title}</span>
-                    </div>
-                    {volume.description && (
-                      <p className="mt-4 text-gray-600 dark:text-gray-400 text-lg">{volume.description}</p>
-                    )}
-                  </div>
-
-                  {/* 话展示 */}
-                  {volume.episodes?.map((episode, episodeIndex) => (
-                    <div key={episode.id} className="space-y-8">
-                      {/* 话标题 */}
-                      <div className="text-center">
-                        <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl shadow-lg">
-                          <span className="text-lg mr-2">📄</span>
-                          <span className="font-bold text-lg">{episode.title}</span>
-                        </div>
-                        {episode.description && (
-                          <p className="mt-2 text-gray-600 dark:text-gray-400">{episode.description}</p>
-                        )}
-                      </div>
-
-                      {/* 页面展示 */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {episode.pages?.map((page, pageIndex) => (
-                        <div 
-                          key={page.id} 
-                          className="group relative bg-gradient-to-br from-white/95 to-purple-50/80 dark:from-gray-800/95 dark:to-purple-900/30 rounded-2xl shadow-xl border-2 border-purple-200/50 dark:border-purple-800/50 overflow-hidden hover:shadow-2xl transition-all duration-300"
-                        >
-                          {/* 页面编号 */}
-                          <div className="absolute top-4 left-4 z-10 bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold shadow-lg">
-                            {page.pageNumber}
+            {/* 漫画章节目录 */}
+            <div className="space-y-8">
+              {comic?.volumes?.map((volume, volumeIndex) => {
+                const isExpanded = expandedVolumes.has(volumeIndex)
+                
+                return (
+                  <div key={volume.id} className="bg-gradient-to-br from-white/95 to-purple-50/80 dark:from-gray-800/95 dark:to-purple-900/30 rounded-3xl shadow-xl border-2 border-purple-200/50 dark:border-purple-800/50 overflow-hidden">
+                    {/* 卷标题 - 可点击折叠/展开 */}
+                    <div 
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white cursor-pointer hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+                      onClick={() => toggleVolume(volumeIndex)}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div>
+                            <div className="flex items-center gap-3">
+                              <h2 className="text-2xl font-bold">{volume.title}</h2>
+                              <span className="text-sm text-white/80">共 {volume.episodes?.length || 0} 话</span>
+                            </div>
+                            {volume.description && (
+                              <p className="text-white/80 mt-1">{volume.description}</p>
+                            )}
                           </div>
+                        </div>
+                        {/* 展开/折叠图标 */}
+                        <div className={`transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}>
+                          <span className="text-2xl">▼</span>
+                        </div>
+                      </div>
+                    </div>
 
-                          {/* 页面图片 */}
-                          <div className="aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                            {page.imageUrl ? (
-                              <img 
-                                src={page.imageUrl} 
-                                alt={`第${page.pageNumber}页`}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="text-center p-4">
-                                <div className="w-16 h-16 bg-purple-200 dark:bg-purple-800 rounded-full flex items-center justify-center mx-auto mb-2">
-                                  <span className="text-2xl">🎨</span>
-                                </div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                  {page.status === 'pending' ? '等待生成' : page.status === 'generating' ? '生成中...' : '生成失败'}
-                                </p>
+                    {/* 话列表 - 可折叠 */}
+                    <div 
+                      className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                        isExpanded ? 'max-h-[10000px] opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <div className="p-6">
+                        <div className="space-y-4">
+                          {volume.episodes?.map((episode, episodeIndex) => (
+                            <div 
+                              key={episode.id}
+                              className="group flex items-center gap-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-300 cursor-pointer border border-transparent hover:border-purple-200 dark:hover:border-purple-800 hover:shadow-lg"
+                              onClick={() => startReading(volumeIndex, episodeIndex)}
+                            >
+                              {/* 封面缩略图 */}
+                              <div className="flex-shrink-0 w-24 h-18 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg overflow-hidden shadow-md">
+                                {episode.pages && episode.pages.length > 0 && episode.pages[0]?.imageUrl ? (
+                                  <img 
+                                    src={episode.pages[0].imageUrl} 
+                                    alt={episode.title}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center">
+                                    <span className="text-3xl">📖</span>
+                                  </div>
+                                )}
                               </div>
-                            )}
-                          </div>
 
-                          {/* 页面信息 */}
-                          <div className="p-4 space-y-2">
-                            <div className="text-xs font-bold text-purple-600 dark:text-purple-400">
-                              页面布局：{page.pageLayout || '多格'}
-                            </div>
-                            <div className="text-xs text-gray-600 dark:text-gray-400">
-                              包含 {page.panelCount} 个分镜格
-                            </div>
-                            
-                            {/* 分镜详情（可折叠） */}
-                            {page.panels && page.panels.length > 0 && (
-                              <details className="mt-2">
-                                <summary className="text-xs font-bold text-blue-600 dark:text-blue-400 cursor-pointer hover:text-blue-700">
-                                  查看分镜详情 ({page.panels.length}格)
-                                </summary>
-                                <div className="mt-2 space-y-2 pl-2 border-l-2 border-purple-200 dark:border-purple-800">
-                                  {page.panels.map((panel: any, panelIdx: number) => (
-                                    <div key={panel.id} className="text-xs space-y-1">
-                                      <div className="font-bold text-purple-600 dark:text-purple-400">第{panel.panelNumber}格</div>
-                                      {panel.sceneDescription && (
-                                        <div className="text-gray-700 dark:text-gray-300">{panel.sceneDescription}</div>
-                                      )}
-                                      {panel.dialogue && (
-                                        <div className="text-blue-600 dark:text-blue-400 italic">"{panel.dialogue}"</div>
-                                      )}
-                                      {panel.narration && (
-                                        <div className="text-green-600 dark:text-green-400">{panel.narration}</div>
-                                      )}
-                                    </div>
-                                  ))}
+                              {/* 话信息 */}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-3 mb-1">
+                                  <h3 className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                                    {episode.title}
+                                  </h3>
+                                  <span className="text-xs text-gray-400 dark:text-gray-500">
+                                    {episode.pages?.filter(p => p.imageUrl).length || 0}/{episode.pageCount} 已生成
+                                  </span>
                                 </div>
-                              </details>
-                            )}
-                          </div>
+                                {episode.description && (
+                                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                                    {episode.description}
+                                  </p>
+                                )}
+                              </div>
 
-                          {/* 悬停效果 */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-100/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
+                              {/* 阅读按钮 */}
+                              <div className="flex-shrink-0">
+                                <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0 shadow-lg hover:shadow-xl">
+                                  <span>📖</span>
+                                  <span>阅读</span>
+                                </button>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
                       </div>
                     </div>
-                  ))}
-                </div>
-              ))}
+                  </div>
+                )
+              })}
 
               {/* 空状态 */}
               {(!comic?.volumes || comic.volumes.length === 0) && (
@@ -788,9 +1079,9 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
         {/* 操作按钮区域 */}
         <div className="mt-16 flex flex-col gap-6 sm:flex-row sm:gap-6 justify-center items-center">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full sm:w-auto">
-            {/* 保存图片按钮 */}
+            {/* 下载所有图片按钮 */}
             <button
-              onClick={handleSaveAsImage}
+              onClick={handleDownloadAllImages }
               className="group relative px-6 py-4 rounded-2xl font-bold text-lg border-2 transition-all duration-300 flex items-center justify-center gap-3 bg-gradient-to-br from-white/90 to-purple-50/80 dark:from-gray-800/90 dark:to-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600 hover:shadow-xl active:scale-95 overflow-hidden"
             >
               {/* 按钮装饰背景 */}
@@ -798,31 +1089,30 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
               <div className="relative w-8 h-8 bg-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <span className="text-lg">🖼️</span>
               </div>
-              <span className="relative">{t('saveAsImage')}</span>
+              <span className="relative">下载图片</span>
             </button>
 
             {/* 导出PDF按钮 */}
-            <button
+            {/* <button
               onClick={handleExportAsPdf}
               className="group relative px-6 py-4 rounded-2xl font-bold text-lg border-2 transition-all duration-300 flex items-center justify-center gap-3 bg-gradient-to-br from-white/90 to-pink-50/80 dark:from-gray-800/90 dark:to-pink-900/30 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-800 hover:border-pink-400 dark:hover:border-pink-600 hover:shadow-xl active:scale-95 overflow-hidden"
             >
-              {/* 按钮装饰背景 */}
               <div className="absolute inset-0 bg-gradient-to-r from-pink-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="relative w-8 h-8 bg-pink-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <span className="text-lg">📄</span>
               </div>
               <span className="relative">{t('exportPdf')}</span>
-            </button>
+            </button> */}
 
             {/* 点赞按钮 */}
             <div className="group relative rounded-2xl font-bold text-lg border-2 transition-all duration-300 bg-gradient-to-br from-white/90 to-blue-50/80 dark:from-gray-800/90 dark:to-blue-900/30 border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               <LikeButton />
             </div>
 
             {/* 收藏按钮 */}
             <div className="group relative rounded-2xl font-bold text-lg border-2 transition-all duration-300 bg-gradient-to-br from-white/90 to-green-50/80 dark:from-gray-800/90 dark:to-green-900/30 border-green-200 dark:border-green-800 hover:border-green-400 dark:hover:border-green-600 hover:shadow-xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-green-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-green-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               <FavoriteButton />
             </div>
           </div>
