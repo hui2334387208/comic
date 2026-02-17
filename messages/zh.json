@@ -1611,29 +1611,10 @@
         "deepseek-chat": "DeepSeek Chat",
         "deepseek-coder": "DeepSeek Coder"
       },
-      "audience": {
-        "title": "适用人群",
-        "description": "无论您是文化爱好者还是专业创作者，都能在这里找到合适的对联创作方案",
-        "developers": {
-          "description": "AI技术爱好者、创意写作、文化传承",
-          "title": "AI爱好者 / 开发者"
-        },
-        "enterprises": {
-          "description": "节庆庆典、开业乔迁、企业文化",
-          "title": "企业 / 团队"
-        },
-        "media": {
-          "description": "内容创作、文化推广、传统艺术",
-          "title": "媒体 / 自媒体"
-        },
-        "students": {
-          "description": "传统文化学习、书法练习、文学创作",
-          "title": "学生 / 教师"
-        }
-      },
       "cta": {
-        "description": "创作有文化底蕴的优美对联，让AI帮你写出有情绪、有意境的国风好联",
-        "title": "开始你的对联创作之旅"
+        "description": "无需绘画技能，无需复杂软件，只需要你的想象力。让AI帮你实现漫画梦想！",
+        "title": "开始你的漫画创作之旅",
+        "startCreating": "立即开始创作"
       },
       "errors": {
         "networkError": "网络连接错误，请检查您的网络连接",
@@ -1641,114 +1622,73 @@
         "unknownError": "未知错误，请稍后重试"
       },
       "features": {
-        "title": "我们能为你做什么？",
-        "description": "运用AI技术传承对联文化，让每个人都能创作出优美的对联作品",
+        "title": "🚀 强大功能",
+        "description": "AI驱动的漫画创作平台，让每个人都能成为漫画家",
         "aiGeneration": {
-          "description": "输入主题、上联或下联，AI自动生成符合平仄押韵要求的完整对联",
-          "title": "AI智能生成对联"
+          "description": "先进的AI算法，根据你的描述生成精美漫画",
+          "title": "AI智能生成"
         },
-        "knowledgeSorting": {
-          "description": "内置诗词典籍与节日典范，确保联语有根有源有典故",
-          "title": "文化底蕴库"
+        "multipleStyles": {
+          "description": "AI智能分析内容，自动选择最适合的漫画风格",
+          "title": "多种风格"
         },
-        "multiModel": {
-          "description": "支持GPT、Claude等主流模型，覆盖中英双语",
-          "title": "多模型多语言支持"
+        "fastCreation": {
+          "description": "几分钟内完成漫画创作，效率提升百倍",
+          "title": "快速创作"
         },
-        "visualization": {
-          "description": "横竖排切换、字号行距与红纸金墨样式一键预览导出",
-          "title": "丰富可视化效果"
+        "communitySharing": {
+          "description": "一键分享你的作品，与全世界的创作者交流",
+          "title": "在线分享"
         }
       },
       "hero": {
-        "badge": "✨ AI驱动的智能对联生成",
-        "title": "AI 对联工坊",
-        "subtitle1": "传承千年文化",
-        "subtitle2": "智创美好联语",
-        "description": "用AI让传统对联创作更简单、更有文化味，让国风美学走进每一个日常场景",
-        "subDescription": "平仄工整 · 对仗严谨 · 意境深远 · 文化传承",
+        "title": "AI漫画创作平台",
+        "subtitle1": "智能生成",
+        "subtitle2": "无限创意",
+        "description": "用AI的力量释放你的创意，只需输入想法，即可全自动生成精美的漫画故事",
+        "subDescription": "AI智能分析内容，自动选择最佳风格和帧数",
         "enterPrompt": "请输入主题或题材",
-        "generateButton": "生成对联",
+        "generateButton": "开始创作漫画",
         "generateError": "AI生成失败，请稍后重试",
         "limitExceeded": "今日生成次数已用完，请明天再试或升级会员",
-        "generating": "生成中...",
+        "generating": "正在生成中...",
         "networkError": "网络错误，请检查连接",
-        "placeholder": "请输入主题，例如：'新春佳节'、'开业大吉'、'婚礼祝福'",
-        "exampleCouplet": {
-          "topLine": "春风得意马蹄疾",
-          "bottomLine": "一日看尽长安花",
-          "horizontal": "万事如意"
-        },
-        "aiCreationTitle": "智能对联创作",
-        "aiCreationDesc": "智能识别输入内容，AI为您创作专属对联",
-        "inputPlaceholder": "请输入创作内容...",
-        "generateButtonText": "智能生成对联",
-        "generatingText": "正在创作对联...",
-        "usageTip": "提示：支持主题创作、上下联对对、藏头嵌字、场景定制、风格指定、字数限制等多种智能模式"
+        "placeholder": "例如：一个勇敢的少年在魔法森林中寻找传说中的宝藏...",
+        "aiCreationTitle": "🎨 AI漫画生成器",
+        "aiCreationDesc": "描述你想要的漫画故事，AI将智能分析并全自动生成",
+        "usageTip": "AI将根据你的描述自动选择最适合的风格和帧数"
       },
       "loading": {
         "generating": "正在生成中...",
         "loading": "加载中...",
         "pleaseWait": "请稍候..."
       },
-      "meta": {
-        "keywords": "对联, 诗词, AI, 文鳐, 文鳐Couplet, 智能生成, 可视化"
-      },
-      "coupletCard": {
+      "comicCard": {
         "viewButton": "查看详情",
         "hotLevel": "热度",
-        "noData": "暂无数据",
+        "noData": "暂无漫画",
         "category": "分类",
-        "topLine": "上联",
-        "bottomLine": "下联",
-        "horizontal": "横批",
-        "defaultCategory": "传统节日",
-        "noTopLine": "暂无上联",
-        "noBottomLine": "暂无下联",
-        "noHorizontal": "暂无横批",
-        "noDataMessage": "暂时没有对联内容，请稍后再来查看"
+        "noDataMessage": "快来创作第一个AI漫画吧！",
+        "aiComic": "AI漫画",
+        "defaultDescription": "这是一个精彩的AI生成漫画故事...",
+        "anonymousAuthor": "匿名作者",
+        "volumes": "卷",
+        "episodes": "话",
+        "readButton": "阅读"
       },
       "sections": {
         "featured": {
-          "description": "人工精选优质对联，值得细细品味",
-          "title": "精选对联"
+          "description": "编辑精心挑选的优质漫画",
+          "title": "⭐ 精选漫画"
         },
         "hot": {
-          "description": "基于热度综合排序，快速发现大家都在看的精彩对联",
-          "title": "热门对联"
+          "description": "最受欢迎的AI生成漫画作品",
+          "title": "🔥 热门漫画"
         },
         "latest": {
-          "description": "展示最新生成的对联，紧跟创作潮流",
-          "title": "最新对联"
+          "description": "刚刚创作完成的新鲜漫画",
+          "title": "✨ 最新漫画"
         }
-      },
-      "culture": {
-        "title": "对联文化知识",
-        "description": "了解对联的基本知识，创作更有文化底蕴的作品",
-        "balance": {
-          "title": "对仗工整",
-          "description": "上联和下联在词性、结构上要相对应，名词对名词，动词对动词，形成工整的对仗关系"
-        },
-        "rhythm": {
-          "title": "平仄协调",
-          "description": "遵循声调的平仄规律，上联末字通常为仄声，下联末字通常为平声，读起来朗朗上口"
-        },
-        "meaning": {
-          "title": "意境深远",
-          "description": "表达美好寓意和深刻内涵，通过简洁的文字传达丰富的情感和哲理思考"
-        },
-        "application": {
-          "title": "应用广泛",
-          "description": "适用于春节、婚礼、开业、乔迁等各种场合，是中华文化的重要载体"
-        }
-      },
-      "ctaSection": {
-        "topLine": "上联",
-        "bottomLine": "下联",
-        "topText": "智能创作",
-        "bottomText": "文化传承",
-        "buttonText": "立即体验",
-        "horizontal": "传承创新"
       }
     },
     "vip": {
@@ -2070,9 +2010,9 @@
     },
     "seo": {
       "home": {
-        "title": "对联生成器 - AI智能对联创作平台",
-        "description": "专业的AI对联生成器，智能创作春联、婚联、挽联等各类对联，传承中华传统文化，让对联创作更简单。",
-        "keywords": "对联生成器, AI对联, 春联生成, 对联创作, 智能对联, 传统文化"
+        "title": "AI漫画创作平台 - 智能漫画生成器",
+        "description": "专业的AI漫画生成器，只需输入创意即可自动生成精美漫画故事，支持多种风格，让漫画创作变得简单有趣。",
+        "keywords": "AI漫画, 漫画生成器, AI创作, 智能漫画, 漫画制作, 人工智能漫画"
       },
       "contact": {
         "title": "联系我们 - AI漫画创作平台",

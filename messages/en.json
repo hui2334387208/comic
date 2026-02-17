@@ -1611,29 +1611,10 @@
         "deepseek-chat": "DeepSeek Chat",
         "deepseek-coder": "DeepSeek Coder"
       },
-      "audience": {
-        "title": "Target Audience",
-        "description": "Whether you are a culture enthusiast or professional creator, you can find suitable couplet creation solutions here",
-        "developers": {
-          "description": "AI technology enthusiasts, creative writing, cultural preservation",
-          "title": "AI Enthusiasts / Developers"
-        },
-        "enterprises": {
-          "description": "Festival celebrations, business openings, corporate culture",
-          "title": "Enterprises / Teams"
-        },
-        "media": {
-          "description": "Content creation, cultural promotion, traditional art",
-          "title": "Media / Content Creators"
-        },
-        "students": {
-          "description": "Traditional culture learning, calligraphy practice, literary creation",
-          "title": "Students / Teachers"
-        }
-      },
       "cta": {
-        "description": "Create beautiful couplets with cultural roots, let AI help you write elegant traditional couplets",
-        "title": "Start Your Couplet Creation Journey"
+        "description": "No drawing skills required, no complex software needed, just your imagination. Let AI help you realize your comic dreams!",
+        "title": "Start Your Comic Creation Journey",
+        "startCreating": "Start Creating Now"
       },
       "errors": {
         "networkError": "Network connection error, please check your connection",
@@ -1641,114 +1622,73 @@
         "unknownError": "Unknown error, please try again later"
       },
       "features": {
-        "title": "What can we do for you?",
-        "description": "Using AI technology to inherit couplet culture, enabling everyone to create beautiful couplet works",
+        "title": "🚀 Powerful Features",
+        "description": "AI-powered comic creation platform, enabling everyone to become a comic artist",
         "aiGeneration": {
-          "description": "Input a theme or topic, AI automatically generates couplets that meet tonal and rhyming requirements",
-          "title": "AI Couplet Generation"
+          "description": "Advanced AI algorithms generate beautiful comics based on your descriptions",
+          "title": "AI Smart Generation"
         },
-        "knowledgeSorting": {
-          "description": "Built-in poetry classics and festival templates, ensuring couplets have cultural roots and allusions",
-          "title": "Cultural Library"
+        "multipleStyles": {
+          "description": "AI intelligently analyzes content and automatically selects the most suitable comic style",
+          "title": "Multiple Styles"
         },
-        "multiModel": {
-          "description": "Support for mainstream models like GPT, Claude, covering Chinese and English",
-          "title": "Multi-Model Multi-Language Support"
+        "fastCreation": {
+          "description": "Complete comic creation in minutes, boosting efficiency by 100x",
+          "title": "Fast Creation"
         },
-        "visualization": {
-          "description": "Switch between horizontal/vertical layouts, font sizes, and red paper/gold ink styles with one-click preview",
-          "title": "Rich Visualization Effects"
+        "communitySharing": {
+          "description": "Share your works with one click and connect with creators worldwide",
+          "title": "Online Sharing"
         }
       },
       "hero": {
-        "badge": "✨ AI-Powered Couplet Generation",
-        "title": "AI Couplet Workshop",
-        "subtitle1": "Inheriting Thousand-Year Culture",
-        "subtitle2": "Creating Beautiful Couplets with AI",
-        "description": "Using AI to preserve couplet culture, making traditional Chinese couplets accessible to everyone",
-        "subDescription": "Balanced Tones · Neat Antithesis · Profound Meaning · Cultural Heritage",
+        "title": "AI Comic Creation Platform",
+        "subtitle1": "Smart Generation",
+        "subtitle2": "Unlimited Creativity",
+        "description": "Unleash your creativity with AI, just input your ideas to automatically generate beautiful comic stories",
+        "subDescription": "AI intelligently analyzes content and automatically selects the best style and frames",
         "enterPrompt": "Please enter a theme or topic",
-        "generateButton": "Generate Couplet",
+        "generateButton": "Start Creating Comics",
         "generateError": "AI generation failed, please try again later",
         "limitExceeded": "You've used up today's generation quota. Try again tomorrow or upgrade to VIP.",
         "generating": "Generating...",
         "networkError": "Network error, please check your connection",
-        "placeholder": "Please enter a theme, e.g.: 'New Year celebration', 'Business opening', 'Wedding blessing'",
-        "exampleCouplet": {
-          "topLine": "Spring breeze brings success to galloping horses",
-          "bottomLine": "One day to see all Chang'an flowers",
-          "horizontal": "All Things Go Well"
-        },
-        "aiCreationTitle": "AI Couplet Creation",
-        "aiCreationDesc": "Intelligently recognizes input, AI creates exclusive couplets for you",
-        "inputPlaceholder": "Please enter content to create...",
-        "generateButtonText": "Generate Couplet with AI",
-        "generatingText": "Creating couplets...",
-        "usageTip": "Tip: Supports theme creation, line pairing, acrostic, scene customization, style specification, length limitation and more intelligent modes"
+        "placeholder": "For example: A brave boy searching for legendary treasure in a magical forest...",
+        "aiCreationTitle": "🎨 AI Comic Generator",
+        "aiCreationDesc": "Describe your comic story, AI will intelligently analyze and automatically generate",
+        "usageTip": "AI will automatically select the most suitable style and frames based on your description"
       },
       "loading": {
         "generating": "Generating...",
         "loading": "Loading...",
         "pleaseWait": "Please wait..."
       },
-      "meta": {
-        "keywords": "couplet, poetry, AI, Pairray, Pairray Couplet, smart generation, visualization"
-      },
-      "coupletCard": {
+      "comicCard": {
         "viewButton": "View Details",
         "hotLevel": "Popularity",
-        "noData": "No data available",
+        "noData": "No comics available",
         "category": "Category",
-        "topLine": "Top Line",
-        "bottomLine": "Bottom Line",
-        "horizontal": "Horizontal Banner",
-        "defaultCategory": "Traditional Festival",
-        "noTopLine": "No top line",
-        "noBottomLine": "No bottom line",
-        "noHorizontal": "No horizontal banner",
-        "noDataMessage": "No couplet content available at the moment, please check back later"
+        "noDataMessage": "Come create the first AI comic!",
+        "aiComic": "AI Comic",
+        "defaultDescription": "This is an exciting AI-generated comic story...",
+        "anonymousAuthor": "Anonymous Author",
+        "volumes": "Volumes",
+        "episodes": "Episodes",
+        "readButton": "Read"
       },
       "sections": {
         "featured": {
-          "description": "Hand-picked quality couplets, worth savoring",
-          "title": "Featured Couplets"
+          "description": "Carefully selected quality comics by editors",
+          "title": "⭐ Featured Comics"
         },
         "hot": {
-          "description": "Ranked by overall popularity to help you quickly find what everyone is viewing",
-          "title": "Popular Couplets"
+          "description": "Most popular AI-generated comic works",
+          "title": "🔥 Hot Comics"
         },
         "latest": {
-          "description": "Show the latest generated couplets, keeping up with creative trends",
-          "title": "Latest Couplets"
+          "description": "Freshly created new comics",
+          "title": "✨ Latest Comics"
         }
-      },
-      "culture": {
-        "title": "Couplet Cultural Knowledge",
-        "description": "Learn the basics of couplets to create works with deeper cultural significance",
-        "balance": {
-          "title": "Balanced Antithesis",
-          "description": "The upper and lower lines should correspond in terms of parts of speech and structure, with nouns matching nouns and verbs matching verbs, forming neat antithesis"
-        },
-        "rhythm": {
-          "title": "Tonal Harmony",
-          "description": "Follow the tonal patterns of level and oblique tones, with the upper line usually ending in oblique tone and the lower line in level tone, creating pleasant rhythm"
-        },
-        "meaning": {
-          "title": "Profound Meaning",
-          "description": "Express beautiful wishes and deep connotations, conveying rich emotions and philosophical thoughts through concise words"
-        },
-        "application": {
-          "title": "Wide Application",
-          "description": "Suitable for various occasions such as Spring Festival, weddings, business openings, and housewarmings, serving as important carriers of Chinese culture"
-        }
-      },
-      "ctaSection": {
-        "topLine": "Top Line",
-        "bottomLine": "Bottom Line",
-        "topText": "AI Creation",
-        "bottomText": "Cultural Heritage",
-        "buttonText": "Try Now",
-        "horizontal": "Innovation & Tradition"
       }
     },
     "vip": {
@@ -2070,9 +2010,9 @@
     },
     "seo": {
       "home": {
-        "title": "Couplet Generator - AI-Powered Chinese Couplet Creation Platform",
-        "description": "Professional AI couplet generator for creating Spring Festival couplets, wedding couplets, elegiac couplets and more. Preserve traditional Chinese culture with intelligent couplet creation.",
-        "keywords": "couplet generator, AI couplets, Spring Festival couplets, couplet creation, intelligent couplets, traditional culture"
+        "title": "AI Comic Creation Platform - Intelligent Comic Generator",
+        "description": "Professional AI comic generator. Simply input your ideas to automatically generate beautiful comic stories. Supports multiple styles, making comic creation simple and fun.",
+        "keywords": "AI comics, comic generator, AI creation, intelligent comics, comic maker, artificial intelligence comics"
       },
       "contact": {
         "title": "Contact Us - AI Comic Creation Platform",

@@ -29,8 +29,8 @@ function ComicSection({ title, desc, comics = [] }: { title: string; desc: strin
           <div className="inline-flex items-center justify-center w-24 h-24 mb-6 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-3xl">
             <span className="text-5xl">🎨</span>
           </div>
-          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">暂无漫画</h3>
-          <p className="text-gray-500 dark:text-gray-400">快来创作第一个AI漫画吧！</p>
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">{t('noData')}</h3>
+          <p className="text-gray-500 dark:text-gray-400">{t('noDataMessage')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -53,7 +53,7 @@ function ComicSection({ title, desc, comics = [] }: { title: string; desc: strin
                   <div className="w-full h-full flex items-center justify-center">
                     <div className="text-center">
                       <div className="text-6xl mb-2">🎨</div>
-                      <div className="text-purple-600 dark:text-purple-400 font-medium text-sm">AI漫画</div>
+                      <div className="text-purple-600 dark:text-purple-400 font-medium text-sm">{t('aiComic')}</div>
                     </div>
                   </div>
                 )}
@@ -118,7 +118,7 @@ function ComicSection({ title, desc, comics = [] }: { title: string; desc: strin
 
                 {/* 描述 */}
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2 leading-relaxed">
-                  {comic.description || '这是一个精彩的AI生成漫画故事...'}
+                  {comic.description || t('defaultDescription')}
                 </p>
 
                 {/* 标签 */}
@@ -145,13 +145,13 @@ function ComicSection({ title, desc, comics = [] }: { title: string; desc: strin
                     {comic.volumeCount > 0 && (
                       <span className="flex items-center gap-1">
                         <span>📚</span>
-                        <span>{comic.volumeCount} 卷</span>
+                        <span>{comic.volumeCount} {t('volumes')}</span>
                       </span>
                     )}
                     {comic.episodeCount > 0 && (
                       <span className="flex items-center gap-1">
                         <span>📖</span>
-                        <span>{comic.episodeCount} 话</span>
+                        <span>{comic.episodeCount} {t('episodes')}</span>
                       </span>
                     )}
                   </div>
@@ -161,7 +161,7 @@ function ComicSection({ title, desc, comics = [] }: { title: string; desc: strin
                     className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                   >
                     <span>📖</span>
-                    <span>阅读</span>
+                    <span>{t('readButton')}</span>
                   </button>
                 </div>
 
@@ -176,7 +176,7 @@ function ComicSection({ title, desc, comics = [] }: { title: string; desc: strin
                       )}
                     </div>
                     <span className="text-xs text-gray-600 dark:text-gray-400">
-                      {comic.author.name || comic.author.username || '匿名作者'}
+                      {comic.author.name || comic.author.username || t('anonymousAuthor')}
                     </span>
                   </div>
                 )}
@@ -406,20 +406,20 @@ export default function ClientHomePage({
             {/* 主标题 */}
             <h1 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white mb-6 tracking-wide">
               <span className="block bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent mb-2 drop-shadow-sm">
-                AI漫画创作平台
+                {t('hero.title')}
               </span>
               <span className="block text-2xl md:text-3xl font-light text-gray-700 dark:text-gray-300 tracking-wider">
-                <span className="text-purple-600 dark:text-purple-400">智能生成</span>
+                <span className="text-purple-600 dark:text-purple-400">{t('hero.subtitle1')}</span>
                 <span className="mx-4 text-pink-600 dark:text-pink-400">·</span>
-                <span className="text-blue-600 dark:text-blue-400">无限创意</span>
+                <span className="text-blue-600 dark:text-blue-400">{t('hero.subtitle2')}</span>
               </span>
             </h1>
 
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12">
-              用AI的力量释放你的创意，只需输入想法，即可全自动生成精美的漫画故事
+              {t('hero.description')}
               <br />
               <span className="text-base bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-bold tracking-wide">
-                AI智能分析内容，自动选择最佳风格和帧数
+                {t('hero.subDescription')}
               </span>
             </p>
 
@@ -431,10 +431,10 @@ export default function ClientHomePage({
                   {/* 标题 */}
                   <div className="text-center">
                     <h3 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-                      🎨 AI漫画生成器
+                      {t('hero.aiCreationTitle')}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      描述你想要的漫画故事，AI将智能分析并全自动生成
+                      {t('hero.aiCreationDesc')}
                     </p>
                   </div>
                   
@@ -443,7 +443,7 @@ export default function ClientHomePage({
                     <textarea
                       value={aiPrompt}
                       onChange={e => { setAiPrompt(e.target.value); setError('') }}
-                      placeholder="例如：一个勇敢的少年在魔法森林中寻找传说中的宝藏..."
+                      placeholder={t('hero.placeholder')}
                       rows={3}
                       className="w-full resize-none bg-white/95 dark:bg-gray-700/95 rounded-2xl px-6 py-4 text-gray-900 dark:text-white text-lg focus:outline-none focus:ring-4 focus:ring-purple-400/30 focus:border-purple-400 transition-all placeholder-gray-500 dark:placeholder-gray-400 border-2 border-purple-100 dark:border-gray-600 shadow-inner"
                       disabled={isGenerating}
@@ -459,7 +459,7 @@ export default function ClientHomePage({
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                       <span className="relative text-xl">🎨</span>
-                      <span className="relative">{isGenerating ? '正在生成中...' : '开始创作漫画'}</span>
+                      <span className="relative">{isGenerating ? t('hero.generating') : t('hero.generateButton')}</span>
                       {isGenerating && (
                         <div className="relative w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                       )}
@@ -480,7 +480,7 @@ export default function ClientHomePage({
               <div className="mt-8 text-center">
                 <div className="inline-flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-full px-6 py-3 backdrop-blur-sm border border-purple-100 dark:border-purple-900/30">
                   <span className="text-lg">💡</span>
-                  <span>AI将根据你的描述自动选择最适合的风格和帧数</span>
+                  <span>{t('hero.usageTip')}</span>
                 </div>
               </div>
             </div>
@@ -489,20 +489,20 @@ export default function ClientHomePage({
       </section>
 
       {/* 漫画展示区块 */}
-      <ComicSection title="🔥 热门漫画" desc="最受欢迎的AI生成漫画作品" comics={hotComics} />
+      <ComicSection title={t('sections.hot.title')} desc={t('sections.hot.description')} comics={hotComics} />
       
-      <ComicSection title="✨ 最新漫画" desc="刚刚创作完成的新鲜漫画" comics={latestComics} />
+      <ComicSection title={t('sections.latest.title')} desc={t('sections.latest.description')} comics={latestComics} />
       
-      <ComicSection title="⭐ 精选漫画" desc="编辑精心挑选的优质漫画" comics={featuredComics} />
+      <ComicSection title={t('sections.featured.title')} desc={t('sections.featured.description')} comics={featuredComics} />
 
       {/* 功能介绍区块 */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 mt-12">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            🚀 强大功能
+            {t('features.title')}
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            AI驱动的漫画创作平台，让每个人都能成为漫画家
+            {t('features.description')}
           </p>
         </div>
         
@@ -512,8 +512,8 @@ export default function ClientHomePage({
               <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-2xl text-white">🧠</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">AI智能生成</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">先进的AI算法，根据你的描述生成精美漫画</p>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t('features.aiGeneration.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{t('features.aiGeneration.description')}</p>
             </div>
           </div>
 
@@ -522,8 +522,8 @@ export default function ClientHomePage({
               <div className="w-16 h-16 bg-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-2xl text-white">🎨</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">多种风格</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">AI智能分析内容，自动选择最适合的漫画风格</p>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t('features.multipleStyles.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{t('features.multipleStyles.description')}</p>
             </div>
           </div>
 
@@ -532,8 +532,8 @@ export default function ClientHomePage({
               <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-2xl text-white">⚡</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">快速创作</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">几分钟内完成漫画创作，效率提升百倍</p>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t('features.fastCreation.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{t('features.fastCreation.description')}</p>
             </div>
           </div>
 
@@ -542,8 +542,8 @@ export default function ClientHomePage({
               <div className="w-16 h-16 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-2xl text-white">🌐</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">在线分享</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">一键分享你的作品，与全世界的创作者交流</p>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t('features.communitySharing.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{t('features.communitySharing.description')}</p>
             </div>
           </div>
         </div>
@@ -559,10 +559,10 @@ export default function ClientHomePage({
             </div>
             
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
-              开始你的漫画创作之旅
+              {t('cta.title')}
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-              无需绘画技能，无需复杂软件，只需要你的想象力。让AI帮你实现漫画梦想！
+              {t('cta.description')}
             </p>
             
             <button 
@@ -571,7 +571,7 @@ export default function ClientHomePage({
             >
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
               <span className="relative text-xl">🚀</span>
-              <span className="relative">立即开始创作</span>
+              <span className="relative">{t('cta.startCreating')}</span>
             </button>
           </div>
         </div>
