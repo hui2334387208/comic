@@ -12,6 +12,7 @@ import CommentSection from '@/components/comic/CommentSection'
 import FavoriteButton from '@/components/comic/FavoriteButton'
 import LikeButton from '@/components/comic/LikeButton'
 import ComicVersionManager from '@/components/comic/ComicVersionManager'
+import DownloadImagesButton from '@/components/comic/DownloadImagesButton'
 
 // AI模型ID到友好名称的映射
 const modelMap: Record<string, string> = {
@@ -355,65 +356,7 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
     }
   }
 
-  // 下载所有漫画图片
-  const handleDownloadAllImages = useCallback(async () => {
-    if (!comic) return
 
-    const images: { url: string; filename: string }[] = []
-    
-    // 1. 收集封面
-    if (comic.coverImage) {
-      images.push({
-        url: comic.coverImage,
-        filename: `${comic.title || 'comic'}_封面.png`
-      })
-    }
-
-    // 2. 收集所有卷的所有话的所有页面
-    comic.volumes?.forEach((volume) => {
-      volume.episodes?.forEach((episode) => {
-        episode.pages?.forEach((page) => {
-          if (page.imageUrl) {
-            images.push({
-              url: page.imageUrl,
-              filename: `${comic.title || 'comic'}_第${volume.volumeNumber}卷_第${episode.episodeNumber}话_第${page.pageNumber}页.png`
-            })
-          }
-        })
-      })
-    })
-
-    if (images.length === 0) {
-      setError('暂无可下载的图片')
-      return
-    }
-
-    // 3. 逐个下载图片
-    for (let i = 0; i < images.length; i++) {
-      const { url, filename } = images[i]
-      try {
-        const response = await fetch(url)
-        const blob = await response.blob()
-        const blobUrl = window.URL.createObjectURL(blob)
-        
-        const link = document.createElement('a')
-        link.href = blobUrl
-        link.download = filename
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        
-        window.URL.revokeObjectURL(blobUrl)
-        
-        // 延迟避免浏览器阻止
-        if (i < images.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 500))
-        }
-      } catch (error) {
-        console.error(`下载失败: ${filename}`, error)
-      }
-    }
-  }, [comic])
 
   // const handleExportAsPdf = useCallback(() => {
   //   if (contentToCaptureRef.current === null) {
@@ -1080,17 +1023,10 @@ export default function ClientComicPage({ comic: initialComic, versions: initial
         <div className="mt-16 flex flex-col gap-6 sm:flex-row sm:gap-6 justify-center items-center">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full sm:w-auto">
             {/* 下载所有图片按钮 */}
-            <button
-              onClick={handleDownloadAllImages }
-              className="group relative px-6 py-4 rounded-2xl font-bold text-lg border-2 transition-all duration-300 flex items-center justify-center gap-3 bg-gradient-to-br from-white/90 to-purple-50/80 dark:from-gray-800/90 dark:to-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600 hover:shadow-xl active:scale-95 overflow-hidden"
-            >
-              {/* 按钮装饰背景 */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative w-8 h-8 bg-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <span className="text-lg">🖼️</span>
-              </div>
-              <span className="relative">下载图片</span>
-            </button>
+            <div className="group relative rounded-2xl font-bold text-lg border-2 transition-all duration-300 bg-gradient-to-br from-white/90 to-purple-50/80 dark:from-gray-800/90 dark:to-purple-900/30 border-purple-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600 hover:shadow-xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              <DownloadImagesButton comic={comic} />
+            </div>
 
             {/* 导出PDF按钮 */}
             {/* <button

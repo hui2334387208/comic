@@ -29,7 +29,7 @@ export default function LoginPromptModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div className="relative bg-gradient-to-br from-white/95 to-purple-50/80 dark:from-gray-800/95 dark:to-purple-900/30 rounded-3xl shadow-2xl border-2 border-purple-200/50 dark:border-purple-800/50 p-8 max-w-md mx-4 animate-scaleIn">
+      <div className="relative bg-gradient-to-br from-white/95 to-purple-50/80 dark:from-gray-800/95 dark:to-purple-900/30 rounded-3xl shadow-2xl border-2 border-purple-200/50 dark:border-purple-800/50 p-8 max-w-md min-w-[320px] mx-4 animate-scaleIn">
         {/* 装饰背景 */}
         <div className="absolute top-0 right-0 w-32 h-32 opacity-5 pointer-events-none">
           <svg viewBox="0 0 100 100" className="w-full h-full text-purple-600">
