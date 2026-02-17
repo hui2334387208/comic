@@ -924,40 +924,40 @@
   },
   "main": {
     "about": {
-      "subtitle": "Using AI technology to preserve couplet culture, enabling everyone to easily create culturally rich couplet works",
+      "subtitle": "Empowering everyone to become a comic creator through AI technology",
       "title": "About Us",
-      "contact": {
-        "contactUs": "Contact Us",
-        "description": "If you have any questions, suggestions, or collaboration interests, please feel free to contact us.",
-        "feedback": "Feedback",
-        "title": "Contact Us"
-      },
-      "features": {
-        "title": "Core Features",
-        "aiGeneration": {
-          "description": "Deep learning models automatically generate couplets that meet tonal and rhyming requirements",
-          "title": "AI Generation"
-        },
-        "cultureLibrary": {
-          "description": "Built-in poetry classics and festival templates, ensuring couplets have cultural roots and allusions",
-          "title": "Cultural Library"
-        },
-        "diverseTopics": {
-          "description": "Support 200+ festival templates including New Year, weddings, business openings, schools, etc.",
-          "title": "Diverse Topics"
-        },
-        "visualization": {
-          "description": "Switch between horizontal/vertical layouts, font sizes, and red paper/gold ink styles with one-click preview and export",
-          "title": "Visualization"
-        }
-      },
       "mission": {
-        "content": "AI Couplet Workshop is committed to preserving and promoting Chinese couplet culture through artificial intelligence technology. We believe that couplets are not only treasures of traditional culture, but also important carriers for modern people to express emotions and convey blessings. Through AI technology, we make couplet creation simple and fun, enabling everyone to express their feelings with beautiful couplets on occasions such as festivals, celebrations, and business openings.",
-        "title": "Our Mission"
+        "title": "Our Mission",
+        "content": "To make everyone a comic creator. By lowering the barriers to comic creation through AI technology, we unleash everyone's creative potential and turn imagination into beautiful visual stories."
       },
       "vision": {
-        "content": "To become the world's leading AI couplet creation platform, revitalizing couplet culture in the digital age. We hope to make couplet creation accessible to everyone, not just a privilege of a few. Through the power of technology, we perfectly integrate traditional culture with modern life.",
-        "title": "Our Vision"
+        "title": "Our Vision",
+        "content": "To build the world's leading AI comic creation platform, making comic creation simple, fun, and efficient. We believe that everyone has an amazing story waiting to be told."
+      },
+      "features": {
+        "title": "Platform Features",
+        "aiGeneration": {
+          "title": "AI Smart Generation",
+          "description": "Advanced AI algorithms automatically generate complete comic stories based on your descriptions, including storyboards, dialogues, and visuals"
+        },
+        "multipleStyles": {
+          "title": "Multiple Styles",
+          "description": "Support for Japanese manga, American comics, Chinese comics and more. AI intelligently analyzes content and selects the most suitable style"
+        },
+        "fastCreation": {
+          "title": "Fast Creation",
+          "description": "Complete the entire process from idea to finished product in minutes, dramatically improving creative efficiency"
+        },
+        "communitySharing": {
+          "title": "Community Sharing",
+          "description": "Share your work with one click, connect with creators worldwide, and receive likes and feedback"
+        }
+      },
+      "cta": {
+        "title": "Start Your Comic Creation Journey",
+        "description": "No drawing skills required, no complex software needed, just your imagination. Let AI help you realize your comic dreams!",
+        "startCreating": "Start Creating Now",
+        "contactUs": "Contact Us"
       }
     },
     "common": {
@@ -2125,9 +2125,9 @@
         "keywords": "refund policy, membership refund, consumer rights, refund process"
       },
       "about": {
-        "title": "About Us - Couplet Generator",
-        "description": "Learn about Couplet Generator's mission, vision and core functions, preserving traditional Chinese culture and making couplet creation easier.",
-        "keywords": "about us, couplet generator, team introduction, traditional culture, mission vision"
+        "title": "About Us - AI Comic Creation Platform",
+        "description": "Learn about the mission and vision of AI Comic Creation Platform. We lower the barriers to comic creation through AI technology, enabling everyone to become a comic creator.",
+        "keywords": "about us, AI comics, comic creation platform, team introduction, mission vision, artificial intelligence"
       }
     }
   },
