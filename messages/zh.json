@@ -973,17 +973,25 @@
       "views": "阅读量"
     },
     "contact": {
-      "subtitle": "我们随时准备为您提供帮助，欢迎通过以下方式与我们联系",
+      "subtitle": "有任何问题或建议？我们随时准备为您提供帮助",
       "title": "联系我们",
       "breadcrumb": {
         "contact": "联系我们",
         "home": "首页"
       },
       "contactInfo": {
-        "title": "联系信息",
+        "title": "联系方式",
         "email": {
-          "address": "support@couplet-ai.com",
+          "address": "support@comic-ai.com",
           "title": "邮箱地址"
+        },
+        "feedback": {
+          "title": "在线反馈",
+          "description": "通过反馈页面向我们提出建议和意见"
+        },
+        "responseTime": {
+          "title": "响应时间",
+          "description": "我们通常在24小时内回复您的消息"
         }
       },
       "form": {
@@ -2067,9 +2075,9 @@
         "keywords": "对联生成器, AI对联, 春联生成, 对联创作, 智能对联, 传统文化"
       },
       "contact": {
-        "title": "联系我们 - 对联生成器",
-        "description": "欢迎联系对联生成器团队，我们致力于传承对联文化，为您提供最优质的对联创作服务。",
-        "keywords": "联系我们, 对联生成器, 客服支持, 对联服务, 用户反馈"
+        "title": "联系我们 - AI漫画创作平台",
+        "description": "欢迎联系AI漫画创作平台团队，我们致力于为您提供最优质的漫画创作服务和技术支持。",
+        "keywords": "联系我们, AI漫画, 客服支持, 漫画服务, 用户反馈, 技术支持"
       },
       "comic": {
         "title": "AI漫画大全 - 精选AI生成漫画作品欣赏",

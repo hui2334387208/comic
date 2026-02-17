@@ -982,8 +982,16 @@
       "contactInfo": {
         "title": "Contact Information",
         "email": {
-          "address": "support@couplet-ai.com",
+          "address": "support@comic-ai.com",
           "title": "Email Address"
+        },
+        "feedback": {
+          "title": "Online Feedback",
+          "description": "Submit suggestions and feedback through our feedback page"
+        },
+        "responseTime": {
+          "title": "Response Time",
+          "description": "We typically respond to your messages within 24 hours"
         }
       },
       "form": {
@@ -2067,9 +2075,9 @@
         "keywords": "couplet generator, AI couplets, Spring Festival couplets, couplet creation, intelligent couplets, traditional culture"
       },
       "contact": {
-        "title": "Contact Us - Couplet Generator",
-        "description": "Contact the Couplet Generator team. We are dedicated to preserving couplet culture and providing the highest quality couplet creation services.",
-        "keywords": "contact us, couplet generator, customer support, couplet services, user feedback"
+        "title": "Contact Us - AI Comic Creation Platform",
+        "description": "Contact the AI Comic Creation Platform team. We are dedicated to providing the highest quality comic creation services and technical support.",
+        "keywords": "contact us, AI comics, customer support, comic services, user feedback, technical support"
       },
       "comic": {
         "title": "AI Comic Collection - Selected AI-Generated Comic Works Appreciation",
