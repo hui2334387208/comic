@@ -1158,7 +1158,7 @@
           "description": "The information we collect includes:",
           "items": [
             "Email address and username provided during registration",
-            "Couplet content and related data you create or save on the platform",
+            "Comic content and related data you create or save on the platform",
             "Browsing history and interaction data during website use",
             "Basic technical information such as device information and browser type"
           ],
@@ -1167,7 +1167,7 @@
         "contact": {
           "button": "Contact Us",
           "description": "If you have any questions about this privacy policy, please contact us through the following methods:",
-          "email": "Email: support@couplet-ai.com",
+          "email": "Email: support@comic-ai.com",
           "title": "Contact Us"
         },
         "security": {
@@ -1183,7 +1183,7 @@
         "usage": {
           "description": "We use the collected information for:",
           "items": [
-            "Providing and improving our services",
+            "Providing and improving our comic creation services",
             "Personalizing user experience and content recommendations",
             "Sending service-related notifications and updates",
             "Preventing fraud and abuse",
@@ -2113,9 +2113,9 @@
         "keywords": "VIP membership, couplet membership, advanced features, couplet templates, member privileges"
       },
       "privacy": {
-        "title": "Privacy Policy - Couplet Generator",
-        "description": "Learn how Couplet Generator protects your privacy information. We strictly comply with data protection regulations to safeguard user rights.",
-        "keywords": "privacy policy, data protection, user privacy, information security"
+        "title": "Privacy Policy - AI Comic Creation Platform",
+        "description": "Learn how AI Comic Creation Platform protects your privacy information. We strictly comply with data protection regulations to safeguard user rights.",
+        "keywords": "privacy policy, data protection, user privacy, information security, AI comics"
       },
       "terms": {
         "title": "Terms of Service - Couplet Generator Usage Agreement",
