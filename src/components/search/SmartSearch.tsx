@@ -6,7 +6,7 @@ export interface SearchResult {
   id: number;
   title: string;
   description: string;
-  type: 'couplet' | 'version' | 'author';
+  type: 'comic' | 'version' | 'author';
   relevance: number;
   url: string;
 }
@@ -50,8 +50,8 @@ const SmartSearch: React.FC<SmartSearchProps> = ({
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'couplet':
-        return '�'
+      case 'comic':
+        return '📚'
       case 'version':
         return '📝'
       case 'author':
@@ -63,7 +63,7 @@ const SmartSearch: React.FC<SmartSearchProps> = ({
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'couplet':
+      case 'comic':
         return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
       case 'version':
         return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
@@ -83,7 +83,7 @@ const SmartSearch: React.FC<SmartSearchProps> = ({
     }
     setIsLoading(true)
     try {
-      const res = await fetch(`/api/couplet/suggest?query=${encodeURIComponent(q)}`)
+      const res = await fetch(`/api/comic/suggest?query=${encodeURIComponent(q)}`)
       const data = await res.json()
       setSuggestions(data)
       setShowSuggestions(true)

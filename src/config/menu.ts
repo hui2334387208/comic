@@ -52,67 +52,6 @@ export const menuItems: MenuItem[] = [
     ],
   },
   {
-    key: 'couplet-management',
-    label: 'admin.sidebar.coupletManagement',
-    path: '/admin/couplets',
-    icon: 'book',
-    children: [
-      {
-        key: 'couplets',
-        label: 'admin.sidebar.coupletList',
-        path: '/admin/couplets',
-      },
-      {
-        key: 'couplet-categories',
-        label: 'admin.sidebar.coupletCategories',
-        path: '/admin/couplets/categories',
-      },
-      {
-        key: 'couplet-tags',
-        label: 'admin.sidebar.coupletTags',
-        path: '/admin/couplets/tags',
-      },
-    ],
-  },
-  {
-    key: 'education',
-    label: 'admin.sidebar.educationManagement',
-    path: '/admin/education',
-    icon: 'book',
-    children: [
-      {
-        key: 'education-courses',
-        label: 'admin.sidebar.courseManagement',
-        path: '/admin/education/courses'
-      },
-      {
-        key: 'education-exercises',
-        label: 'admin.sidebar.exerciseManagement',
-        path: '/admin/education/exercises'
-      },
-      {
-        key: 'education-paths',
-        label: 'admin.sidebar.learningPathManagement',
-        path: '/admin/education/paths'
-      },
-      {
-        key: 'education-badges',
-        label: 'admin.sidebar.badgeManagement',
-        path: '/admin/education/badges'
-      },
-      {
-        key: 'education-stats',
-        label: 'admin.sidebar.learningStats',
-        path: '/admin/education/stats'
-      },
-      {
-        key: 'education-init',
-        label: 'admin.sidebar.educationInit',
-        path: '/admin/education-init'
-      }
-    ],
-  },
-  {
     key: 'vip',
     label: 'admin.sidebar.vipManagement',
     path: '/admin/vip',

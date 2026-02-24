@@ -1,21 +1,25 @@
-import { eq } from 'drizzle-orm'
+import { eq, asc } from 'drizzle-orm'
 
 import { db } from '@/db'
-import { coupletTags } from '@/db/schema'
+import { comicTags } from '@/db/schema'
 
-export async function fetchCoupletTagsForServer() {
+export async function fetchComicTagsForServer() {
   try {
-    const items = await db
-      .select()
-      .from(coupletTags)
-      .where(eq(coupletTags.status, 'active'))
-      .orderBy(coupletTags.createdAt)
+    const tagsData = await db
+      .select({
+        id: comicTags.id,
+        name: comicTags.name,
+        slug: comicTags.slug,
+        color: comicTags.color,
+        status: comicTags.status,
+      })
+      .from(comicTags)
+      .where(eq(comicTags.status, 'active'))
+      .orderBy(asc(comicTags.name))
 
-    return Array.isArray(items) ? items : []
+    return tagsData
   } catch (error) {
-    console.error('Error fetching couplet tags for server:', error)
+    console.error('Error fetching comic tags:', error)
     return []
   }
 }
-
-

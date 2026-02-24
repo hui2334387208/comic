@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { fetchComicTagsForServer } from '@/server/comics'
+import { fetchComicTagsForServer } from '@/server/tags'
 
 // GET /api/comic/tags - 获取漫画标签列表
 export async function GET() {

@@ -1,13 +1,10 @@
-import { eq, and, or, like, inArray, desc, asc, sql } from 'drizzle-orm'
+import { eq, and, or, like, inArray, desc, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import {
   comics,
   comicCategories,
   comicTags,
   comicTagRelations,
-  comicVersions,
-  comicVolumes,
-  comicEpisodes,
   users,
 } from '@/db/schema'
 
@@ -188,52 +185,5 @@ export async function fetchComicListForServer(params: FetchComicListParams) {
       },
       error: 'Failed to fetch comics',
     }
-  }
-}
-
-// 获取漫画分类列表
-export async function fetchComicCategoriesForServer() {
-  try {
-    const categoriesData = await db
-      .select({
-        id: comicCategories.id,
-        name: comicCategories.name,
-        slug: comicCategories.slug,
-        description: comicCategories.description,
-        icon: comicCategories.icon,
-        color: comicCategories.color,
-        status: comicCategories.status,
-        sortOrder: comicCategories.sortOrder,
-      })
-      .from(comicCategories)
-      .where(eq(comicCategories.status, 'active'))
-      .orderBy(asc(comicCategories.sortOrder), asc(comicCategories.id))
-
-    return categoriesData
-  } catch (error) {
-    console.error('Error fetching comic categories:', error)
-    return []
-  }
-}
-
-// 获取漫画标签列表
-export async function fetchComicTagsForServer() {
-  try {
-    const tagsData = await db
-      .select({
-        id: comicTags.id,
-        name: comicTags.name,
-        slug: comicTags.slug,
-        color: comicTags.color,
-        status: comicTags.status,
-      })
-      .from(comicTags)
-      .where(eq(comicTags.status, 'active'))
-      .orderBy(asc(comicTags.name))
-
-    return tagsData
-  } catch (error) {
-    console.error('Error fetching comic tags:', error)
-    return []
   }
 }

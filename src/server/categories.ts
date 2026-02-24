@@ -1,19 +1,28 @@
-import { eq } from 'drizzle-orm'
+import { eq, asc } from 'drizzle-orm'
 
 import { db } from '@/db'
-import { coupletCategories } from '@/db/schema'
+import { comicCategories } from '@/db/schema'
 
-export async function fetchCoupletCategoriesForServer() {
+export async function fetchComicCategoriesForServer() {
   try {
-    const items = await db
-      .select()
-      .from(coupletCategories)
-      .where(eq(coupletCategories.status, 'active'))
-      .orderBy(coupletCategories.sortOrder)
+    const categoriesData = await db
+      .select({
+        id: comicCategories.id,
+        name: comicCategories.name,
+        slug: comicCategories.slug,
+        description: comicCategories.description,
+        icon: comicCategories.icon,
+        color: comicCategories.color,
+        status: comicCategories.status,
+        sortOrder: comicCategories.sortOrder,
+      })
+      .from(comicCategories)
+      .where(eq(comicCategories.status, 'active'))
+      .orderBy(asc(comicCategories.sortOrder), asc(comicCategories.id))
 
-    return Array.isArray(items) ? items : []
+    return categoriesData
   } catch (error) {
-    console.error('Error fetching couplet categories for server:', error)
+    console.error('Error fetching comic categories:', error)
     return []
   }
 }

@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 
 import { db } from '@/db'
 import { users, userVipStatus, generationRateLimits } from '@/db/schema'
-import { couplets, coupletFavorites, coupletLikes } from '@/db/schema/couplet'
+import { comics, comicFavorites, comicLikes } from '@/db/schema'
 import { authOptions } from '@/lib/authOptions'
 
 // GET /api/user/profile - 获取用户个人资料
@@ -72,40 +72,40 @@ export async function GET(request: NextRequest) {
     const isVip = isVipActive || user.role === 'vip'
     const aiDailyLimit = isVip ? 100 : 10
 
-    // 获取用户创建的对联数量
-    const coupletCountRes = await db
+    // 获取用户创建的漫画数量
+    const comicCountRes = await db
       .select({ count: count() })
-      .from(couplets)
-      .where(eq(couplets.authorId, userId))
-    const coupletCount = coupletCountRes[0]?.count || 0
+      .from(comics)
+      .where(eq(comics.authorId, userId))
+    const comicCount = comicCountRes[0]?.count || 0
 
     // 获取用户收藏数量
     const favoriteCountRes = await db
       .select({ count: count() })
-      .from(coupletFavorites)
-      .where(eq(coupletFavorites.userId, userId))
+      .from(comicFavorites)
+      .where(eq(comicFavorites.userId, userId))
     const favoriteCount = favoriteCountRes[0]?.count || 0
 
-    // 获取用户点赞的对联数量
-    const likedCoupletCountRes = await db
+    // 获取用户点赞的漫画数量
+    const likedComicCountRes = await db
       .select({ count: count() })
-      .from(coupletLikes)
-      .where(eq(coupletLikes.userId, userId))
-    const likedCoupletCount = likedCoupletCountRes[0]?.count || 0
+      .from(comicLikes)
+      .where(eq(comicLikes.userId, userId))
+    const likedComicCount = likedComicCountRes[0]?.count || 0
 
-    // 获取用户所有对联的总浏览量
+    // 获取用户所有漫画的总浏览量
     const viewCountRes = await db
-      .select({ sum: sql`SUM(${couplets.viewCount})` })
-      .from(couplets)
-      .where(eq(couplets.authorId, userId))
+      .select({ sum: sql`SUM(${comics.viewCount})` })
+      .from(comics)
+      .where(eq(comics.authorId, userId))
     const viewCount = Number(viewCountRes[0]?.sum) || 0
 
     // 获取用户获得的点赞数量
     const receivedLikeCountRes = await db
       .select({ count: count() })
-      .from(coupletLikes)
-      .innerJoin(couplets, eq(coupletLikes.coupletId, couplets.id))
-      .where(eq(couplets.authorId, userId))
+      .from(comicLikes)
+      .innerJoin(comics, eq(comicLikes.comicId, comics.id))
+      .where(eq(comics.authorId, userId))
     const receivedLikeCount = receivedLikeCountRes[0]?.count || 0
 
     const userProfile = {
@@ -120,10 +120,10 @@ export async function GET(request: NextRequest) {
       vipExpireDate: vipStatus[0]?.vipExpireDate,
       aiUsageCount,
       aiDailyLimit,
-      coupletCount,
+      comicCount,
       favoriteCount,
       viewCount,
-      likedCoupletCount,
+      likedComicCount,
       receivedLikeCount,
     }
 

@@ -4,11 +4,9 @@ import { getTranslations } from 'next-intl/server'
 import ClientComicListPage from './ClientComicListPage'
 import { routing } from '@/i18n/routing'
 import { fetchMenuByPath } from '@/server/menus'
-import { 
-  fetchComicListForServer,
-  fetchComicCategoriesForServer,
-  fetchComicTagsForServer 
-} from '@/server/comics'
+import { fetchComicListForServer } from '@/server/comics'
+import { fetchComicCategoriesForServer } from '@/server/categories'
+import { fetchComicTagsForServer } from '@/server/tags'
 
 export async function generateMetadata({ params }: {
   params: Promise<{ locale: string }>;

@@ -14,89 +14,57 @@ interface UserData {
     avatar?: string;
     bio?: string;
     joinDate: string;
-    coupletCount: number;
+    comicCount: number;
     favoriteCount: number;
     viewCount: number;
-    likedCoupletCount?: number;
+    likedComicCount?: number;
     receivedLikeCount?: number;
 }
 
-interface Couplet {
+interface Comic {
     id: string;
     title: string;
+    slug: string;
     description: string;
-    contents?: {
-        firstLine: string;
-        secondLine: string;
-        horizontalScroll: string;
-    };
+    coverImage?: string;
+    status?: string;
     category?: {
         id: number;
         name: string;
         slug: string;
-        color: string;
-    };
-    author?: {
-        id: string;
-        username: string;
-        avatar?: string;
     };
     isPublic?: boolean;
     viewCount?: number;
     likeCount?: number;
+    volumeCount?: number;
+    episodeCount?: number;
     createdAt?: string;
     updatedAt?: string;
-    model?: string;
-    prompt?: string;
     likedAt?: string;
-}
-
-interface Favorite {
-    id: string;
-    title: string;
-    description: string;
-    contents?: {
-        firstLine: string;
-        secondLine: string;
-        horizontalScroll: string;
-    };
-    author?: {
-        id: string;
-        username: string;
-        avatar?: string;
-    };
-    category?: {
-        id: number;
-        name: string;
-        slug: string;
-        color: string;
-    };
-    addedAt?: string;
-    model?: string;
-    prompt?: string;
+    favoritedAt?: string;
 }
 
 export default function ProfilePage() {
     const t = useTranslations('main.profile')
     const lang = typeof window !== 'undefined' ? (navigator.language.startsWith('en') ? 'en' : 'zh-cn') : 'zh-cn'
 
-    const [activeTab, setActiveTab] = useState('couplets')
+    const [activeTab, setActiveTab] = useState('comics')
     const [userData, setUserData] = useState<UserData | null>(null)
-    const [userCouplets, setUserCouplets] = useState<Couplet[]>([])
-    const [favorites, setFavorites] = useState<Favorite[]>([])
-    const [likes, setLikes] = useState<Couplet[]>([])
+    const [userComics, setUserComics] = useState<Comic[]>([])
+    const [favorites, setFavorites] = useState<Comic[]>([])
+    const [likes, setLikes] = useState<Comic[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         Promise.all([
             fetch('/api/user/profile').then(res => (res.ok ? res.json() : null)),
-            fetch('/api/user/couplets').then(res => (res.ok ? res.json() : [])),
+            fetch('/api/user/comics').then(res => (res.ok ? res.json() : [])),
             fetch('/api/user/favorites').then(res => (res.ok ? res.json() : [])),
             fetch('/api/user/likes').then(res => (res.ok ? res.json() : [])),
         ])
-            .then(([user, couplets, favs, liked]) => {
+            .then(([user, comics, favs, liked]) => {
                 setUserData(user)
-                setUserCouplets(Array.isArray(couplets?.data?.couplets) ? couplets.data.couplets : [])
+                setUserComics(Array.isArray(comics?.data?.comics) ? comics.data.comics : [])
                 setFavorites(Array.isArray(favs?.data?.favorites) ? favs.data.favorites : [])
                 setLikes(Array.isArray(liked?.data?.likes) ? liked.data.likes : [])
                 setLoading(false)
@@ -105,7 +73,7 @@ export default function ProfilePage() {
     }, [])
 
     const tabs = [
-        { id: 'couplets', name: t('tabs.couplets'), icon: '�' },
+        { id: 'comics', name: t('tabs.comics'), icon: '📚' },
         { id: 'likes', name: t('tabs.likes'), icon: '👍' },
         { id: 'favorites', name: t('tabs.favorites'), icon: '❤️' },
     ]
@@ -126,78 +94,64 @@ export default function ProfilePage() {
     const profileInitial = userData?.name?.charAt(0)?.toUpperCase() ?? '?'
 
     const stats = [
-        { label: t('overview.myCouplets'), value: formatNumber(userData?.coupletCount), accent: 'from-red-500/15 to-red-500/5' },
-        { label: t('overview.likedCouplets'), value: formatNumber(userData?.likedCoupletCount ?? likes.length), accent: 'from-emerald-500/15 to-emerald-500/5' },
-        { label: t('overview.favoriteCouplets'), value: formatNumber(userData?.favoriteCount ?? favorites.length), accent: 'from-rose-500/15 to-rose-500/5' },
+        { label: t('overview.myComics'), value: formatNumber(userData?.comicCount), accent: 'from-red-500/15 to-red-500/5' },
+        { label: t('overview.likedComics'), value: formatNumber(userData?.likedComicCount ?? likes.length), accent: 'from-emerald-500/15 to-emerald-500/5' },
+        { label: t('overview.favoriteComics'), value: formatNumber(userData?.favoriteCount ?? favorites.length), accent: 'from-rose-500/15 to-rose-500/5' },
         { label: t('overview.receivedLikes'), value: formatNumber(userData?.receivedLikeCount ?? 0), accent: 'from-purple-500/15 to-purple-500/5' },
     ]
 
-    const renderCouplets = () => (
+    const renderComics = () => (
         <div className="space-y-6">
-            {userCouplets.length === 0 ? (
+            {userComics.length === 0 ? (
                 <div className="rounded-2xl border-2 border-dashed border-red-200 dark:border-red-700 bg-gradient-to-br from-red-50/50 to-orange-50/50 dark:bg-gradient-to-br dark:from-red-900/10 dark:to-orange-900/10 p-12 text-center">
-                    <div className="text-5xl">�</div>
-                    <p className="mt-4 text-lg font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{t('couplets.empty')}</p>
-                    <p className="text-gray-600 dark:text-gray-400">{t('couplets.create')}</p>
+                    <div className="text-5xl">📚</div>
+                    <p className="mt-4 text-lg font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{t('comics.empty')}</p>
+                    <p className="text-gray-600 dark:text-gray-400">{t('comics.create')}</p>
                 </div>
             ) : (
                 <div className="grid gap-6 md:grid-cols-2">
-                    {userCouplets.map((couplet) => (
-                        <div key={couplet.id} className="rounded-2xl border-2 border-red-100 dark:border-red-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-red-300 dark:hover:border-red-600 relative overflow-hidden">
+                    {userComics.map((comic) => (
+                        <div key={comic.id} className="rounded-2xl border-2 border-red-100 dark:border-red-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-red-300 dark:hover:border-red-600 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-red-500/10 to-orange-500/10 rounded-bl-full"></div>
                             <div className="flex items-start justify-between relative z-10 mb-4">
-                                <div>
+                                <div className="flex-1">
                                     <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                                        {couplet.category?.name || t('couplets.category')}
+                                        {comic.category?.name || t('comics.category')}
                                     </p>
-                                    <h4 className="mt-1 text-lg font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{couplet.title}</h4>
+                                    <h4 className="mt-1 text-lg font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{comic.title}</h4>
                                 </div>
                                 <span
-                                    className={`rounded-full px-3 py-1 text-xs font-medium ${couplet.isPublic
+                                    className={`rounded-full px-3 py-1 text-xs font-medium ${comic.isPublic
                                         ? 'bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-300 border border-green-200 dark:border-green-800'
                                         : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
                                         }`}
                                 >
-                                    {couplet.isPublic ? t('couplets.public') : t('couplets.private')}
+                                    {comic.isPublic ? t('comics.public') : t('comics.private')}
                                 </span>
                             </div>
                             
-                            {/* 对联内容显示 */}
-                            {couplet.contents && (
-                                <div className="bg-gradient-to-br from-red-50/50 to-orange-50/50 dark:from-red-900/20 dark:to-orange-900/20 rounded-xl p-4 mb-4 border border-red-200/50 dark:border-red-800/50">
-                                    <div className="text-center mb-2">
-                                        <div className="inline-block bg-gradient-to-r from-red-600 to-orange-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-                                            {couplet.contents.horizontalScroll}
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4 text-sm">
-                                        <div className="text-right border-r border-red-200 dark:border-red-800 pr-3">
-                                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                                                {couplet.contents.firstLine}
-                                            </div>
-                                        </div>
-                                        <div className="text-left pl-3">
-                                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                                                {couplet.contents.secondLine}
-                                            </div>
-                                        </div>
-                                    </div>
+                            {comic.coverImage && (
+                                <div className="mb-4 rounded-xl overflow-hidden">
+                                    <img src={comic.coverImage} alt={comic.title} className="w-full h-48 object-cover" />
                                 </div>
                             )}
                             
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{comic.description}</p>
+                            
                             <div className="flex flex-wrap gap-3 text-xs text-gray-600 dark:text-gray-400 mb-4">
-                                <span className="hover:text-red-600 dark:hover:text-red-400 transition-colors">{t('couplets.views', { count: String(formatNumber(couplet.viewCount)) })}</span>
-                                <span className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">{t('couplets.likes', { count: String(couplet.likeCount ?? 0) })}</span>
+                                <span className="hover:text-red-600 dark:hover:text-red-400 transition-colors">{t('comics.views', { count: String(formatNumber(comic.viewCount)) })}</span>
+                                <span className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">{t('comics.likes', { count: String(comic.likeCount ?? 0) })}</span>
+                                <span className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('comics.volumes', { count: String(comic.volumeCount ?? 0) })}</span>
                             </div>
                             <div className="flex items-center justify-between">
                                 <span className="text-xs text-gray-500 dark:text-gray-400">
-                                    {t('couplets.updated', { date: formatDate(couplet.updatedAt || couplet.createdAt || '') })}
+                                    {t('comics.updated', { date: formatDate(comic.updatedAt || comic.createdAt || '') })}
                                 </span>
                                 <Link
-                                    href={`/couplet/${couplet.category?.slug}/${encodeURIComponent(couplet.title)}/${couplet.id}`}
+                                    href={`/comic/${comic.category?.slug}/${comic.slug}/${comic.id}`}
                                     className="rounded-xl bg-gradient-to-r from-red-600 to-orange-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-red-700 hover:to-orange-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                                 >
-                                    {t('couplets.view')}
+                                    {t('comics.view')}
                                 </Link>
                             </div>
                         </div>
@@ -221,7 +175,7 @@ export default function ProfilePage() {
                         <div key={like.id} className="rounded-2xl border-2 border-orange-100 dark:border-orange-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-orange-300 dark:hover:border-orange-600 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-bl-full"></div>
                             <div className="flex items-center justify-between relative z-10 mb-4">
-                                <div>
+                                <div className="flex-1">
                                     <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                                         {like.category?.name || t('likes.uncategorized')}
                                     </p>
@@ -230,7 +184,7 @@ export default function ProfilePage() {
                                 <button
                                     className="text-sm font-medium text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors"
                                     onClick={async () => {
-                                        await fetch(`/api/couplet/${like.id}/like`, { method: 'DELETE' })
+                                        await fetch(`/api/comic/${like.id}/like`, { method: 'DELETE' })
                                         setLikes(prev => prev.filter(l => String(l.id) !== String(like.id)))
                                     }}
                                 >
@@ -238,34 +192,17 @@ export default function ProfilePage() {
                                 </button>
                             </div>
                             
-                            {/* 对联内容显示 */}
-                            {like.contents && (
-                                <div className="bg-gradient-to-br from-orange-50/50 to-yellow-50/50 dark:from-orange-900/20 dark:to-yellow-900/20 rounded-xl p-4 mb-4 border border-orange-200/50 dark:border-orange-800/50">
-                                    <div className="text-center mb-2">
-                                        <div className="inline-block bg-gradient-to-r from-orange-600 to-yellow-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-                                            {like.contents.horizontalScroll}
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4 text-sm">
-                                        <div className="text-right border-r border-orange-200 dark:border-orange-800 pr-3">
-                                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                                                {like.contents.firstLine}
-                                            </div>
-                                        </div>
-                                        <div className="text-left pl-3">
-                                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                                                {like.contents.secondLine}
-                                            </div>
-                                        </div>
-                                    </div>
+                            {like.coverImage && (
+                                <div className="mb-4 rounded-xl overflow-hidden">
+                                    <img src={like.coverImage} alt={like.title} className="w-full h-48 object-cover" />
                                 </div>
                             )}
                             
-                            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 mb-4">{like.author?.username || t('likes.unknown')}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{like.description}</p>
                             <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
                                 <span className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">{t('likes.liked', { date: formatDate(like.likedAt || '') })}</span>
                                 <Link
-                                    href={`/couplet/${like.category?.slug}/${encodeURIComponent(like.title)}/${like.id}`}
+                                    href={`/comic/${like.category?.slug}/${like.slug}/${like.id}`}
                                     className="rounded-xl bg-gradient-to-r from-orange-600 to-yellow-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-orange-700 hover:to-yellow-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                                 >
                                     {t('likes.view')}
@@ -292,7 +229,7 @@ export default function ProfilePage() {
                         <div key={favorite.id} className="rounded-2xl border-2 border-yellow-100 dark:border-yellow-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-yellow-300 dark:hover:border-yellow-600 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-yellow-500/10 to-red-500/10 rounded-bl-full"></div>
                             <div className="flex items-center justify-between relative z-10 mb-4">
-                                <div>
+                                <div className="flex-1">
                                     <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                                         {favorite.category?.name || t('favorites.uncategorized')}
                                     </p>
@@ -301,7 +238,7 @@ export default function ProfilePage() {
                                 <button
                                     className="text-sm font-medium text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors"
                                     onClick={async () => {
-                                        await fetch(`/api/couplet/${favorite.id}/favorite`, { method: 'DELETE' })
+                                        await fetch(`/api/comic/${favorite.id}/favorite`, { method: 'DELETE' })
                                         setFavorites(prev => prev.filter(f => f.id !== favorite.id))
                                     }}
                                 >
@@ -309,34 +246,17 @@ export default function ProfilePage() {
                                 </button>
                             </div>
                             
-                            {/* 对联内容显示 */}
-                            {favorite.contents && (
-                                <div className="bg-gradient-to-br from-yellow-50/50 to-red-50/50 dark:from-yellow-900/20 dark:to-red-900/20 rounded-xl p-4 mb-4 border border-yellow-200/50 dark:border-yellow-800/50">
-                                    <div className="text-center mb-2">
-                                        <div className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-                                            {favorite.contents.horizontalScroll}
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4 text-sm">
-                                        <div className="text-right border-r border-yellow-200 dark:border-yellow-800 pr-3">
-                                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                                                {favorite.contents.firstLine}
-                                            </div>
-                                        </div>
-                                        <div className="text-left pl-3">
-                                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                                                {favorite.contents.secondLine}
-                                            </div>
-                                        </div>
-                                    </div>
+                            {favorite.coverImage && (
+                                <div className="mb-4 rounded-xl overflow-hidden">
+                                    <img src={favorite.coverImage} alt={favorite.title} className="w-full h-48 object-cover" />
                                 </div>
                             )}
                             
-                            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 mb-4">{favorite.author?.username || t('favorites.unknown')}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{favorite.description}</p>
                             <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                                <span className="hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors">{t('favorites.added', { date: formatDate(favorite.addedAt || '') })}</span>
+                                <span className="hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors">{t('favorites.added', { date: formatDate(favorite.favoritedAt || '') })}</span>
                                 <Link
-                                    href={`/couplet/${favorite.category?.slug}/${encodeURIComponent(favorite.title)}/${favorite.id}`}
+                                    href={`/comic/${favorite.category?.slug}/${favorite.slug}/${favorite.id}`}
                                     className="rounded-xl bg-gradient-to-r from-yellow-600 to-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-yellow-700 hover:to-red-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                                 >
                                     {t('favorites.view')}
@@ -481,7 +401,7 @@ export default function ProfilePage() {
                                     </div>
                                 ) : (
                                     <>
-                                        {activeTab === 'couplets' && renderCouplets()}
+                                        {activeTab === 'comics' && renderComics()}
                                         {activeTab === 'likes' && renderLikes()}
                                         {activeTab === 'favorites' && renderFavorites()}
                                     </>
@@ -494,4 +414,3 @@ export default function ProfilePage() {
         </div>
     )
 }
-
