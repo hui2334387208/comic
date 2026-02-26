@@ -9,6 +9,7 @@ import { users, verificationTokens } from '@/db/schema'
 import { sendVerificationEmail } from '@/lib/email'
 import { logger } from '@/lib/logger'
 import { signupRateLimit } from '@/lib/rate-limit'
+import { validateReferralCode, createReferralRelation } from '@/lib/referral-utils'
 
 const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || 'steamer-admin-2024'
 
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
       )
     }
 
-    const { email, password, username, role, secretKey } = await req.json()
+    const { email, password, username, role, secretKey, referralCode } = await req.json()
 
     // 输入验证和清理
     if (!email || !password || !username) {
@@ -51,6 +52,7 @@ export async function POST(req: Request) {
     const cleanEmail = email.trim().toLowerCase()
     const cleanUsername = username.trim()
     const cleanRole = role?.trim() || 'user'
+    const cleanReferralCode = referralCode?.trim()?.toUpperCase()
 
     // 邮箱格式验证
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -116,6 +118,17 @@ export async function POST(req: Request) {
         { error: '密码不能包含用户名' },
         { status: 400 },
       )
+    }
+
+    // 验证邀请码（如果提供）
+    if (cleanReferralCode) {
+      const validation = await validateReferralCode(cleanReferralCode)
+      if (!validation.valid) {
+        return NextResponse.json(
+          { error: `邀请码无效：${validation.message}` },
+          { status: 400 },
+        )
+      }
     }
 
     // 检查邮箱是否已存在
@@ -186,6 +199,27 @@ export async function POST(req: Request) {
       }
 
       const [user] = await db.insert(users).values(insertData).returning()
+
+      // 如果提供了邀请码，建立邀请关系
+      if (cleanReferralCode) {
+        const relationResult = await createReferralRelation(user.id, cleanReferralCode)
+        if (!relationResult.success) {
+          // 邀请关系建立失败，记录日志但不影响注册
+          await logger.warning({
+            module: 'auth',
+            action: 'sign-up',
+            description: `邀请关系建立失败 (${user.email}): ${relationResult.message}`,
+            userId: user.id,
+          })
+        } else {
+          await logger.info({
+            module: 'auth',
+            action: 'sign-up',
+            description: `邀请关系建立成功 (${user.email}, 邀请码: ${cleanReferralCode})`,
+            userId: user.id,
+          })
+        }
+      }
 
       // 创建验证令牌
       const verificationToken = randomUUID()

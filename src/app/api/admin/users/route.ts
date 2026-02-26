@@ -7,6 +7,7 @@ import { eq, ilike, and, or, gte, lte, count, desc } from 'drizzle-orm'
 import { logger } from '@/lib/logger'
 import bcrypt from 'bcryptjs'
 import { requirePermission } from '@/lib/permission-middleware'
+import { createReferralCode } from '@/lib/referral-utils'
 
 export async function GET(request: NextRequest) {
   try {
@@ -249,6 +250,19 @@ export async function POST(request: NextRequest) {
       created_at: new Date(),
       updated_at: new Date()
     }).returning()
+
+    // 为管理员创建的用户生成邀请码
+    const referralCodeResult = await createReferralCode(newUser[0].id)
+    if (referralCodeResult.success) {
+      await logger.info({
+        module: 'admin',
+        action: 'create_user',
+        description: `用户邀请码创建成功: ${referralCodeResult.code}`,
+        userId: session.user.id
+      })
+    } else {
+      console.warn('用户邀请码创建失败:', referralCodeResult.message)
+    }
 
     await logger.info({
       module: 'admin',

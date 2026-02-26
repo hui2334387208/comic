@@ -1,7 +1,7 @@
 'use client'
 import { UserOutlined, LockOutlined, MailOutlined, EyeInvisibleOutlined, EyeTwoTone, CheckCircleOutlined, GoogleOutlined, GithubOutlined, LoadingOutlined } from '@ant-design/icons'
 import { Form, Input, Button, message, Checkbox, Result, Divider } from 'antd'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import React, { useState, useEffect } from 'react'
 
@@ -9,6 +9,7 @@ import { Link } from '@/i18n/navigation'
 
 export default function RegisterPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
   const [socialLoading, setSocialLoading] = useState<string | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
@@ -19,6 +20,14 @@ export default function RegisterPage() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false)
   const [isCheckingEmail, setIsCheckingEmail] = useState(false)
   const [rateLimitInfo, setRateLimitInfo] = useState<{ retryAfter: number; message: string } | null>(null)
+
+  // 从URL参数中获取邀请码并自动填充
+  useEffect(() => {
+    const refCode = searchParams.get('ref')
+    if (refCode) {
+      form.setFieldValue('referralCode', refCode.toUpperCase())
+    }
+  }, [searchParams, form])
 
   // 倒计时效果
   useEffect(() => {
@@ -99,7 +108,7 @@ export default function RegisterPage() {
     }
   }
 
-  const onFinish = async (values: { email: string; password: string; username: string; confirmPassword: string }) => {
+  const onFinish = async (values: { email: string; password: string; username: string; confirmPassword: string; referralCode?: string }) => {
     setFieldErrors({})
     if (!agreedToTerms) {
       message.error('请先同意服务条款和隐私政策')
@@ -122,6 +131,7 @@ export default function RegisterPage() {
           email: values.email,
           password: values.password,
           username: values.username,
+          referralCode: values.referralCode?.trim() || undefined,
         }),
       })
 
@@ -301,6 +311,25 @@ export default function RegisterPage() {
                     if (value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                       checkEmailAvailability(value)
                     }
+                  }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="referralCode"
+                help="填写邀请码可获得额外奖励（可选）"
+              >
+                <Input
+                  prefix={<svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                  </svg>}
+                  placeholder="邀请码（可选）"
+                  className="rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  maxLength={20}
+                  onChange={(e) => {
+                    // 自动转换为大写
+                    const value = e.target.value.toUpperCase()
+                    form.setFieldValue('referralCode', value)
                   }}
                 />
               </Form.Item>

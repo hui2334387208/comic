@@ -14,6 +14,7 @@ import { eq } from 'drizzle-orm'
 import bcrypt from 'bcryptjs'
 import { v4 as uuidv4 } from 'uuid'
 import { logger } from '@/lib/logger'
+import { createReferralCode } from '@/lib/referral-utils'
 
 // 导入初始化数据
 import initMenusData from '@/data/init-menus.json'
@@ -276,6 +277,20 @@ export async function POST(request: NextRequest) {
         console.log('超级管理员角色分配成功:', adminUser.id, superAdminRole.id)
       } else {
         console.error('未找到超级管理员角色')
+      }
+
+      // 为超级管理员创建邀请码
+      const referralCodeResult = await createReferralCode(adminUser.id)
+      if (referralCodeResult.success) {
+        console.log('超级管理员邀请码创建成功:', referralCodeResult.code)
+        await logger.info({
+          module: 'admin',
+          action: 'init_admin_user',
+          description: `超级管理员邀请码创建成功: ${referralCodeResult.code}`,
+          userId: adminUser.id
+        })
+      } else {
+        console.warn('超级管理员邀请码创建失败:', referralCodeResult.message)
       }
 
       results.adminUser.success = true

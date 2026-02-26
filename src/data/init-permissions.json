@@ -276,6 +276,17 @@
       "isSystem": true
     },
     {
+      "id": "credits.read",
+      "name": "credits.read",
+      "displayName": "兑换管理",
+      "description": "可以访问兑换管理模块等所有兑换管理相关功能",
+      "module": "credits",
+      "action": "read",
+      "resource": "credits",
+      "type": "page",
+      "isSystem": true
+    },
+    {
       "id": "credits-redeem.read",
       "name": "credits-redeem.read",
       "displayName": "兑换码管理",
@@ -1042,6 +1053,61 @@
       "module": "comic-panel",
       "action": "delete",
       "resource": "comic-panel",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "referral.read",
+      "name": "referral.read",
+      "displayName": "邀请管理",
+      "description": "可以访问邀请管理模块等所有邀请管理相关功能",
+      "module": "referral",
+      "action": "read",
+      "resource": "referral",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "referral-campaign.read",
+      "name": "referral-campaign.read",
+      "displayName": "邀请活动管理",
+      "description": "可以查看邀请活动列表、活动详情等所有邀请活动查看功能",
+      "module": "referral-campaign",
+      "action": "read",
+      "resource": "referral-campaign",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "referral-campaign.create",
+      "name": "referral-campaign.create",
+      "displayName": "邀请活动管理",
+      "description": "可以访问创建页面、创建邀请活动等所有邀请活动创建相关功能",
+      "module": "referral-campaign",
+      "action": "create",
+      "resource": "referral-campaign",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "referral-campaign.update",
+      "name": "referral-campaign.update",
+      "displayName": "邀请活动管理",
+      "description": "可以访问编辑页面、更新邀请活动等所有邀请活动更新相关功能",
+      "module": "referral-campaign",
+      "action": "update",
+      "resource": "referral-campaign",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "referral-campaign.delete",
+      "name": "referral-campaign.delete",
+      "displayName": "邀请活动管理",
+      "description": "可以删除邀请活动等所有邀请活动删除相关功能",
+      "module": "referral-campaign",
+      "action": "delete",
+      "resource": "referral-campaign",
       "type": "page",
       "isSystem": true
     }

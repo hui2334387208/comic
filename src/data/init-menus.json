@@ -94,91 +94,12 @@
       ]
     },
     {
-      "id": "education",
-      "key": "education",
-      "label": "admin.sidebar.educationManagement",
-      "path": "/admin/education",
-      "icon": "book",
-      "permission": "education.read",
-      "order": 4,
-      "isVisible": true,
-      "isSystem": true,
-      "children": [
-        {
-          "id": "education-courses",
-          "key": "courses",
-          "label": "admin.sidebar.courseManagement",
-          "path": "/admin/education/courses",
-          "icon": null,
-          "permission": "course.read",
-          "order": 1,
-          "isVisible": true,
-          "isSystem": true
-        },
-        {
-          "id": "education-exercises",
-          "key": "exercises",
-          "label": "admin.sidebar.exerciseManagement",
-          "path": "/admin/education/exercises",
-          "icon": null,
-          "permission": "exercise.read",
-          "order": 2,
-          "isVisible": true,
-          "isSystem": true
-        },
-        {
-          "id": "education-paths",
-          "key": "learning-paths",
-          "label": "admin.sidebar.learningPathManagement",
-          "path": "/admin/education/paths",
-          "icon": null,
-          "permission": "learning-path.read",
-          "order": 3,
-          "isVisible": true,
-          "isSystem": true
-        },
-        {
-          "id": "education-badges",
-          "key": "badges",
-          "label": "admin.sidebar.badgeManagement",
-          "path": "/admin/education/badges",
-          "icon": null,
-          "permission": "badge.read",
-          "order": 4,
-          "isVisible": true,
-          "isSystem": true
-        },
-        {
-          "id": "education-stats",
-          "key": "stats",
-          "label": "admin.sidebar.learningStats",
-          "path": "/admin/education/stats",
-          "icon": null,
-          "permission": "education-stats.read",
-          "order": 5,
-          "isVisible": true,
-          "isSystem": true
-        },
-        {
-          "id": "education-init",
-          "key": "init",
-          "label": "admin.sidebar.educationInit",
-          "path": "/admin/education-init",
-          "icon": null,
-          "permission": "education.init",
-          "order": 6,
-          "isVisible": true,
-          "isSystem": true
-        }
-      ]
-    },
-    {
       "id": "vip",
       "key": "vip",
       "label": "admin.sidebar.vipManagement",
       "path": "/admin/vip",
       "icon": "vip",
-      "permission": "member.read",
+      "permission": "vip.read",
       "order": 14,
       "isVisible": true,
       "isSystem": true,
@@ -235,7 +156,7 @@
       "label": "兑换管理",
       "path": "/admin/credits",
       "icon": "dollar",
-      "permission": "credits-redeem.read",
+      "permission": "credits.read",
       "order": 13,
       "isVisible": true,
       "isSystem": true,
@@ -259,6 +180,30 @@
           "icon": null,
           "permission": "credits-history.read",
           "order": 2,
+          "isVisible": true,
+          "isSystem": true
+        }
+      ]
+    },
+    {
+      "id": "referral",
+      "key": "referral",
+      "label": "邀请管理",
+      "path": "/admin/referral",
+      "icon": "team",
+      "permission": "referral.read",
+      "order": 12,
+      "isVisible": true,
+      "isSystem": true,
+      "children": [
+        {
+          "id": "referral-campaigns",
+          "key": "referral-campaigns",
+          "label": "邀请活动",
+          "path": "/admin/referral/campaigns",
+          "icon": null,
+          "permission": "referral-campaign.read",
+          "order": 1,
           "isVisible": true,
           "isSystem": true
         }

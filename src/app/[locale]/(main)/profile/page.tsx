@@ -324,7 +324,7 @@ export default function ProfilePage() {
 
               <div className="mt-8 p-6 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl">
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">快速操作</h3>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-3 gap-4">
                   <button
                     onClick={() => router.push('/')}
                     className="p-4 bg-white dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all text-left"
@@ -340,6 +340,17 @@ export default function ProfilePage() {
                     <div className="text-2xl mb-2">🔍</div>
                     <div className="font-bold text-gray-900 dark:text-white">浏览漫画</div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">发现更多精彩作品</div>
+                  </button>
+                  <button
+                    onClick={() => router.push('/referral')}
+                    className="p-4 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-xl hover:shadow-lg transition-all text-left relative overflow-hidden group"
+                  >
+                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                    <div className="relative">
+                      <div className="text-2xl mb-2">🎁</div>
+                      <div className="font-bold">邀请好友</div>
+                      <div className="text-sm opacity-90">获得免费次数奖励</div>
+                    </div>
                   </button>
                 </div>
               </div>

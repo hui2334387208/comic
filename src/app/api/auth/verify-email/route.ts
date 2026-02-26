@@ -5,6 +5,7 @@ import { db } from '@/db'
 import { users, verificationTokens } from '@/db/schema'
 import { logger } from '@/lib/logger'
 import { verifyEmailRateLimit } from '@/lib/rate-limit'
+import { createReferralCode, completeReferralTask } from '@/lib/referral-utils'
 
 export async function POST(req: Request) {
   try {
@@ -88,25 +89,21 @@ export async function POST(req: Request) {
     await db.delete(verificationTokens)
       .where(eq(verificationTokens.token, token))
 
-    // 为用户创建Personal默认项目
-    try {
-      const defaultProjectResponse = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/projects/create-default`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user.id,
-        }),
-      })
+    // 为新用户创建邀请码
+    const referralCodeResult = await createReferralCode(user.id)
+    if (!referralCodeResult.success) {
+      console.warn('创建邀请码失败:', referralCodeResult.message)
+    }
 
-      if (!defaultProjectResponse.ok) {
-        console.warn('创建默认项目失败，但不影响邮箱验证:', await defaultProjectResponse.text())
-      } else {
-        console.log('邮箱验证成功后自动创建默认项目成功')
-      }
-    } catch (projectError) {
-      console.warn('创建默认项目时出错，但不影响邮箱验证:', projectError)
+    // 完成邀请任务并发放奖励（如果用户使用了邀请码注册）
+    const taskResult = await completeReferralTask(user.id, 'verified_email')
+    if (taskResult.success) {
+      await logger.info({
+        module: 'auth',
+        action: 'verify-email',
+        description: `邀请任务完成，奖励已发放 (${user.email}) - 邀请人: ${taskResult.inviterReward}次, 被邀请人: ${taskResult.inviteeReward}次`,
+        userId: user.id,
+      })
     }
 
     await logger.info({

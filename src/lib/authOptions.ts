@@ -15,6 +15,7 @@ import { logger } from '@/lib/logger'
 import { checkAccountLock, recordLoginFailure, recordLoginSuccess } from '@/lib/account-lock'
 import { checkFrequentSuccessLogin, recordSuccessLogin } from '@/lib/success-login-detection'
 import { getClientIP, getUserAgent } from '@/lib/ip-utils'
+import { createReferralCode } from '@/lib/referral-utils'
 
 
 const adapter = DrizzleAdapter(db, {
@@ -39,6 +40,15 @@ adapter.createUser = async (user: Omit<AdapterUser, 'id'>) => {
     .from(users)
     .where(eq(users.id, id))
     .then((res) => res[0])
+  
+  // 为OAuth用户创建邀请码
+  const referralCodeResult = await createReferralCode(id)
+  if (referralCodeResult.success) {
+    console.log('OAuth用户邀请码创建成功:', referralCodeResult.code)
+  } else {
+    console.warn('OAuth用户邀请码创建失败:', referralCodeResult.message)
+  }
+  
   return newUser as AdapterUser
 }
 
