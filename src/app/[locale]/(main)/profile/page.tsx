@@ -1,416 +1,516 @@
 'use client'
 
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
-import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
-import 'dayjs/locale/en'
+import { useRouter } from '@/i18n/navigation'
+import React, { useState, useEffect } from 'react'
+import { useSession, signOut } from 'next-auth/react'
 
-interface UserData {
-    id: string;
-    name: string;
-    email: string;
-    avatar?: string;
-    bio?: string;
-    joinDate: string;
-    comicCount: number;
-    favoriteCount: number;
-    viewCount: number;
-    likedComicCount?: number;
-    receivedLikeCount?: number;
+interface ProfileStats {
+  comicCount: number
+  favoriteCount: number
+  viewCount: number
+  receivedLikeCount: number
+  aiUsageCount: number
+  aiDailyLimit: number
+}
+
+interface UserProfile {
+  id: string
+  name: string
+  email: string
+  username: string
+  avatar: string | null
+  role: string
+  joinDate: string
+  comicCount: number
+  favoriteCount: number
+  viewCount: number
+  likedComicCount: number
+  receivedLikeCount: number
+  aiUsageCount: number
+  aiDailyLimit: number
+  creditsBalance: number
 }
 
 interface Comic {
-    id: string;
-    title: string;
-    slug: string;
-    description: string;
-    coverImage?: string;
-    status?: string;
-    category?: {
-        id: number;
-        name: string;
-        slug: string;
-    };
-    isPublic?: boolean;
-    viewCount?: number;
-    likeCount?: number;
-    volumeCount?: number;
-    episodeCount?: number;
-    createdAt?: string;
-    updatedAt?: string;
-    likedAt?: string;
-    favoritedAt?: string;
+  id: number
+  title: string
+  description: string
+  coverImage: string | null
+  viewCount: number
+  likeCount: number
+  volumeCount: number
+  category: {
+    id: number
+    name: string
+    slug: string
+  } | null
 }
 
 export default function ProfilePage() {
-    const t = useTranslations('main.profile')
-    const lang = typeof window !== 'undefined' ? (navigator.language.startsWith('en') ? 'en' : 'zh-cn') : 'zh-cn'
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  const [activeTab, setActiveTab] = useState<'stats' | 'comics' | 'favorites' | 'likes'>('stats')
+  const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [comics, setComics] = useState<Comic[]>([])
+  const [favorites, setFavorites] = useState<Comic[]>([])
+  const [likes, setLikes] = useState<Comic[]>([])
+  const [loading, setLoading] = useState(true)
+  const [contentLoading, setContentLoading] = useState(false)
 
-    const [activeTab, setActiveTab] = useState('comics')
-    const [userData, setUserData] = useState<UserData | null>(null)
-    const [userComics, setUserComics] = useState<Comic[]>([])
-    const [favorites, setFavorites] = useState<Comic[]>([])
-    const [likes, setLikes] = useState<Comic[]>([])
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        Promise.all([
-            fetch('/api/user/profile').then(res => (res.ok ? res.json() : null)),
-            fetch('/api/user/comics').then(res => (res.ok ? res.json() : [])),
-            fetch('/api/user/favorites').then(res => (res.ok ? res.json() : [])),
-            fetch('/api/user/likes').then(res => (res.ok ? res.json() : [])),
-        ])
-            .then(([user, comics, favs, liked]) => {
-                setUserData(user)
-                setUserComics(Array.isArray(comics?.data?.comics) ? comics.data.comics : [])
-                setFavorites(Array.isArray(favs?.data?.favorites) ? favs.data.favorites : [])
-                setLikes(Array.isArray(liked?.data?.likes) ? liked.data.likes : [])
-                setLoading(false)
-            })
-            .catch(() => setLoading(false))
-    }, [])
-
-    const tabs = [
-        { id: 'comics', name: t('tabs.comics'), icon: '📚' },
-        { id: 'likes', name: t('tabs.likes'), icon: '👍' },
-        { id: 'favorites', name: t('tabs.favorites'), icon: '❤️' },
-    ]
-
-    const formatDate = (dateString?: string | number) => {
-        if (!dateString) return ''
-        return dayjs(dateString).locale(lang).format('YYYY-MM-DD')
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/sign-in')
+    } else if (status === 'authenticated') {
+      loadProfile()
     }
+  }, [status, router])
 
-    const formatNumber = (num?: number) => {
-        if (!num) return '0'
-        if (num >= 1000) {
-            return `${(num / 1000).toFixed(1)}k`
-        }
-        return num.toString()
+  const loadProfile = async () => {
+    try {
+      setLoading(true)
+      const res = await fetch('/api/user/profile')
+      if (res.ok) {
+        const data = await res.json()
+        setProfile(data)
+      } else if (res.status === 401) {
+        router.push('/sign-in')
+      }
+    } catch (error) {
+      console.error('加载个人资料失败:', error)
+    } finally {
+      setLoading(false)
     }
+  }
 
-    const profileInitial = userData?.name?.charAt(0)?.toUpperCase() ?? '?'
+  const loadComics = async () => {
+    if (comics.length > 0) return
+    try {
+      setContentLoading(true)
+      const res = await fetch('/api/user/comics?limit=50')
+      if (res.ok) {
+        const data = await res.json()
+        setComics(data.data?.comics || [])
+      }
+    } catch (error) {
+      console.error('加载漫画失败:', error)
+    } finally {
+      setContentLoading(false)
+    }
+  }
 
-    const stats = [
-        { label: t('overview.myComics'), value: formatNumber(userData?.comicCount), accent: 'from-red-500/15 to-red-500/5' },
-        { label: t('overview.likedComics'), value: formatNumber(userData?.likedComicCount ?? likes.length), accent: 'from-emerald-500/15 to-emerald-500/5' },
-        { label: t('overview.favoriteComics'), value: formatNumber(userData?.favoriteCount ?? favorites.length), accent: 'from-rose-500/15 to-rose-500/5' },
-        { label: t('overview.receivedLikes'), value: formatNumber(userData?.receivedLikeCount ?? 0), accent: 'from-purple-500/15 to-purple-500/5' },
-    ]
+  const loadFavorites = async () => {
+    if (favorites.length > 0) return
+    try {
+      setContentLoading(true)
+      const res = await fetch('/api/user/favorites?limit=50')
+      if (res.ok) {
+        const data = await res.json()
+        setFavorites(data.data?.favorites || [])
+      }
+    } catch (error) {
+      console.error('加载收藏失败:', error)
+    } finally {
+      setContentLoading(false)
+    }
+  }
 
-    const renderComics = () => (
-        <div className="space-y-6">
-            {userComics.length === 0 ? (
-                <div className="rounded-2xl border-2 border-dashed border-red-200 dark:border-red-700 bg-gradient-to-br from-red-50/50 to-orange-50/50 dark:bg-gradient-to-br dark:from-red-900/10 dark:to-orange-900/10 p-12 text-center">
-                    <div className="text-5xl">📚</div>
-                    <p className="mt-4 text-lg font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{t('comics.empty')}</p>
-                    <p className="text-gray-600 dark:text-gray-400">{t('comics.create')}</p>
-                </div>
-            ) : (
-                <div className="grid gap-6 md:grid-cols-2">
-                    {userComics.map((comic) => (
-                        <div key={comic.id} className="rounded-2xl border-2 border-red-100 dark:border-red-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-red-300 dark:hover:border-red-600 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-red-500/10 to-orange-500/10 rounded-bl-full"></div>
-                            <div className="flex items-start justify-between relative z-10 mb-4">
-                                <div className="flex-1">
-                                    <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                                        {comic.category?.name || t('comics.category')}
-                                    </p>
-                                    <h4 className="mt-1 text-lg font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{comic.title}</h4>
-                                </div>
-                                <span
-                                    className={`rounded-full px-3 py-1 text-xs font-medium ${comic.isPublic
-                                        ? 'bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-300 border border-green-200 dark:border-green-800'
-                                        : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
-                                        }`}
-                                >
-                                    {comic.isPublic ? t('comics.public') : t('comics.private')}
-                                </span>
-                            </div>
-                            
-                            {comic.coverImage && (
-                                <div className="mb-4 rounded-xl overflow-hidden">
-                                    <img src={comic.coverImage} alt={comic.title} className="w-full h-48 object-cover" />
-                                </div>
-                            )}
-                            
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{comic.description}</p>
-                            
-                            <div className="flex flex-wrap gap-3 text-xs text-gray-600 dark:text-gray-400 mb-4">
-                                <span className="hover:text-red-600 dark:hover:text-red-400 transition-colors">{t('comics.views', { count: String(formatNumber(comic.viewCount)) })}</span>
-                                <span className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">{t('comics.likes', { count: String(comic.likeCount ?? 0) })}</span>
-                                <span className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('comics.volumes', { count: String(comic.volumeCount ?? 0) })}</span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs text-gray-500 dark:text-gray-400">
-                                    {t('comics.updated', { date: formatDate(comic.updatedAt || comic.createdAt || '') })}
-                                </span>
-                                <Link
-                                    href={`/comic/${comic.category?.slug}/${comic.slug}/${comic.id}`}
-                                    className="rounded-xl bg-gradient-to-r from-red-600 to-orange-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-red-700 hover:to-orange-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                                >
-                                    {t('comics.view')}
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
-    )
+  const loadLikes = async () => {
+    if (likes.length > 0) return
+    try {
+      setContentLoading(true)
+      const res = await fetch('/api/user/likes?limit=50')
+      if (res.ok) {
+        const data = await res.json()
+        setLikes(data.data?.likes || [])
+      }
+    } catch (error) {
+      console.error('加载点赞失败:', error)
+    } finally {
+      setContentLoading(false)
+    }
+  }
 
-    const renderLikes = () => (
-        <div className="space-y-6">
-            {likes.length === 0 ? (
-                <div className="rounded-2xl border-2 border-dashed border-orange-200 dark:border-orange-700 bg-gradient-to-br from-orange-50/50 to-yellow-50/50 dark:bg-gradient-to-br dark:from-orange-900/10 dark:to-yellow-900/10 p-12 text-center">
-                    <div className="text-5xl">👍</div>
-                    <p className="mt-4 text-lg font-semibold bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent">{t('likes.empty')}</p>
-                    <p className="text-gray-600 dark:text-gray-400">{t('likes.noLikes')}</p>
-                </div>
-            ) : (
-                <div className="grid gap-6 md:grid-cols-2">
-                    {likes.map((like) => (
-                        <div key={like.id} className="rounded-2xl border-2 border-orange-100 dark:border-orange-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-orange-300 dark:hover:border-orange-600 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-bl-full"></div>
-                            <div className="flex items-center justify-between relative z-10 mb-4">
-                                <div className="flex-1">
-                                    <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                                        {like.category?.name || t('likes.uncategorized')}
-                                    </p>
-                                    <h4 className="mt-1 text-lg font-semibold bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent">{like.title}</h4>
-                                </div>
-                                <button
-                                    className="text-sm font-medium text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors"
-                                    onClick={async () => {
-                                        await fetch(`/api/comic/${like.id}/like`, { method: 'DELETE' })
-                                        setLikes(prev => prev.filter(l => String(l.id) !== String(like.id)))
-                                    }}
-                                >
-                                    {t('likes.remove')}
-                                </button>
-                            </div>
-                            
-                            {like.coverImage && (
-                                <div className="mb-4 rounded-xl overflow-hidden">
-                                    <img src={like.coverImage} alt={like.title} className="w-full h-48 object-cover" />
-                                </div>
-                            )}
-                            
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{like.description}</p>
-                            <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                                <span className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">{t('likes.liked', { date: formatDate(like.likedAt || '') })}</span>
-                                <Link
-                                    href={`/comic/${like.category?.slug}/${like.slug}/${like.id}`}
-                                    className="rounded-xl bg-gradient-to-r from-orange-600 to-yellow-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-orange-700 hover:to-yellow-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                                >
-                                    {t('likes.view')}
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
-    )
+  useEffect(() => {
+    if (activeTab === 'comics') loadComics()
+    else if (activeTab === 'favorites') loadFavorites()
+    else if (activeTab === 'likes') loadLikes()
+  }, [activeTab])
 
-    const renderFavorites = () => (
-        <div className="space-y-6">
-            {favorites.length === 0 ? (
-                <div className="rounded-2xl border-2 border-dashed border-yellow-200 dark:border-yellow-700 bg-gradient-to-br from-yellow-50/50 to-red-50/50 dark:bg-gradient-to-br dark:from-yellow-900/10 dark:to-red-900/10 p-12 text-center">
-                    <div className="text-5xl">⭐</div>
-                    <p className="mt-4 text-lg font-semibold bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent">{t('favorites.empty')}</p>
-                    <p className="text-gray-600 dark:text-gray-400">{t('favorites.noFavorites')}</p>
-                </div>
-            ) : (
-                <div className="grid gap-6 md:grid-cols-2">
-                    {favorites.map((favorite) => (
-                        <div key={favorite.id} className="rounded-2xl border-2 border-yellow-100 dark:border-yellow-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-yellow-300 dark:hover:border-yellow-600 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-yellow-500/10 to-red-500/10 rounded-bl-full"></div>
-                            <div className="flex items-center justify-between relative z-10 mb-4">
-                                <div className="flex-1">
-                                    <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                                        {favorite.category?.name || t('favorites.uncategorized')}
-                                    </p>
-                                    <h4 className="mt-1 text-lg font-semibold bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent">{favorite.title}</h4>
-                                </div>
-                                <button
-                                    className="text-sm font-medium text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors"
-                                    onClick={async () => {
-                                        await fetch(`/api/comic/${favorite.id}/favorite`, { method: 'DELETE' })
-                                        setFavorites(prev => prev.filter(f => f.id !== favorite.id))
-                                    }}
-                                >
-                                    {t('favorites.remove')}
-                                </button>
-                            </div>
-                            
-                            {favorite.coverImage && (
-                                <div className="mb-4 rounded-xl overflow-hidden">
-                                    <img src={favorite.coverImage} alt={favorite.title} className="w-full h-48 object-cover" />
-                                </div>
-                            )}
-                            
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{favorite.description}</p>
-                            <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                                <span className="hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors">{t('favorites.added', { date: formatDate(favorite.favoritedAt || '') })}</span>
-                                <Link
-                                    href={`/comic/${favorite.category?.slug}/${favorite.slug}/${favorite.id}`}
-                                    className="rounded-xl bg-gradient-to-r from-yellow-600 to-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-yellow-700 hover:to-red-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                                >
-                                    {t('favorites.view')}
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
-    )
+  const handleLogout = async () => {
+    await signOut({ redirect: false })
+    router.push('/')
+  }
 
-    const renderSettings = () => (
-        <div className="space-y-6">
-            <div className="rounded-2xl border-2 border-red-200 dark:border-red-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-red-500/10 to-orange-500/10 rounded-bl-full"></div>
-                <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-yellow-500/10 to-red-500/10 rounded-tr-full"></div>
-                <div className="relative z-10">
-                    <h3 className="text-xl font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{t('settings.basic')}</h3>
-                    <div className="mt-6 grid gap-6 md:grid-cols-2">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-600 dark:text-gray-400">{t('settings.username')}</label>
-                            <input
-                                type="text"
-                                value={userData?.name || ''}
-                                className="mt-2 w-full rounded-xl border-2 border-red-200 dark:border-red-800 bg-transparent px-4 py-3 text-sm text-gray-900 dark:text-white focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/30 transition-colors"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-600 dark:text-gray-400">{t('settings.email')}</label>
-                            <input
-                                type="email"
-                                value={userData?.email || ''}
-                                className="mt-2 w-full rounded-xl border-2 border-orange-200 dark:border-orange-800 bg-transparent px-4 py-3 text-sm text-gray-900 dark:text-white focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-colors"
-                            />
-                        </div>
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-600 dark:text-gray-400">{t('overview.bio')}</label>
-                            <textarea
-                                value={userData?.bio || ''}
-                                rows={4}
-                                className="mt-2 w-full rounded-xl border-2 border-yellow-200 dark:border-yellow-800 bg-transparent px-4 py-3 text-sm text-gray-900 dark:text-white focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/30 transition-colors"
-                            />
-                        </div>
-                    </div>
-                    <div className="mt-6 flex justify-end">
-                        <button className="rounded-xl bg-gradient-to-r from-red-600 to-orange-600 px-6 py-2 text-sm font-semibold text-white transition-all duration-300 hover:from-red-700 hover:to-orange-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                            {t('settings.save')}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+  const goToComic = (comic: Comic) => {
+    const slug = comic.category?.slug || 'default'
+    router.push(`/comic/${slug}/${comic.title}/${comic.id}`)
+  }
 
+  if (loading || status === 'loading') {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 dark:from-gray-900 dark:via-red-900/20 dark:to-orange-900/20 py-10 relative overflow-hidden">
-            {/* Traditional decorative elements */}
-            <div className="absolute inset-0 opacity-5">
-                <div className="absolute top-10 left-10 w-32 h-32 border-2 border-red-600 rounded-full"></div>
-                <div className="absolute top-20 right-20 w-24 h-24 border-2 border-orange-500 rounded-full"></div>
-                <div className="absolute bottom-20 left-20 w-28 h-28 border-2 border-yellow-600 rounded-full"></div>
-                <div className="absolute bottom-10 right-10 w-20 h-20 border-2 border-red-500 rounded-full"></div>
-            </div>
-            
-            <div className="mx-auto max-w-7xl px-4 relative z-10">
-                <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]">
-                    <aside className="space-y-6">
-                        <section className="rounded-2xl border-2 border-red-200 dark:border-red-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-bl-full"></div>
-                            <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-yellow-500/20 to-red-500/20 rounded-tr-full"></div>
-                            <div className="flex items-start justify-between relative z-10">
-                                <div className="flex items-center gap-4">
-                                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-orange-600 text-2xl font-bold text-white shadow-lg">
-                                        {profileInitial}
-                                    </div>
-                                    <h2 className="text-2xl font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{userData?.name || t('overview.username')}</h2>
-                                </div>
-                            </div>
-
-                            <div className="mt-6 space-y-2 relative z-10">
-                                <div className="flex flex-wrap gap-3 text-xs text-gray-600 dark:text-gray-400">
-                                    <span className="hover:text-red-600 dark:hover:text-red-400 transition-colors">{t('overview.joined', { date: formatDate(userData?.joinDate || '') })}</span>
-                                    <span className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">{t('overview.email', { email: userData?.email || '—' })}</span>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section className="rounded-2xl border-2 border-orange-200 dark:border-orange-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-orange-500/20 to-yellow-500/20 rounded-bl-full"></div>
-                            <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-red-500/20 to-orange-500/20 rounded-tr-full"></div>
-                            <div className="relative z-10">
-                                <h3 className="text-sm font-semibold uppercase tracking-wide bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{t('overview.quickStats')}</h3>
-                                <div className="mt-4 grid gap-4">
-                                    {stats.map((stat, index) => {
-                                        const gradients = [
-                                            'from-red-500/15 to-red-500/5 border-red-200 dark:border-red-800',
-                                            'from-orange-500/15 to-orange-500/5 border-orange-200 dark:border-orange-800',
-                                            'from-yellow-500/15 to-yellow-500/5 border-yellow-200 dark:border-yellow-800',
-                                            'from-red-600/15 to-orange-600/5 border-red-300 dark:border-red-700'
-                                        ];
-                                        return (
-                                            <div key={stat.label} className={`rounded-2xl bg-gradient-to-r ${gradients[index]} border px-4 py-3 hover:shadow-lg transition-all duration-300`}>
-                                                <p className="text-xs uppercase tracking-wide text-gray-600 dark:text-gray-400">{stat.label}</p>
-                                                <p className="text-2xl font-semibold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{stat.value}</p>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </section>
-                    </aside>
-
-                    <section className="space-y-6">
-                        <div className="rounded-2xl border-2 border-red-200 dark:border-red-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-2 shadow-xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-red-500/10 to-orange-500/10 rounded-bl-full"></div>
-                            <div className="flex flex-wrap gap-2 relative z-10">
-                                {tabs.map((tab) => (
-                                    <button
-                                        key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
-                                        className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition md:flex-none md:px-6 ${activeTab === tab.id
-                                            ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-600/30'
-                                            : 'text-gray-600 hover:bg-red-50 dark:text-gray-300 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400'
-                                            }`}
-                                    >
-                                        <span>{tab.icon}</span>
-                                        {tab.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="rounded-2xl border-2 border-orange-200 dark:border-orange-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-bl-full"></div>
-                            <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-red-500/10 to-orange-500/10 rounded-tr-full"></div>
-                            <div className="relative z-10">
-                                {loading ? (
-                                    <div className="py-20 text-center">
-                                        <div className="inline-block w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mb-4"></div>
-                                        <p className="text-gray-500 dark:text-gray-400">加载中...</p>
-                                    </div>
-                                ) : (
-                                    <>
-                                        {activeTab === 'comics' && renderComics()}
-                                        {activeTab === 'likes' && renderLikes()}
-                                        {activeTab === 'favorites' && renderFavorites()}
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">加载中...</p>
         </div>
+      </div>
     )
+  }
+
+  if (!profile) return null
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20 py-12">
+      <div className="max-w-6xl mx-auto px-4">
+        
+        {/* 用户头部卡片 */}
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 mb-8 border border-purple-100 dark:border-purple-900/30">
+          <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
+            
+            {/* 头像 */}
+            <div className="relative">
+              <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-1 shadow-xl">
+                {profile.avatar ? (
+                  <img src={profile.avatar} alt={profile.name} className="w-full h-full rounded-full object-cover" />
+                ) : (
+                  <div className="w-full h-full rounded-full bg-white dark:bg-gray-700 flex items-center justify-center text-4xl font-bold text-purple-600">
+                    {profile.name?.[0]?.toUpperCase() || 'U'}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* 用户信息 */}
+            <div className="flex-1 text-center md:text-left">
+              <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2">{profile.name}</h1>
+              <p className="text-gray-500 dark:text-gray-400 mb-4">@{profile.username}</p>
+              <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                <span className="px-4 py-1.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">
+                  {profile.email}
+                </span>
+                <span className="px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">
+                  加入于 {new Date(profile.joinDate).toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+
+            {/* 操作按钮 */}
+            <div className="flex gap-3">
+              <button
+                onClick={handleLogout}
+                className="px-6 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-xl"
+              >
+                退出登录
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* 统计卡片 */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-6 text-center shadow-lg border border-purple-100 dark:border-purple-900/30">
+            <div className="text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-1">
+              {profile.comicCount}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">创作</div>
+          </div>
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-6 text-center shadow-lg border border-pink-100 dark:border-pink-900/30">
+            <div className="text-3xl font-black bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent mb-1">
+              {profile.favoriteCount}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">收藏</div>
+          </div>
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-6 text-center shadow-lg border border-blue-100 dark:border-blue-900/30">
+            <div className="text-3xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-1">
+              {profile.viewCount}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">浏览</div>
+          </div>
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-6 text-center shadow-lg border border-green-100 dark:border-green-900/30">
+            <div className="text-3xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-1">
+              {profile.receivedLikeCount}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">获赞</div>
+          </div>
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-6 text-center shadow-lg border border-orange-100 dark:border-orange-900/30">
+            <div className="text-3xl font-black bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent mb-1">
+              {profile.likedComicCount}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">点赞</div>
+          </div>
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-6 text-center shadow-lg border border-indigo-100 dark:border-indigo-900/30">
+            <div className="text-3xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-1">
+              {profile.creditsBalance}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">次数余额</div>
+          </div>
+        </div>
+
+        {/* 标签页 */}
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-2 mb-8 shadow-lg border border-purple-100 dark:border-purple-900/30">
+          <div className="flex gap-2 flex-wrap">
+            {[
+              { key: 'stats', label: '📊 数据统计', count: null },
+              { key: 'comics', label: '📚 我的漫画', count: profile.comicCount },
+              { key: 'favorites', label: '❤️ 我的收藏', count: profile.favoriteCount },
+              { key: 'likes', label: '👍 我的点赞', count: profile.likedComicCount },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as any)}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
+                  activeTab === tab.key
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg scale-105'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-purple-50 dark:hover:bg-purple-900/20'
+                }`}
+              >
+                <span>{tab.label}</span>
+                {tab.count !== null && (
+                  <span className={`px-2 py-0.5 rounded-full text-xs ${
+                    activeTab === tab.key ? 'bg-white/20' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
+                  }`}>
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 内容区域 */}
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-8 shadow-lg border border-purple-100 dark:border-purple-900/30 min-h-[400px]">
+          
+          {activeTab === 'stats' && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-6">数据统计</h2>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">创作统计</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">创作漫画</span>
+                      <span className="font-bold text-purple-600 dark:text-purple-400">{profile.comicCount} 部</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">总浏览量</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{profile.viewCount} 次</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">获得点赞</span>
+                      <span className="font-bold text-pink-600 dark:text-pink-400">{profile.receivedLikeCount} 个</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-2xl">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">互动统计</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">收藏漫画</span>
+                      <span className="font-bold text-red-600 dark:text-red-400">{profile.favoriteCount} 部</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">点赞漫画</span>
+                      <span className="font-bold text-orange-600 dark:text-orange-400">{profile.likedComicCount} 部</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">次数余额</span>
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{profile.creditsBalance} 次</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 p-6 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">快速操作</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <button
+                    onClick={() => router.push('/')}
+                    className="p-4 bg-white dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all text-left"
+                  >
+                    <div className="text-2xl mb-2">🎨</div>
+                    <div className="font-bold text-gray-900 dark:text-white">创作新漫画</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">AI帮你生成精彩漫画</div>
+                  </button>
+                  <button
+                    onClick={() => router.push('/comic')}
+                    className="p-4 bg-white dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all text-left"
+                  >
+                    <div className="text-2xl mb-2">🔍</div>
+                    <div className="font-bold text-gray-900 dark:text-white">浏览漫画</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">发现更多精彩作品</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'comics' && (
+            <div>
+              <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-6">我的漫画</h2>
+              {contentLoading ? (
+                <div className="text-center py-12">
+                  <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                </div>
+              ) : comics.length === 0 ? (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">📚</div>
+                  <h3 className="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">还没有创作漫画</h3>
+                  <p className="text-gray-500 dark:text-gray-400 mb-6">开始你的第一个AI漫画创作吧！</p>
+                  <button
+                    onClick={() => router.push('/')}
+                    className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold hover:shadow-lg transition-all"
+                  >
+                    立即创作
+                  </button>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {comics.map((comic) => (
+                    <div
+                      key={comic.id}
+                      onClick={() => goToComic(comic)}
+                      className="group cursor-pointer bg-white dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1"
+                    >
+                      <div className="aspect-[4/3] bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 relative overflow-hidden">
+                        {comic.coverImage ? (
+                          <img src={comic.coverImage} alt={comic.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-6xl">🎨</div>
+                        )}
+                        {comic.category && (
+                          <div className="absolute top-3 left-3 px-3 py-1 bg-purple-600 text-white rounded-full text-xs font-bold">
+                            {comic.category.name}
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">{comic.title}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">{comic.description}</p>
+                        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                          <span>👁️ {comic.viewCount}</span>
+                          <span>❤️ {comic.likeCount}</span>
+                          {comic.volumeCount > 0 && <span>📚 {comic.volumeCount}卷</span>}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'favorites' && (
+            <div>
+              <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-6">我的收藏</h2>
+              {contentLoading ? (
+                <div className="text-center py-12">
+                  <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                </div>
+              ) : favorites.length === 0 ? (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">❤️</div>
+                  <h3 className="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">还没有收藏</h3>
+                  <p className="text-gray-500 dark:text-gray-400 mb-6">去发现喜欢的漫画吧！</p>
+                  <button
+                    onClick={() => router.push('/comic')}
+                    className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold hover:shadow-lg transition-all"
+                  >
+                    浏览漫画
+                  </button>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {favorites.map((comic) => (
+                    <div
+                      key={comic.id}
+                      onClick={() => goToComic(comic)}
+                      className="group cursor-pointer bg-white dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1"
+                    >
+                      <div className="aspect-[4/3] bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 relative overflow-hidden">
+                        {comic.coverImage ? (
+                          <img src={comic.coverImage} alt={comic.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-6xl">🎨</div>
+                        )}
+                        {comic.category && (
+                          <div className="absolute top-3 left-3 px-3 py-1 bg-purple-600 text-white rounded-full text-xs font-bold">
+                            {comic.category.name}
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">{comic.title}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">{comic.description}</p>
+                        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                          <span>👁️ {comic.viewCount}</span>
+                          <span>❤️ {comic.likeCount}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'likes' && (
+            <div>
+              <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-6">我的点赞</h2>
+              {contentLoading ? (
+                <div className="text-center py-12">
+                  <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                </div>
+              ) : likes.length === 0 ? (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">👍</div>
+                  <h3 className="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">还没有点赞</h3>
+                  <p className="text-gray-500 dark:text-gray-400 mb-6">为喜欢的作品点赞吧！</p>
+                  <button
+                    onClick={() => router.push('/comic')}
+                    className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold hover:shadow-lg transition-all"
+                  >
+                    浏览漫画
+                  </button>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {likes.map((comic) => (
+                    <div
+                      key={comic.id}
+                      onClick={() => goToComic(comic)}
+                      className="group cursor-pointer bg-white dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1"
+                    >
+                      <div className="aspect-[4/3] bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 relative overflow-hidden">
+                        {comic.coverImage ? (
+                          <img src={comic.coverImage} alt={comic.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-6xl">🎨</div>
+                        )}
+                        {comic.category && (
+                          <div className="absolute top-3 left-3 px-3 py-1 bg-purple-600 text-white rounded-full text-xs font-bold">
+                            {comic.category.name}
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">{comic.title}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">{comic.description}</p>
+                        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                          <span>👁️ {comic.viewCount}</span>
+                          <span>❤️ {comic.likeCount}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+        </div>
+      </div>
+    </div>
+  )
 }

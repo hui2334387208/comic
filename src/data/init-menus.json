@@ -230,6 +230,41 @@
       ]
     },
     {
+      "id": "credits",
+      "key": "credits",
+      "label": "兑换管理",
+      "path": "/admin/credits",
+      "icon": "dollar",
+      "permission": "credits-redeem.read",
+      "order": 13,
+      "isVisible": true,
+      "isSystem": true,
+      "children": [
+        {
+          "id": "credits-redeem-codes",
+          "key": "credits-redeem-codes",
+          "label": "兑换码管理",
+          "path": "/admin/credits/redeem-codes",
+          "icon": null,
+          "permission": "credits-redeem.read",
+          "order": 1,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "credits-redeem-history",
+          "key": "credits-redeem-history",
+          "label": "兑换历史",
+          "path": "/admin/credits/redeem-history",
+          "icon": null,
+          "permission": "credits-history.read",
+          "order": 2,
+          "isVisible": true,
+          "isSystem": true
+        }
+      ]
+    },
+    {
       "id": "users",
       "key": "users",
       "label": "admin.sidebar.userManagement",

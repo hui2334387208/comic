@@ -6,6 +6,7 @@ import { db } from '@/db'
 import { users, userVipStatus, generationRateLimits } from '@/db/schema'
 import { comics, comicFavorites, comicLikes } from '@/db/schema'
 import { authOptions } from '@/lib/authOptions'
+import { getUserCredits } from '@/lib/credits-utils'
 
 // GET /api/user/profile - 获取用户个人资料
 export async function GET(request: NextRequest) {
@@ -108,6 +109,9 @@ export async function GET(request: NextRequest) {
       .where(eq(comics.authorId, userId))
     const receivedLikeCount = receivedLikeCountRes[0]?.count || 0
 
+    // 获取用户次数余额
+    const credits = await getUserCredits(userId)
+
     const userProfile = {
       id: user.id,
       name: user.name,
@@ -120,6 +124,7 @@ export async function GET(request: NextRequest) {
       vipExpireDate: vipStatus[0]?.vipExpireDate,
       aiUsageCount,
       aiDailyLimit,
+      creditsBalance: credits.balance,
       comicCount,
       favoriteCount,
       viewCount,

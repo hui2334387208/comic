@@ -14,6 +14,7 @@ import {
 } from 'antd'
 import { ArrowLeftOutlined, PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons'
 import { useRouter, useParams } from 'next/navigation'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 interface ComicVersion {
   id: number
@@ -211,4 +212,6 @@ function ComicVersionsPage() {
   )
 }
 
-export default ComicVersionsPage
+export default withPagePermission(ComicVersionsPage, {
+  permission: 'comic-version.read'
+})

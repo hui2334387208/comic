@@ -16,6 +16,7 @@ import {
 } from 'antd'
 import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons'
 import { useRouter, useParams } from 'next/navigation'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 function EditComicVersionPage() {
   const router = useRouter()
@@ -160,4 +161,6 @@ function EditComicVersionPage() {
   )
 }
 
-export default EditComicVersionPage
+export default withPagePermission(EditComicVersionPage, {
+  permission: 'comic-version.update'
+})

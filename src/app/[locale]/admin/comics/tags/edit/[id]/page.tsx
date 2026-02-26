@@ -15,6 +15,7 @@ import {
 } from 'antd'
 import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons'
 import { useRouter, useParams } from 'next/navigation'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 function EditComicTagPage() {
   const router = useRouter()
@@ -152,4 +153,6 @@ function EditComicTagPage() {
   )
 }
 
-export default EditComicTagPage
+export default withPagePermission(EditComicTagPage, {
+  permission: 'comic-tag.update'
+})

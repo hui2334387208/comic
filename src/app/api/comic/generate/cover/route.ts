@@ -1,15 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
 import { db } from '@/db'
 import { comics } from '@/db/schema/comic'
 import { eq } from 'drizzle-orm'
+import { consumeCredits, getUserCredits } from '@/lib/credits-utils'
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: '请先登录' }, { status: 401 })
+    }
+
+    const userId = session.user.id
     const body = await request.json()
     const { title, description, style = 'anime', comicId } = body || {}
 
     if (!title || !description) {
       return NextResponse.json({ error: '请提供标题和描述' }, { status: 400 })
+    }
+
+    // 检查用户余额
+    const userCreditsData = await getUserCredits(userId)
+    if (userCreditsData.balance <= 0) {
+      return NextResponse.json({ 
+        success: false, 
+        error: '次数不足，无法生成封面' 
+      }, { status: 402 })
     }
 
     // 构建封面描述提示词
@@ -70,8 +89,22 @@ export async function POST(request: NextRequest) {
           console.log(`漫画${comicId}封面已更新到数据库`)
         } catch (dbError) {
           console.error('更新封面到数据库失败:', dbError)
-          // 不影响返回结果，只记录错误
         }
+      }
+
+      // 扣除1次
+      const consumeResult = await consumeCredits(
+        userId,
+        1,
+        comicId,
+        'comic_generation',
+        `生成漫画 #${comicId} 封面`
+      )
+
+      if (consumeResult.success) {
+        console.log(`封面生成成功，扣除1次，剩余${consumeResult.balance}次`)
+      } else {
+        console.error(`扣除次数失败:`, consumeResult.message)
       }
       
       return NextResponse.json({
@@ -79,7 +112,8 @@ export async function POST(request: NextRequest) {
         data: {
           coverUrl,
           comicId,
-          prompt: coverPrompt
+          prompt: coverPrompt,
+          remainingCredits: consumeResult.balance
         }
       })
     } else {

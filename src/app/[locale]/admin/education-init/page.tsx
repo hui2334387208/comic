@@ -10,6 +10,7 @@ import {
   ExclamationCircleOutlined,
   RocketOutlined
 } from '@ant-design/icons';
+import { withPagePermission } from '@/lib/withPagePermission';
 
 const { Step } = Steps;
 
@@ -28,7 +29,7 @@ interface InitStatus {
   };
 }
 
-export default function EducationInitPage() {
+function EducationInitPage() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<InitStatus | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
@@ -350,3 +351,7 @@ export default function EducationInitPage() {
     </div>
   );
 }
+
+export default withPagePermission(EducationInitPage, {
+  permission: 'education.init'
+});

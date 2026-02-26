@@ -18,6 +18,7 @@ import {
 } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 interface Comic {
   id: number
@@ -347,4 +348,6 @@ function ComicListPage() {
   )
 }
 
-export default ComicListPage
+export default withPagePermission(ComicListPage, {
+  permission: 'comic.read'
+})

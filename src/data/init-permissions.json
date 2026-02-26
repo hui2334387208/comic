@@ -276,6 +276,94 @@
       "isSystem": true
     },
     {
+      "id": "credits-redeem.read",
+      "name": "credits-redeem.read",
+      "displayName": "兑换码管理",
+      "description": "可以查看兑换码列表、兑换码详情等所有兑换码相关功能",
+      "module": "credits-redeem",
+      "action": "read",
+      "resource": "credits-redeem",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "credits-redeem.create",
+      "name": "credits-redeem.create",
+      "displayName": "兑换码管理",
+      "description": "可以访问创建页面、生成新兑换码等所有兑换码创建相关功能",
+      "module": "credits-redeem",
+      "action": "create",
+      "resource": "credits-redeem",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "credits-redeem.update",
+      "name": "credits-redeem.update",
+      "displayName": "兑换码管理",
+      "description": "可以访问编辑页面、更新兑换码信息等所有兑换码更新相关功能",
+      "module": "credits-redeem",
+      "action": "update",
+      "resource": "credits-redeem",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "credits-redeem.delete",
+      "name": "credits-redeem.delete",
+      "displayName": "兑换码管理",
+      "description": "可以删除兑换码等所有兑换码删除相关功能",
+      "module": "credits-redeem",
+      "action": "delete",
+      "resource": "credits-redeem",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "credits-history.read",
+      "name": "credits-history.read",
+      "displayName": "兑换历史",
+      "description": "可以查看兑换历史列表、历史详情等所有兑换历史查看功能",
+      "module": "credits-history",
+      "action": "read",
+      "resource": "credits-history",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "credits-history.create",
+      "name": "credits-history.create",
+      "displayName": "兑换历史",
+      "description": "可以创建兑换历史记录等所有兑换历史创建相关功能",
+      "module": "credits-history",
+      "action": "create",
+      "resource": "credits-history",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "credits-history.update",
+      "name": "credits-history.update",
+      "displayName": "兑换历史",
+      "description": "可以更新兑换历史记录等所有兑换历史更新相关功能",
+      "module": "credits-history",
+      "action": "update",
+      "resource": "credits-history",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "credits-history.delete",
+      "name": "credits-history.delete",
+      "displayName": "兑换历史",
+      "description": "可以删除兑换历史记录等所有兑换历史删除相关功能",
+      "module": "credits-history",
+      "action": "delete",
+      "resource": "credits-history",
+      "type": "page",
+      "isSystem": true
+    },
+    {
       "id": "role.read",
       "name": "role.read",
       "displayName": "角色管理",

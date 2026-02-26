@@ -17,6 +17,7 @@ import {
 import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
 import ImageUpload from '@/components/ImageUpload'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 interface Category {
   id: number
@@ -252,4 +253,6 @@ function CreateComicPage() {
   )
 }
 
-export default CreateComicPage
+export default withPagePermission(CreateComicPage, {
+  permission: 'comic.create'
+})

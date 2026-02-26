@@ -15,6 +15,7 @@ import {
 } from 'antd'
 import { ArrowLeftOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useRouter, useParams } from 'next/navigation'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 const { Paragraph, Text } = Typography
 
@@ -272,4 +273,6 @@ function ComicPanelsPage() {
   )
 }
 
-export default ComicPanelsPage
+export default withPagePermission(ComicPanelsPage, {
+  permission: 'comic-panel.read'
+})

@@ -1,16 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
 import { db } from '@/db'
 import { comicPages, comicEpisodes, comicVolumes, comicPanels, comics } from '@/db/schema/comic'
 import { eq, asc } from 'drizzle-orm'
+import { getUserCredits, consumeCredits } from '@/lib/credits-utils'
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: '请先登录' }, { status: 401 })
+    }
+
+    const userId = session.user.id
     const body = await request.json()
     const { comicId } = body || {}
 
     if (!comicId) {
       return NextResponse.json({ error: '请提供comicId' }, { status: 400 })
     }
+
+    // 获取用户余额
+    const userCreditsData = await getUserCredits(userId)
+    let remainingCredits = userCreditsData.balance
 
     // 查询漫画信息获取风格
     const [comic] = await db
@@ -92,15 +106,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '没有找到需要生成的页面' }, { status: 400 })
     }
 
-    console.log(`开始为漫画${comicId}生成${totalPages}张页面图片`)
+    console.log(`开始为漫画${comicId}生成${totalPages}张页面图片，用户余额：${remainingCredits}次`)
     
     const imageUrls: string[] = []
     const errors: string[] = []
+    let successCount = 0
     
-    // 为每个页面生成图片（组合该页面所有分镜信息）
+    // 为每个页面生成图片
     for (let i = 0; i < allPages.length; i++) {
+      // 检查余额
+      if (remainingCredits <= 0) {
+        console.log(`用户余额不足，停止生成。已生成${successCount}/${totalPages}张`)
+        errors.push(`余额不足，仅生成了前${successCount}张图片`)
+        break
+      }
+
       const page = allPages[i]
-      console.log(`正在生成第${i + 1}页漫画图片... (页面ID: ${page.id})`)
+      console.log(`正在生成第${i + 1}页漫画图片... (页面ID: ${page.id}，剩余次数：${remainingCredits})`)
       
       if (!page.panels || page.panels.length === 0) {
         console.warn(`第${i + 1}页没有分镜信息，跳过`)
@@ -199,6 +221,24 @@ export async function POST(request: NextRequest) {
             } catch (dbError) {
               console.error(`更新页面${page.id}到数据库失败:`, dbError)
             }
+
+            // 扣除1次
+            const consumeResult = await consumeCredits(
+              userId,
+              1,
+              comicId,
+              'comic_generation',
+              `生成漫画 #${comicId} 第${i + 1}页`
+            )
+
+            if (consumeResult.success) {
+              remainingCredits = consumeResult.balance
+              successCount++
+              console.log(`扣除1次成功，剩余${remainingCredits}次`)
+            } else {
+              console.error(`扣除次数失败:`, consumeResult.message)
+              successCount++
+            }
           } else {
             console.error(`第${i + 1}页生成失败，API返回:`, result)
             imageUrls.push('')
@@ -256,30 +296,14 @@ export async function POST(request: NextRequest) {
       }
 
       // 添加延迟避免API限流，最后一个不需要延迟
-      if (i < allPages.length - 1) {
+      if (i < allPages.length - 1 && remainingCredits > 0) {
         console.log(`等待2秒后生成下一页图片...`)
         await new Promise(resolve => setTimeout(resolve, 2000)) // 2秒延迟
       }
     }
 
-    const successCount = imageUrls.filter(url => url).length
-    console.log(`漫画${comicId}页面图片生成完成: ${successCount}/${totalPages} 成功`)
-
-    // 如果没有任何图片生成成功，返回失败
-    if (successCount === 0) {
-      return NextResponse.json({
-        success: false,
-        error: '所有页面图片生成失败',
-        detail: errors.join('; '),
-        data: {
-          imageUrls,
-          comicId,
-          pageCount: totalPages,
-          successCount: 0,
-          errors
-        }
-      }, { status: 500 })
-    }
+    const successCountFinal = imageUrls.filter(url => url).length
+    console.log(`漫画${comicId}页面图片生成完成: ${successCountFinal}/${totalPages} 成功`)
 
     return NextResponse.json({
       success: true,
@@ -287,7 +311,8 @@ export async function POST(request: NextRequest) {
         imageUrls,
         comicId,
         pageCount: totalPages,
-        successCount,
+        successCount: successCountFinal,
+        remainingCredits,
         errors: errors.length > 0 ? errors : undefined
       }
     })

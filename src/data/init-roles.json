@@ -66,7 +66,15 @@
         "comic-panel.delete",
         "resource.read",
         "resource.create",
-        "resource.delete"
+        "resource.delete",
+        "credits-redeem.read",
+        "credits-redeem.create",
+        "credits-redeem.update",
+        "credits-redeem.delete",
+        "credits-history.read",
+        "credits-history.create",
+        "credits-history.update",
+        "credits-history.delete"
       ]
     }
   ]

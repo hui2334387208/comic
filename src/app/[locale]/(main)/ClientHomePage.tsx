@@ -1,20 +1,18 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import React, { useState, useEffect } from 'react'
-import { useTranslations } from 'next-intl'
-import { useLocale } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 function ComicSection({ title, desc, comics = [] }: { title: string; desc: string; comics?: any[] }) {
   const t = useTranslations('main.home.comicCard')
   const router = useRouter()
-  const locale = useLocale()
 
   const handleCardClick = (comic: any) => {
     // 构建漫画详情页路由
     const categorySlug = comic.category?.slug || 'uncategorized'
     const promptSlug = comic.prompt ? encodeURIComponent(comic.prompt.substring(0, 50)) : 'comic'
-    router.push(`/${locale}/comic/${categorySlug}/${promptSlug}/${comic.id}`)
+    router.push(`/comic/${categorySlug}/${promptSlug}/${comic.id}`)
   }
 
   return (
@@ -228,17 +226,21 @@ export default function ClientHomePage({
     setError('')
     
     try {
-      // 1. 检查生成限额
-      const limitResponse = await fetch('/api/comic/generate/check-limit', { 
-        method: 'POST' 
-      })
-      const limitData = await limitResponse.json()
-
-      if (limitResponse.status === 429 && !limitData?.data?.allowed) {
-        throw new Error(t('hero.limitExceeded'))
+      // 1. 先检查用户是否有次数
+      const balanceResponse = await fetch('/api/credits/balance')
+      
+      if (balanceResponse.status === 401) {
+        throw new Error('请先登录后再生成漫画')
       }
-      if (!limitResponse.ok) {
-        throw new Error(t('hero.generateError'))
+      
+      let currentBalance = 0
+      if (balanceResponse.ok) {
+        const balanceData = await balanceResponse.json()
+        currentBalance = balanceData.data?.balance || 0
+        
+        if (currentBalance <= 0) {
+          throw new Error('次数不足！请前往兑换页面充值。')
+        }
       }
 
       // 2. 检查缓存（避免重复生成相同内容）
@@ -303,7 +305,7 @@ export default function ClientHomePage({
       const comicId = createData.data.id
       const categorySlug = createData.data.category?.slug || 'ai-generated'
 
-      // 5. 使用wan2.6-t2i生成封面图片
+      // 5. 使用wan2.6-t2i生成封面图片（自动扣1次）
       const coverResponse = await fetch('/api/comic/generate/cover', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -316,9 +318,17 @@ export default function ClientHomePage({
       })
 
       const coverData = await coverResponse.json()
-      if (!coverData.success) {
+      if (coverData.success) {
+        console.log(`封面生成成功，剩余${coverData.data?.remainingCredits}次`)
+        
+        // 如果封面生成后没次数了，直接跳转
+        if (coverData.data?.remainingCredits <= 0) {
+          console.log('次数已用完，跳过页面生成')
+          router.push(`/comic/${categorySlug}/${encodeURIComponent(aiPrompt)}/${comicId}`)
+          return
+        }
+      } else {
         console.warn('封面生成失败:', coverData.error)
-        // 封面生成失败不阻断流程
       }
 
       // 6. 使用AI为每个分镜生成图片
@@ -326,26 +336,18 @@ export default function ClientHomePage({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          volumes, // 包含完整的卷、话、分镜信息
-          style,
           comicId
         }),
       })
 
       const imagesData = await imagesResponse.json()
-      if (!imagesData.success) {
+      if (imagesData.success) {
+        console.log(`成功生成${imagesData.data?.successCount}张图片，剩余${imagesData.data?.remainingCredits}次`)
+      } else {
         console.warn('分镜图片生成失败:', imagesData.error)
-        // 图片生成失败不阻断流程
       }
 
-      // 7. 增加生成计数
-      try {
-        await fetch('/api/comic/generate/increment', { method: 'POST' })
-      } catch (error) {
-        console.warn('计数更新失败:', error)
-      }
-      
-      // 8. 跳转到漫画详情页
+      // 7. 跳转到漫画详情页
       router.push(`/comic/${categorySlug}/${encodeURIComponent(aiPrompt)}/${comicId}`)
       
     } catch (error) {

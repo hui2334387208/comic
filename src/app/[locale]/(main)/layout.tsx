@@ -38,6 +38,11 @@ export default function MainLayout({
       label: <Link href="/profile">{t('navigation.profile')}</Link>,
       icon: <UserOutlined />,
     },
+    {
+      key: 'redeem',
+      label: <Link href="/credits/redeem">兑换次数</Link>,
+      icon: <span>💎</span>,
+    },
     // {
     //   key: 'vip',
     //   label: <Link href="/vip">{t('navigation.vipCenter')}</Link>,
@@ -63,6 +68,7 @@ export default function MainLayout({
   const defaultMenus = [
     { id: '0', path: '/', name: '首页' },
     { id: '1', path: '/comic', name: '漫画广场' },
+    { id: '2', path: '/pricing', name: '定价' },
     // { id: '2', path: '/create', name: '创作中心' },
     // { id: '3', path: '/gallery', name: '作品展示' },
     { id: '4', path: 'https://blog.jumpnav.com', name: '博客' },

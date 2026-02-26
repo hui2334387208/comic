@@ -16,6 +16,7 @@ import {
 import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons'
 import { useRouter, useParams } from 'next/navigation'
 import ImageUpload from '@/components/ImageUpload'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 function CreateComicPagePage() {
   const router = useRouter()
@@ -147,4 +148,6 @@ function CreateComicPagePage() {
   )
 }
 
-export default CreateComicPagePage
+export default withPagePermission(CreateComicPagePage, {
+  permission: 'comic-page.create'
+})

@@ -15,6 +15,7 @@ import {
 } from 'antd'
 import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons'
 import { useRouter, useParams } from 'next/navigation'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 function EditComicPanelPage() {
   const router = useRouter()
@@ -218,4 +219,6 @@ function EditComicPanelPage() {
   )
 }
 
-export default EditComicPanelPage
+export default withPagePermission(EditComicPanelPage, {
+  permission: 'comic-panel.update'
+})

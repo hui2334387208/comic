@@ -1,4 +1,4 @@
-import { eq, desc } from 'drizzle-orm'
+import { eq, desc, inArray } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
         })
         .from(comics)
         .leftJoin(comicCategories, eq(comics.categoryId, comicCategories.id))
-        .where(eq(comics.id, comicIds[0]))
+        .where(inArray(comics.id, comicIds))
     }
 
     const favorites = favoriteRows.map((fav) => {

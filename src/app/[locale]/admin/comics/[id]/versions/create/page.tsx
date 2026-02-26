@@ -15,6 +15,7 @@ import {
 } from 'antd'
 import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons'
 import { useRouter, useParams } from 'next/navigation'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 function CreateComicVersionPage() {
   const router = useRouter()
@@ -129,4 +130,6 @@ function CreateComicVersionPage() {
   )
 }
 
-export default CreateComicVersionPage
+export default withPagePermission(CreateComicVersionPage, {
+  permission: 'comic-version.create'
+})

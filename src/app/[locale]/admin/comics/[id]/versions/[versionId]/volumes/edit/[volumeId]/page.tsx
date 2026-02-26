@@ -17,6 +17,7 @@ import {
 import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons'
 import { useRouter, useParams } from 'next/navigation'
 import ImageUpload from '@/components/ImageUpload'
+import { withPagePermission } from '@/lib/withPagePermission'
 
 function EditComicVolumePage() {
   const router = useRouter()
@@ -191,4 +192,6 @@ function EditComicVolumePage() {
   )
 }
 
-export default EditComicVolumePage
+export default withPagePermission(EditComicVolumePage, {
+  permission: 'comic-volume.update'
+})
