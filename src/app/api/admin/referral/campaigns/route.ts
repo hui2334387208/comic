@@ -1,25 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/authOptions'
 import { db } from '@/db'
 import { referralCampaigns } from '@/db/schema/referral'
-import { eq, desc } from 'drizzle-orm'
+import { desc } from 'drizzle-orm'
 import { requirePermission } from '@/lib/permission-middleware'
 
 // 获取所有邀请活动
 export async function GET(request: NextRequest) {
+  const permissionCheck = await requirePermission('referral-campaign.read')(request)
+  if (permissionCheck) {
+    return permissionCheck
+  }
+
   try {
-    const session = await getServerSession(authOptions)
-    // 权限检查
-    const permissionCheck = await requirePermission('referral-campaign.read')(request)
-    if (permissionCheck) {
-      return permissionCheck
-    }
-
-    if (!session?.user) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 })
-    }
-
     const campaigns = await db
       .select()
       .from(referralCampaigns)
@@ -37,18 +29,12 @@ export async function GET(request: NextRequest) {
 
 // 创建新的邀请活动
 export async function POST(request: NextRequest) {
+  const permissionCheck = await requirePermission('referral-campaign.create')(request)
+  if (permissionCheck) {
+    return permissionCheck
+  }
+
   try {
-    const session = await getServerSession(authOptions)
-    // 权限检查
-    const permissionCheck = await requirePermission('referral-campaign.create')(request)
-    if (permissionCheck) {
-      return permissionCheck
-    }
-
-    if (!session?.user) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 })
-    }
-
     const body = await request.json()
     const {
       name,

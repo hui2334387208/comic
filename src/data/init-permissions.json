@@ -1110,6 +1110,105 @@
       "resource": "referral-campaign",
       "type": "page",
       "isSystem": true
+    },
+    {
+      "id": "checkin.read",
+      "name": "checkin.read",
+      "displayName": "签到管理",
+      "description": "可以访问签到管理模块等所有签到管理相关功能",
+      "module": "checkin",
+      "action": "read",
+      "resource": "checkin",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "checkin-rule.read",
+      "name": "checkin-rule.read",
+      "displayName": "签到规则管理",
+      "description": "可以查看签到规则列表、规则详情等所有签到规则查看功能",
+      "module": "checkin-rule",
+      "action": "read",
+      "resource": "checkin-rule",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "checkin-rule.create",
+      "name": "checkin-rule.create",
+      "displayName": "签到规则管理",
+      "description": "可以访问创建页面、创建签到规则等所有签到规则创建相关功能",
+      "module": "checkin-rule",
+      "action": "create",
+      "resource": "checkin-rule",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "checkin-rule.update",
+      "name": "checkin-rule.update",
+      "displayName": "签到规则管理",
+      "description": "可以访问编辑页面、更新签到规则等所有签到规则更新相关功能",
+      "module": "checkin-rule",
+      "action": "update",
+      "resource": "checkin-rule",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "checkin-rule.delete",
+      "name": "checkin-rule.delete",
+      "displayName": "签到规则管理",
+      "description": "可以删除签到规则等所有签到规则删除相关功能",
+      "module": "checkin-rule",
+      "action": "delete",
+      "resource": "checkin-rule",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "exchange-rate.read",
+      "name": "exchange-rate.read",
+      "displayName": "兑换比例管理",
+      "description": "可以查看兑换比例列表、比例详情等所有兑换比例查看功能",
+      "module": "exchange-rate",
+      "action": "read",
+      "resource": "exchange-rate",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "exchange-rate.create",
+      "name": "exchange-rate.create",
+      "displayName": "兑换比例管理",
+      "description": "可以访问创建页面、创建兑换比例等所有兑换比例创建相关功能",
+      "module": "exchange-rate",
+      "action": "create",
+      "resource": "exchange-rate",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "exchange-rate.update",
+      "name": "exchange-rate.update",
+      "displayName": "兑换比例管理",
+      "description": "可以访问编辑页面、更新兑换比例等所有兑换比例更新相关功能",
+      "module": "exchange-rate",
+      "action": "update",
+      "resource": "exchange-rate",
+      "type": "page",
+      "isSystem": true
+    },
+    {
+      "id": "exchange-rate.delete",
+      "name": "exchange-rate.delete",
+      "displayName": "兑换比例管理",
+      "description": "可以删除兑换比例等所有兑换比例删除相关功能",
+      "module": "exchange-rate",
+      "action": "delete",
+      "resource": "exchange-rate",
+      "type": "page",
+      "isSystem": true
     }
   ]
 }

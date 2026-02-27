@@ -366,42 +366,8 @@ export async function completeReferralTask(
       }
     }
 
-    // 获取被邀请人的层级
-    const inviteeLevel = await getUserInviteLevel(inviteeId)
-    
-    // 超过三级不发放奖励
-    if (inviteeLevel >= 3) {
-      await db
-        .update(referralRelations)
-        .set({
-          status: 'completed',
-          completedAt: new Date(),
-          updatedAt: new Date(),
-        })
-        .where(eq(referralRelations.id, relation.id))
-
-      return {
-        success: true,
-        message: '邀请层级超过限制，不发放奖励',
-        inviterReward: 0,
-        inviteeReward: 0,
-      }
-    }
-
-    let inviterRewardIssued = false
-    let inviteeRewardIssued = false
-    let actualInviterReward = relation.inviterRewardAmount || 0
-    let actualInviteeReward = relation.inviteeRewardAmount || 0
-
-    // 根据层级调整奖励
-    // 一级：100%奖励
-    // 二级：50%奖励
-    // 三级：不发放邀请人奖励
-    if (inviteeLevel === 1) {
-      actualInviterReward = Math.floor(actualInviterReward * 0.5) // 二级奖励减半
-    } else if (inviteeLevel >= 2) {
-      actualInviterReward = 0 // 三级及以上不发放邀请人奖励
-    }
+    const baseInviterReward = relation.inviterRewardAmount || campaign.inviterReward
+    const baseInviteeReward = relation.inviteeRewardAmount || campaign.inviteeReward
 
     await db.transaction(async (tx) => {
       // 更新邀请关系状态
@@ -411,59 +377,17 @@ export async function completeReferralTask(
           status: 'completed',
           completedAt: new Date(),
           updatedAt: new Date(),
-          inviterRewardAmount: actualInviterReward, // 更新实际奖励金额
         })
         .where(eq(referralRelations.id, relation.id))
 
-      // 发放邀请人奖励
-      if (!relation.inviterRewarded && actualInviterReward > 0) {
-        const rechargeResult = await rechargeCredits(
-          relation.inviterId,
-          actualInviterReward,
-          relation.id,
-          'referral_inviter',
-          `邀请好友奖励 ${actualInviterReward} 次 (${inviteeLevel === 0 ? '一级' : '二级'}邀请)`
-        )
-
-        if (rechargeResult.success) {
-          await tx
-            .update(referralRelations)
-            .set({
-              inviterRewarded: true,
-            })
-            .where(eq(referralRelations.id, relation.id))
-
-          await tx.insert(referralRewards).values({
-            relationId: relation.id,
-            userId: relation.inviterId,
-            rewardType: 'inviter',
-            rewardAmount: actualInviterReward,
-            status: 'issued',
-            issuedAt: new Date(),
-          })
-
-          // 更新邀请人统计
-          await tx
-            .update(userReferralCodes)
-            .set({
-              successfulInvites: sql`${userReferralCodes.successfulInvites} + 1`,
-              totalRewards: sql`${userReferralCodes.totalRewards} + ${actualInviterReward}`,
-              updatedAt: new Date(),
-            })
-            .where(eq(userReferralCodes.userId, relation.inviterId))
-
-          inviterRewardIssued = true
-        }
-      }
-
-      // 发放被邀请人奖励（所有层级都发放）
-      if (!relation.inviteeRewarded && actualInviteeReward > 0) {
+      // 1. 发放被邀请人奖励（永远发放）
+      if (!relation.inviteeRewarded && baseInviteeReward > 0) {
         const rechargeResult = await rechargeCredits(
           relation.inviteeId,
-          actualInviteeReward,
+          baseInviteeReward,
           relation.id,
           'referral_invitee',
-          `新用户奖励 ${actualInviteeReward} 次`
+          `新用户奖励 ${baseInviteeReward} 次`
         )
 
         if (rechargeResult.success) {
@@ -478,21 +402,122 @@ export async function completeReferralTask(
             relationId: relation.id,
             userId: relation.inviteeId,
             rewardType: 'invitee',
-            rewardAmount: actualInviteeReward,
+            rewardAmount: baseInviteeReward,
+            status: 'issued',
+            issuedAt: new Date(),
+          })
+        }
+      }
+
+      // 2. 发放直接邀请人奖励（一级，永远发放）
+      if (!relation.inviterRewarded && baseInviterReward > 0) {
+        const rechargeResult = await rechargeCredits(
+          relation.inviterId,
+          baseInviterReward,
+          relation.id,
+          'referral_inviter',
+          `邀请好友奖励 ${baseInviterReward} 次 (一级邀请)`
+        )
+
+        if (rechargeResult.success) {
+          await tx
+            .update(referralRelations)
+            .set({
+              inviterRewarded: true,
+              inviterRewardAmount: baseInviterReward,
+            })
+            .where(eq(referralRelations.id, relation.id))
+
+          await tx.insert(referralRewards).values({
+            relationId: relation.id,
+            userId: relation.inviterId,
+            rewardType: 'inviter',
+            rewardAmount: baseInviterReward,
             status: 'issued',
             issuedAt: new Date(),
           })
 
-          inviteeRewardIssued = true
+          // 更新邀请人统计
+          await tx
+            .update(userReferralCodes)
+            .set({
+              successfulInvites: sql`${userReferralCodes.successfulInvites} + 1`,
+              totalRewards: sql`${userReferralCodes.totalRewards} + ${baseInviterReward}`,
+              updatedAt: new Date(),
+            })
+            .where(eq(userReferralCodes.userId, relation.inviterId))
         }
+      }
+
+      // 3. 向上追溯，给上级发放分润奖励
+      let currentInviterId = relation.inviterId
+      let level = 2 // 从二级开始
+
+      while (level <= 3) {
+        // 查找上级的邀请关系
+        const [upperRelation] = await tx
+          .select()
+          .from(referralRelations)
+          .where(eq(referralRelations.inviteeId, currentInviterId))
+          .limit(1)
+
+        if (!upperRelation) {
+          // 没有上级了，停止追溯
+          break
+        }
+
+        // 计算上级奖励
+        let upperReward = 0
+        if (level === 2) {
+          // 二级上级：减半
+          upperReward = baseInviterReward / 2
+        } else if (level === 3) {
+          // 三级上级：再减半（1/4）
+          upperReward = baseInviterReward / 4
+        }
+
+        // 发放上级奖励
+        if (upperReward > 0) {
+          const upperRechargeResult = await rechargeCredits(
+            upperRelation.inviterId,
+            upperReward,
+            relation.id,
+            'referral_upper_level',
+            `${level}级邀请分润 ${upperReward} 次`
+          )
+
+          if (upperRechargeResult.success) {
+            await tx.insert(referralRewards).values({
+              relationId: relation.id,
+              userId: upperRelation.inviterId,
+              rewardType: `level_${level}`,
+              rewardAmount: upperReward,
+              status: 'issued',
+              issuedAt: new Date(),
+            })
+
+            // 更新上级统计
+            await tx
+              .update(userReferralCodes)
+              .set({
+                totalRewards: sql`${userReferralCodes.totalRewards} + ${upperReward}`,
+                updatedAt: new Date(),
+              })
+              .where(eq(userReferralCodes.userId, upperRelation.inviterId))
+          }
+        }
+
+        // 继续向上追溯
+        currentInviterId = upperRelation.inviterId
+        level++
       }
     })
 
     return {
       success: true,
-      message: `邀请任务完成，奖励已发放 (${inviteeLevel === 0 ? '一级' : inviteeLevel === 1 ? '二级' : '三级'}邀请)`,
-      inviterReward: inviterRewardIssued ? actualInviterReward : 0,
-      inviteeReward: inviteeRewardIssued ? actualInviteeReward : 0,
+      message: '邀请任务完成，奖励已发放（含上级分润）',
+      inviterReward: baseInviterReward,
+      inviteeReward: baseInviteeReward,
     }
   } catch (error: any) {
     console.error('完成邀请任务失败:', error)

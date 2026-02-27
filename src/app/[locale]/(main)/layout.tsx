@@ -39,6 +39,11 @@ export default function MainLayout({
       icon: <UserOutlined />,
     },
     {
+      key: 'checkin',
+      label: <Link href="/checkin">每日签到</Link>,
+      icon: <span>📅</span>,
+    },
+    {
       key: 'redeem',
       label: <Link href="/credits/redeem">兑换次数</Link>,
       icon: <span>💎</span>,

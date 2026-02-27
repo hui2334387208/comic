@@ -186,6 +186,41 @@
       ]
     },
     {
+      "id": "checkin",
+      "key": "checkin",
+      "label": "签到管理",
+      "path": "/admin/checkin",
+      "icon": "calendar",
+      "permission": "checkin.read",
+      "order": 11,
+      "isVisible": true,
+      "isSystem": true,
+      "children": [
+        {
+          "id": "checkin-rules",
+          "key": "checkin-rules",
+          "label": "签到规则",
+          "path": "/admin/checkin/rules",
+          "icon": null,
+          "permission": "checkin-rule.read",
+          "order": 1,
+          "isVisible": true,
+          "isSystem": true
+        },
+        {
+          "id": "checkin-exchange-rates",
+          "key": "checkin-exchange-rates",
+          "label": "兑换比例",
+          "path": "/admin/checkin/exchange-rates",
+          "icon": null,
+          "permission": "exchange-rate.read",
+          "order": 2,
+          "isVisible": true,
+          "isSystem": true
+        }
+      ]
+    },
+    {
       "id": "referral",
       "key": "referral",
       "label": "邀请管理",

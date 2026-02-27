@@ -86,6 +86,24 @@ export const menuItems: MenuItem[] = [
     icon: 'message',
   },
   {
+    key: 'checkin',
+    label: '签到管理',
+    path: '/admin/checkin',
+    icon: 'calendar',
+    children: [
+      {
+        key: 'checkin-rules',
+        label: '签到规则',
+        path: '/admin/checkin/rules',
+      },
+      {
+        key: 'exchange-rates',
+        label: '兑换比例',
+        path: '/admin/checkin/exchange-rates',
+      },
+    ],
+  },
+  {
     key: 'settings',
     label: 'admin.sidebar.system',
     path: '/admin/settings',

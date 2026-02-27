@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/authOptions'
 import { db } from '@/db'
 import { referralCampaigns } from '@/db/schema/referral'
 import { eq } from 'drizzle-orm'
@@ -12,15 +10,10 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
     // 权限检查
     const permissionCheck = await requirePermission('referral-campaign.read')(request)
     if (permissionCheck) {
       return permissionCheck
-    }
-
-    if (!session?.user) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 })
     }
 
     const id = parseInt(params.id)
@@ -49,15 +42,10 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
     // 权限检查
     const permissionCheck = await requirePermission('referral-campaign.update')(request)
     if (permissionCheck) {
       return permissionCheck
-    }
-
-    if (!session?.user) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 })
     }
 
     const id = parseInt(params.id)
@@ -126,15 +114,10 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
     // 权限检查
     const permissionCheck = await requirePermission('referral-campaign.delete')(request)
     if (permissionCheck) {
       return permissionCheck
-    }
-
-    if (!session?.user) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 })
     }
 
     const id = parseInt(params.id)
