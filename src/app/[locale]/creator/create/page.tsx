@@ -123,19 +123,21 @@ export default function CreatePage() {
   return (
     <div className="h-full flex flex-col bg-white">
       {/* 顶部工具栏 */}
-      <header className="h-16 bg-indigo-100/50 border-b-2 border-indigo-200 px-6 flex items-center justify-between shadow-sm">
-        <h1 className="text-2xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          漫画创作
-        </h1>
+      <header className="h-16 bg-indigo-100/50 border-b-2 border-indigo-200 px-6 flex items-center justify-end shadow-sm">
         <div className="flex items-center space-x-3">
-          <button className="px-4 py-2 bg-white hover:bg-indigo-50 text-indigo-600 rounded-xl transition-all text-sm font-semibold border-2 border-indigo-200">
-            <Save size={16} className="inline mr-1" />
+          <Button 
+            icon={<Save size={16} />}
+            className="!bg-white hover:!bg-indigo-50 !text-indigo-600 !rounded-xl !text-sm !font-semibold !border-2 !border-indigo-200 !h-10 !px-4"
+          >
             保存草稿
-          </button>
-          <button className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl transition-all text-sm font-semibold shadow-lg">
-            <Sparkles size={16} className="inline mr-1" />
+          </Button>
+          <Button 
+            type="primary"
+            icon={<Sparkles size={16} />}
+            className="!bg-gradient-to-r !from-indigo-600 !to-purple-600 hover:!from-indigo-700 hover:!to-purple-700 !rounded-xl !text-sm !font-semibold !shadow-lg !h-10 !px-4 !border-0"
+          >
             发布作品
-          </button>
+          </Button>
         </div>
       </header>
 
