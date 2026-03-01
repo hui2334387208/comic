@@ -311,55 +311,58 @@ export default function CreatePage() {
               {/* 分隔线 */}
               <div className="w-px h-20 bg-gray-200 flex-shrink-0"></div>
 
-              {/* 卷列表滚动区域 */}
-              <div className="flex-1 min-w-0 relative">
+              <div className="flex-1 min-w-0 flex items-center gap-2">
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
+                  className="flex-shrink-0 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
 
+                {/* 卷列表滚动区域 */}
+                <div className="overflow-hidden" style={{ width: 'calc(100% - 293px)' }}>
+                  {/* 卷列表容器 */}
+                  <div ref={scrollRef} className="overflow-x-scroll pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    <div className="flex space-x-3 min-w-max py-2">
+                    {volumes.map((volume, vIdx) => (
+                      <div
+                        key={volume.id}
+                        onClick={() => setCurrentVolume(vIdx)}
+                        className={`flex-shrink-0 w-24 h-24 rounded-xl border-2 cursor-pointer transition-all ${
+                          currentVolume === vIdx
+                            ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg'
+                            : 'bg-white border-gray-300 text-gray-700 hover:border-indigo-400'
+                        }`}
+                      >
+                        <div className="h-full flex flex-col items-center justify-center p-2">
+                          <div className="text-xs font-semibold mb-1">{volume.name}</div>
+                          <div className={`text-xs ${currentVolume === vIdx ? 'text-white/70' : 'text-gray-400'}`}>
+                            {volume.chapters.length}/{volume.chapters.reduce((sum, ch) => sum + ch.pages.length, 0)}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* 添加卷按钮 */}
+                    <button
+                      onClick={addVolume}
+                      className="flex-shrink-0 w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-indigo-400 hover:bg-indigo-50 transition-all flex flex-col items-center justify-center text-gray-400 hover:text-indigo-600"
+                    >
+                      <Plus size={24} />
+                      <span className="text-xs mt-1">添加卷</span>
+                    </button>
+                    </div>
+                  </div>
+                </div>
+
                 {/* 右箭头 */}
                 <button
                   onClick={() => scroll('right')}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
+                  className="flex-shrink-0 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   <ChevronRight size={18} />
                 </button>
-
-                <div ref={scrollRef} className="overflow-x-auto pb-2 px-10 scrollbar-hide">
-                  <div className="flex space-x-3 min-w-max py-2">
-                  {volumes.map((volume, vIdx) => (
-                    <div
-                      key={volume.id}
-                      onClick={() => setCurrentVolume(vIdx)}
-                      className={`flex-shrink-0 w-24 h-24 rounded-xl border-2 cursor-pointer transition-all ${
-                        currentVolume === vIdx
-                          ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg'
-                          : 'bg-white border-gray-300 text-gray-700 hover:border-indigo-400'
-                      }`}
-                    >
-                      <div className="h-full flex flex-col items-center justify-center p-2">
-                        <div className="text-xs font-semibold mb-1">{volume.name}</div>
-                        <div className={`text-xs ${currentVolume === vIdx ? 'text-white/70' : 'text-gray-400'}`}>
-                          {volume.chapters.length}/{volume.chapters.reduce((sum, ch) => sum + ch.pages.length, 0)}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  {/* 添加卷按钮 */}
-                  <button
-                    onClick={addVolume}
-                    className="flex-shrink-0 w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-indigo-400 hover:bg-indigo-50 transition-all flex flex-col items-center justify-center text-gray-400 hover:text-indigo-600"
-                  >
-                    <Plus size={24} />
-                    <span className="text-xs mt-1">添加卷</span>
-                  </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -394,28 +397,22 @@ export default function CreatePage() {
               </div>
 
               {/* 分隔线 */}
-              <div className="w-px h-20 bg-gray-200 flex-shrink-0"></div>
+              {/* 分隔线 */}
+              <div className="w-px h-20 bg-gray-200"></div>
 
-              {/* 话列表滚动区域 */}
-              <div className="flex-1 min-w-0 relative">
+              <div className="flex-1 min-w-0 flex items-center gap-2">
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
+                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
 
-                {/* 右箭头 */}
-                <button
-                  onClick={() => scroll('right')}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
-                >
-                  <ChevronRight size={18} />
-                </button>
-
-                <div className="overflow-x-auto pb-2 px-10 scrollbar-hide">
-                  <div className="flex space-x-3 min-w-max py-2">
+                {/* 话列表滚动区域 */}
+                <div className="overflow-hidden" style={{ width: 'calc(100% - 293px)' }}>
+                  {/* 话列表容器 */}
+                  <div className="flex space-x-3 py-2 overflow-x-scroll scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                   {volumes[currentVolume]?.chapters.map((chapter, chIdx) => (
                     <div
                       key={chapter.id}
@@ -445,6 +442,14 @@ export default function CreatePage() {
                   </button>
                   </div>
                 </div>
+
+                {/* 右箭头 */}
+                <button
+                  onClick={() => scroll('right')}
+                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  <ChevronRight size={18} />
+                </button>
               </div>
             </div>
           </div>
@@ -479,28 +484,22 @@ export default function CreatePage() {
               </div>
 
               {/* 分隔线 */}
-              <div className="w-px h-20 bg-gray-200 flex-shrink-0"></div>
+              {/* 分隔线 */}
+              <div className="w-px h-20 bg-gray-200"></div>
 
-              {/* 页列表滚动区域 */}
-              <div className="flex-1 min-w-0 relative">
+              <div className="flex-1 min-w-0 flex items-center gap-2">
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
+                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
 
-                {/* 右箭头 */}
-                <button
-                  onClick={() => scroll('right')}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
-                >
-                  <ChevronRight size={18} />
-                </button>
-
-                <div className="overflow-x-auto pb-2 px-10 scrollbar-hide">
-                  <div className="flex space-x-3 min-w-max py-2">
+                {/* 页列表滚动区域 */}
+                <div className="overflow-hidden" style={{ width: 'calc(100% - 293px)' }}>
+                  {/* 页列表容器 */}
+                  <div className="flex space-x-3 py-2 overflow-x-scroll scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                   {currentPages.map((page, pIdx) => (
                     <div
                       key={page.id}
@@ -530,6 +529,14 @@ export default function CreatePage() {
                   </button>
                   </div>
                 </div>
+
+                {/* 右箭头 */}
+                <button
+                  onClick={() => scroll('right')}
+                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  <ChevronRight size={18} />
+                </button>
               </div>
             </div>
           </div>
@@ -564,28 +571,21 @@ export default function CreatePage() {
               </div>
 
               {/* 分隔线 */}
-              <div className="w-px h-20 bg-gray-200 flex-shrink-0"></div>
+              <div className="w-px h-20 bg-gray-200"></div>
 
-              {/* 分镜列表滚动区域 */}
-              <div className="flex-1 min-w-0 relative">
+              <div className="flex-1 min-w-0 flex items-center gap-2">
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
+                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
 
-                {/* 右箭头 */}
-                <button
-                  onClick={() => scroll('right')}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
-                >
-                  <ChevronRight size={18} />
-                </button>
-
-                <div className="overflow-x-auto pb-2 px-10 scrollbar-hide">
-                  <div className="flex space-x-3 min-w-max py-2">
+                {/* 分镜列表滚动区域 */}
+                <div className="overflow-hidden" style={{ width: 'calc(100% - 293px)' }}>
+                  {/* 分镜列表容器 */}
+                  <div className="flex space-x-3 py-2 overflow-x-scroll scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                   {currentPanels.map((panel: any, panelIdx: number) => (
                     <div
                       key={panel.id}
@@ -610,6 +610,14 @@ export default function CreatePage() {
                   </button>
                   </div>
                 </div>
+
+                {/* 右箭头 */}
+                <button
+                  onClick={() => scroll('right')}
+                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  <ChevronRight size={18} />
+                </button>
               </div>
             </div>
           </div>
@@ -644,28 +652,21 @@ export default function CreatePage() {
               </div>
 
               {/* 分隔线 */}
-              <div className="w-px h-20 bg-gray-200 flex-shrink-0"></div>
+              <div className="w-px h-20 bg-gray-200"></div>
 
-              {/* 分镜合成列表滚动区域 */}
-              <div className="flex-1 min-w-0 relative">
+              <div className="flex-1 min-w-0 flex items-center gap-2">
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
+                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
 
-                {/* 右箭头 */}
-                <button
-                  onClick={() => scroll('right')}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600"
-                >
-                  <ChevronRight size={18} />
-                </button>
-
-                <div className="overflow-x-auto pb-2 px-10 scrollbar-hide">
-                  <div className="flex space-x-3 min-w-max py-2">
+                {/* 分镜合成列表滚动区域 */}
+                <div className="overflow-hidden" style={{ width: 'calc(100% - 293px)' }}>
+                  {/* 分镜合成列表容器 */}
+                  <div className="flex space-x-3 py-2 overflow-x-scroll scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                   {compositions.map((comp, compIdx) => (
                     <div
                       key={comp.id}
@@ -690,6 +691,14 @@ export default function CreatePage() {
                   </button>
                   </div>
                 </div>
+
+                {/* 右箭头 */}
+                <button
+                  onClick={() => scroll('right')}
+                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  <ChevronRight size={18} />
+                </button>
               </div>
             </div>
           </div>
