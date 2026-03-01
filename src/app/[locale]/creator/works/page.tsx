@@ -14,7 +14,7 @@ export default function WorksPage() {
 
   const fetchComics = async () => {
     try {
-      const response = await fetch('/api/user/comics')
+      const response = await fetch('/api/creator/works')
       const result = await response.json()
       if (result.success) {
         setComics(result.data.comics)

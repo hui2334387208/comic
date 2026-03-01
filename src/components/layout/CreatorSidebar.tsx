@@ -8,8 +8,8 @@ const CreatorSidebar = ({ collapsed }: { collapsed: boolean }) => {
 
   const menuItems = [
     { path: '/creator', icon: '🏠', label: '创作中心' },
-    { path: '/creator/works', icon: '📚', label: '我的作品' },
     { path: '/creator/create', icon: '✨', label: '创作漫画' },
+    { path: '/creator/works', icon: '📚', label: '我的作品' },
     { path: '/creator/analytics', icon: '📊', label: '数据分析' },
     { path: '/creator/earnings', icon: '💰', label: '收益管理' },
     { path: '/creator/review', icon: '📋', label: '内容审核' },
