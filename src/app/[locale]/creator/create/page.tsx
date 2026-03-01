@@ -1,20 +1,20 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Save, Sparkles, Plus, X, BookOpen, ChevronLeft, ChevronRight, FileText, Grid, Layers } from 'lucide-react'
+import { Save, Sparkles, Plus, X, BookOpen, ChevronLeft, ChevronRight, FileText, Grid } from 'lucide-react'
 import { Button } from 'antd'
+import { useRouter } from 'next/navigation'
 import VolumeModal from '@/components/creator/VolumeModal'
 import ChapterModal from '@/components/creator/ChapterModal'
 import PageModal from '@/components/creator/PageModal'
 import PanelModal from '@/components/creator/PanelModal'
-import CompositionModal from '@/components/creator/CompositionModal'
 import { useVolumeModalStore } from '@/store/creator/volumeStore'
 import { useChapterModalStore } from '@/store/creator/chapterStore'
 import { usePageModalStore } from '@/store/creator/pageStore'
 import { usePanelModalStore } from '@/store/creator/panelStore'
-import { useCompositionModalStore } from '@/store/creator/compositionStore'
 
 export default function CreatePage() {
+  const router = useRouter()
   const [prompt, setPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -22,7 +22,6 @@ export default function CreatePage() {
   const { open: openChapterModal } = useChapterModalStore()
   const { open: openPageModal } = usePageModalStore()
   const { open: openPanelModal } = usePanelModalStore()
-  const { open: openCompositionModal } = useCompositionModalStore()
   
   // 漫画基本信息
   const [comicTitle, setComicTitle] = useState('')
@@ -31,11 +30,10 @@ export default function CreatePage() {
   const [comicTags, setComicTags] = useState<string[]>([])
   
   // 卷话页结构
-  const [volumes, setVolumes] = useState([{ id: 1, name: '第1卷', chapters: [{ id: 1, name: '第1话', pages: [{ id: 1, panels: [] }] }] }])
+  const [volumes, setVolumes] = useState([{ id: 1, name: '第1卷', title: '', description: '', coverImage: '', chapters: [{ id: 1, name: '第1话', pages: [{ id: 1, panels: [] }] }] }])
   const [currentVolume, setCurrentVolume] = useState(0)
   const [currentChapter, setCurrentChapter] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
-  const [compositions, setCompositions] = useState<any[]>([])
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -50,7 +48,10 @@ export default function CreatePage() {
   const handleCreateVolume = (data: { name: string; title: string; description: string; coverImage: string }) => {
     setVolumes([...volumes, { 
       id: volumes.length + 1, 
-      name: data.name, 
+      name: data.name,
+      title: data.title,
+      description: data.description,
+      coverImage: data.coverImage,
       chapters: [{ id: 1, name: '第1话', pages: [{ id: 1, panels: [] }] }] 
     }])
   }
@@ -86,14 +87,6 @@ export default function CreatePage() {
     setVolumes(newVolumes)
   }
 
-  const handleCreateComposition = (data: { name: string; description: string; style: string }) => {
-    setCompositions([...compositions, {
-      id: compositions.length + 1,
-      ...data,
-      createdAt: new Date()
-    }])
-  }
-
   const addVolume = () => {
     openVolumeModal(`第${volumes.length + 1}卷`)
   }
@@ -111,10 +104,6 @@ export default function CreatePage() {
   const addPanel = () => {
     const panels = currentPanels || []
     openPanelModal(panels.length + 1)
-  }
-
-  const addComposition = () => {
-    openCompositionModal(`合成${compositions.length + 1}`)
   }
 
   const removeTag = (tag: string) => {
@@ -301,6 +290,7 @@ export default function CreatePage() {
                     </Button>
                     <Button 
                       size="small"
+                      onClick={() => router.push('/creator/volumes')}
                     >
                       管理
                     </Button>
@@ -389,6 +379,7 @@ export default function CreatePage() {
                     </Button>
                     <Button 
                       size="small"
+                      onClick={() => router.push('/creator/chapters')}
                     >
                       管理
                     </Button>
@@ -476,6 +467,7 @@ export default function CreatePage() {
                     </Button>
                     <Button 
                       size="small"
+                      onClick={() => router.push('/creator/pages')}
                     >
                       管理
                     </Button>
@@ -563,6 +555,7 @@ export default function CreatePage() {
                     </Button>
                     <Button 
                       size="small"
+                      onClick={() => router.push('/creator/panels')}
                     >
                       管理
                     </Button>
@@ -621,87 +614,6 @@ export default function CreatePage() {
               </div>
             </div>
           </div>
-
-          {/* 分镜合成列表模块 */}
-          <div className="bg-white rounded-2xl border-2 border-indigo-200 shadow-lg p-5">
-            <div className="flex items-center gap-4">
-              {/* 左侧标题卡片 */}
-              <div className="flex items-center flex-shrink-0">
-                {/* 左侧图标 */}
-                <div className="w-16 h-16 bg-teal-100 rounded-xl flex items-center justify-center">
-                  <Layers className="text-teal-600" size={28} />
-                </div>
-                {/* 右侧内容 */}
-                <div className="ml-3 flex flex-col">
-                  <div className="text-sm font-bold text-gray-800">分镜合成</div>
-                  <div className="text-xs text-gray-500 mb-1.5">共 {compositions.length} 个</div>
-                  <div className="flex space-x-1.5">
-                    <Button 
-                      size="small"
-                      onClick={addComposition}
-                    >
-                      创建
-                    </Button>
-                    <Button 
-                      size="small"
-                    >
-                      管理
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              {/* 分隔线 */}
-              <div className="w-px h-20 bg-gray-200"></div>
-
-              <div className="flex-1 min-w-0 flex items-center gap-2">
-                {/* 左箭头 */}
-                <button
-                  onClick={() => scroll('left')}
-                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-
-                {/* 分镜合成列表滚动区域 */}
-                <div className="overflow-hidden" style={{ width: 'calc(100% - 293px)' }}>
-                  {/* 分镜合成列表容器 */}
-                  <div className="flex space-x-3 py-2 overflow-x-scroll scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                  {compositions.map((comp, compIdx) => (
-                    <div
-                      key={comp.id}
-                      className="flex-shrink-0 w-24 h-24 rounded-xl border-2 bg-white border-gray-300 text-gray-700 hover:border-teal-400 cursor-pointer transition-all"
-                    >
-                      <div className="h-full flex flex-col items-center justify-center p-2">
-                        <div className="text-xs font-semibold mb-1">{comp.name}</div>
-                        <div className="text-xs text-gray-400">
-                          {comp.style}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  {/* 添加合成按钮 */}
-                  <button
-                    onClick={addComposition}
-                    className="flex-shrink-0 w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-teal-400 hover:bg-teal-50 transition-all flex flex-col items-center justify-center text-gray-400 hover:text-teal-600"
-                  >
-                    <Plus size={24} />
-                    <span className="text-xs mt-1">添加合成</span>
-                  </button>
-                  </div>
-                </div>
-
-                {/* 右箭头 */}
-                <button
-                  onClick={() => scroll('right')}
-                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
-                >
-                  <ChevronRight size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
         </main>
       </div>
 
@@ -709,7 +621,6 @@ export default function CreatePage() {
       <ChapterModal onConfirm={handleCreateChapter} />
       <PageModal onConfirm={handleCreatePage} />
       <PanelModal onConfirm={handleCreatePanel} />
-      <CompositionModal onConfirm={handleCreateComposition} />
     </div>
   )
 }
