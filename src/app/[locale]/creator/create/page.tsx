@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Save, Sparkles, Plus, X, BookOpen, ChevronLeft, ChevronRight, FileText, Grid } from 'lucide-react'
-import { Button } from 'antd'
 import { useRouter } from 'next/navigation'
 import VolumeModal from '@/components/creator/VolumeModal'
 import ChapterModal from '@/components/creator/ChapterModal'
@@ -26,8 +25,41 @@ export default function CreatePage() {
   // 漫画基本信息
   const [comicTitle, setComicTitle] = useState('')
   const [comicDescription, setComicDescription] = useState('')
-  const [comicCategory, setComicCategory] = useState('')
-  const [comicTags, setComicTags] = useState<string[]>([])
+  const [comicStyle, setComicStyle] = useState<number | undefined>(undefined)
+  const [comicCategory, setComicCategory] = useState<number | undefined>(undefined)
+  const [comicTags, setComicTags] = useState<number[]>([])
+  
+  // 下拉列表数据
+  const [categories, setCategories] = useState<any[]>([])
+  const [styles, setStyles] = useState<any[]>([])
+  const [tags, setTags] = useState<any[]>([])
+
+  const loadOptions = async () => {
+    try {
+      const [categoriesRes, stylesRes, tagsRes] = await Promise.all([
+        fetch('/api/creator/categories'),
+        fetch('/api/creator/styles'),
+        fetch('/api/creator/tags'),
+      ])
+
+      const [categoriesData, stylesData, tagsData] = await Promise.all([
+        categoriesRes.json(),
+        stylesRes.json(),
+        tagsRes.json(),
+      ])
+
+      if (categoriesData.success) setCategories(categoriesData.data)
+      if (stylesData.success) setStyles(stylesData.data)
+      if (tagsData.success) setTags(tagsData.data)
+    } catch (error) {
+      console.error('加载选项失败:', error)
+    }
+  }
+  
+  // 加载分类、风格、标签列表
+  useEffect(() => {
+    loadOptions()
+  }, [])
   
   // 卷话页结构
   const [volumes, setVolumes] = useState([{ id: 1, name: '第1卷', title: '', description: '', coverImage: '', chapters: [{ id: 1, name: '第1话', pages: [{ id: 1, panels: [] }] }] }])
@@ -106,9 +138,308 @@ export default function CreatePage() {
     openPanelModal(panels.length + 1)
   }
 
-  const removeTag = (tag: string) => {
-    setComicTags(comicTags.filter(t => t !== tag))
+  // 重新生成标题
+  const handleRegenerateTitle = async () => {
+    if (!prompt.trim()) {
+      alert('请先输入创意内容')
+      return
+    }
+    setIsGenerating(true)
+    try {
+      const response = await fetch('/api/creator/generate/title', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: prompt.trim(), model: 'deepseek-chat', language: 'zh' }),
+      })
+      const data = await response.json()
+      if (data.success && data.data?.title) {
+        setComicTitle(data.data.title)
+      }
+    } catch (error) {
+      console.error('生成失败:', error)
+    } finally {
+      setIsGenerating(false)
+    }
   }
+
+  // 重新生成描述
+  const handleRegenerateDescription = async () => {
+    if (!prompt.trim()) {
+      alert('请先输入创意内容')
+      return
+    }
+    setIsGenerating(true)
+    try {
+      const response = await fetch('/api/creator/generate/description', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: prompt.trim(), title: comicTitle, model: 'deepseek-chat', language: 'zh' }),
+      })
+      const data = await response.json()
+      if (data.success && data.data?.description) {
+        setComicDescription(data.data.description)
+      }
+    } catch (error) {
+      console.error('生成失败:', error)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  // 重新生成风格
+  const handleRegenerateStyle = async () => {
+    if (!prompt.trim()) {
+      alert('请先输入创意内容')
+      return
+    }
+    setIsGenerating(true)
+    try {
+      const response = await fetch('/api/creator/generate/style', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: prompt.trim(), title: comicTitle, description: comicDescription, model: 'deepseek-chat', language: 'zh' }),
+      })
+      const data = await response.json()
+      if (data.success && data.data?.style) {
+        const style = data.data.style
+        const styleWriteResponse = await fetch('/api/creator/styles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(style),
+        })
+        const styleWriteData = await styleWriteResponse.json()
+        if (styleWriteData.success && styleWriteData.data?.id) {
+          setComicStyle(styleWriteData.data.id)
+          await loadOptions()
+        }
+      }
+    } catch (error) {
+      console.error('生成失败:', error)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  // 重新生成分类
+  const handleRegenerateCategory = async () => {
+    if (!prompt.trim()) {
+      alert('请先输入创意内容')
+      return
+    }
+    setIsGenerating(true)
+    try {
+      const response = await fetch('/api/creator/generate/category', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: prompt.trim(), title: comicTitle, description: comicDescription, model: 'deepseek-chat', language: 'zh' }),
+      })
+      const data = await response.json()
+      if (data.success && data.data?.category) {
+        const category = data.data.category
+        const categoryWriteResponse = await fetch('/api/creator/categories', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(category),
+        })
+        const categoryWriteData = await categoryWriteResponse.json()
+        if (categoryWriteData.success && categoryWriteData.data?.id) {
+          setComicCategory(categoryWriteData.data.id)
+          await loadOptions()
+        }
+      }
+    } catch (error) {
+      console.error('生成失败:', error)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  // 重新生成标签
+  const handleRegenerateTags = async () => {
+    if (!prompt.trim()) {
+      alert('请先输入创意内容')
+      return
+    }
+    setIsGenerating(true)
+    try {
+      const response = await fetch('/api/creator/generate/tags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: prompt.trim(), title: comicTitle, description: comicDescription, category: comicCategory, model: 'deepseek-chat', language: 'zh' }),
+      })
+      const data = await response.json()
+      if (data.success && data.data?.tags) {
+        const tags = data.data.tags
+        const tagsWriteResponse = await fetch('/api/creator/tags', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tags }),
+        })
+        const tagsWriteData = await tagsWriteResponse.json()
+        if (tagsWriteData.success && tagsWriteData.data) {
+          setComicTags(tagsWriteData.data.map((tag: any) => tag.id))
+          await loadOptions()
+        }
+      }
+    } catch (error) {
+      console.error('生成失败:', error)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  // 处理标题变化
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setComicTitle(e.target.value)
+  }
+
+  // 处理描述变化
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setComicDescription(e.target.value)
+  }
+
+  // 处理提示词变化
+  const handlePromptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPrompt(e.target.value)
+  }
+
+  // 处理风格变化
+  const handleStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setComicStyle(e.target.value ? Number(e.target.value) : undefined)
+  }
+
+  // 处理分类变化
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setComicCategory(e.target.value ? Number(e.target.value) : undefined)
+  }
+
+  // 处理标签选择
+  const handleTagSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOptions = Array.from(e.target.selectedOptions, option => Number(option.value))
+    setComicTags(selectedOptions)
+  }
+
+  // 移除标签
+  const handleRemoveTag = (tagId: number) => {
+    setComicTags(comicTags.filter(id => id !== tagId))
+  }
+
+  // AI 一键生成漫画元数据
+  const handleAIGenerate = async () => {
+      if (!prompt.trim()) {
+        alert('请输入创意内容')
+        return
+      }
+
+      setIsGenerating(true)
+
+      try {
+        const promptText = prompt.trim()
+        const requestBody = {
+          prompt: promptText,
+          model: 'deepseek-chat',
+          language: 'zh'
+        }
+
+        // 1. 生成标题
+        const titleResponse = await fetch('/api/creator/generate/title', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody),
+        })
+        const titleData = await titleResponse.json()
+        if (titleData.success && titleData.data?.title) {
+          setComicTitle(titleData.data.title)
+        }
+
+        // 2. 生成描述
+        const descResponse = await fetch('/api/creator/generate/description', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...requestBody, title: titleData.data?.title }),
+        })
+        const descData = await descResponse.json()
+        if (descData.success && descData.data?.description) {
+          setComicDescription(descData.data.description)
+        }
+
+        // 3. 生成风格
+        const styleResponse = await fetch('/api/creator/generate/style', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...requestBody, title: titleData.data?.title, description: descData.data?.description }),
+        })
+        const styleData = await styleResponse.json()
+        if (styleData.success && styleData.data?.style) {
+          const style = styleData.data.style
+          const styleWriteResponse = await fetch('/api/creator/styles', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(style),
+          })
+          const styleWriteData = await styleWriteResponse.json()
+          if (styleWriteData.success && styleWriteData.data?.id) {
+            setComicStyle(styleWriteData.data.id)
+            await loadOptions() // 重新加载选项列表
+          }
+        }
+
+        // 4. 生成分类
+        const categoryResponse = await fetch('/api/creator/generate/category', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...requestBody, title: titleData.data?.title, description: descData.data?.description }),
+        })
+        const categoryData = await categoryResponse.json()
+        if (categoryData.success && categoryData.data?.category) {
+          const category = categoryData.data.category
+          const categoryWriteResponse = await fetch('/api/creator/categories', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(category),
+          })
+          const categoryWriteData = await categoryWriteResponse.json()
+          if (categoryWriteData.success && categoryWriteData.data?.id) {
+            setComicCategory(categoryWriteData.data.id)
+            await loadOptions() // 重新加载选项列表
+          }
+        }
+
+        // 5. 生成标签
+        const tagsResponse = await fetch('/api/creator/generate/tags', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            ...requestBody, 
+            title: titleData.data?.title, 
+            description: descData.data?.description,
+            category: categoryData.data?.category?.name
+          }),
+        })
+        const tagsData = await tagsResponse.json()
+        if (tagsData.success && tagsData.data?.tags) {
+          const tags = tagsData.data.tags
+          const tagsWriteResponse = await fetch('/api/creator/tags', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tags }),
+          })
+          const tagsWriteData = await tagsWriteResponse.json()
+          if (tagsWriteData.success && tagsWriteData.data) {
+            setComicTags(tagsWriteData.data.map((tag: any) => tag.id))
+            await loadOptions() // 重新加载选项列表
+          }
+        }
+
+        alert('生成成功！请检查并完善漫画信息')
+      } catch (error: any) {
+        console.error('AI生成失败:', error)
+        alert(error.message || 'AI生成失败，请重试')
+      } finally {
+        setIsGenerating(false)
+      }
+    }
+
 
   const addPageOld = () => {
     const newVolumes = [...volumes]
@@ -125,25 +456,24 @@ export default function CreatePage() {
       {/* 顶部工具栏 */}
       <header className="h-16 bg-indigo-100/50 border-b-2 border-indigo-200 px-6 flex items-center justify-end shadow-sm">
         <div className="flex items-center space-x-3">
-          <Button 
-            icon={<Save size={16} />}
-            className="!bg-white hover:!bg-indigo-50 !text-indigo-600 !rounded-xl !text-sm !font-semibold !border-2 !border-indigo-200 !h-10 !px-4"
+          <button 
+            className="bg-white hover:bg-indigo-50 text-indigo-600 rounded-xl text-sm font-semibold border-2 border-indigo-200 h-10 px-4 flex items-center gap-2 transition-colors"
           >
+            <Save size={16} />
             保存草稿
-          </Button>
-          <Button 
-            type="primary"
-            icon={<Sparkles size={16} />}
-            className="!bg-gradient-to-r !from-indigo-600 !to-purple-600 hover:!from-indigo-700 hover:!to-purple-700 !rounded-xl !text-sm !font-semibold !shadow-lg !h-10 !px-4 !border-0"
+          </button>
+          <button 
+            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-xl text-sm font-semibold shadow-lg h-10 px-4 border-0 text-white flex items-center gap-2 transition-all"
           >
+            <Sparkles size={16} />
             发布作品
-          </Button>
+          </button>
         </div>
       </header>
 
       <div className="flex-1 flex overflow-hidden">
         {/* 左侧：信息面板 */}
-        <aside className="w-72 bg-gradient-to-b from-indigo-50 to-purple-50 border-r-2 border-indigo-200 overflow-y-auto">
+        <aside className="w-[350px] bg-gradient-to-b from-indigo-50 to-purple-50 border-r-2 border-indigo-200 overflow-y-auto">
           <div className="p-4 space-y-4">
             {/* AI 生成 */}
             <div className="bg-white rounded-2xl border-2 border-indigo-200 p-4 shadow-sm">
@@ -153,15 +483,15 @@ export default function CreatePage() {
               </div>
               <textarea
                 value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
+                onChange={handlePromptChange}
                 placeholder="输入创意，AI 自动生成全部内容..."
                 className="w-full px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-400 resize-none"
                 rows={3}
               />
               <button
-                onClick={() => setIsGenerating(true)}
-                disabled={isGenerating || !prompt.trim()}
-                className="w-full mt-3 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-400 text-white rounded-xl text-sm font-semibold transition-all disabled:cursor-not-allowed shadow-md"
+                onClick={handleAIGenerate}
+                disabled={!prompt.trim() || isGenerating}
+                className="w-full mt-3 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl text-sm font-semibold transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isGenerating ? '生成中...' : '✨ 一键生成'}
               </button>
@@ -177,91 +507,121 @@ export default function CreatePage() {
               <div className="space-y-3">
                 <div>
                   <label className="text-xs text-gray-600 font-semibold block mb-1.5">名称</label>
-                  <input
-                    type="text"
-                    value={comicTitle}
-                    onChange={(e) => setComicTitle(e.target.value)}
-                    placeholder="漫画标题"
-                    className="w-full px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-400"
-                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={comicTitle}
+                      onChange={handleTitleChange}
+                      placeholder="漫画标题"
+                      disabled={!prompt.trim() || isGenerating}
+                      className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                    <button
+                      onClick={handleRegenerateTitle}
+                      disabled={!prompt.trim() || isGenerating}
+                      className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Sparkles size={16} />
+                    </button>
+                  </div>
                 </div>
 
                 <div>
                   <label className="text-xs text-gray-600 font-semibold block mb-1.5">描述</label>
-                  <textarea
-                    value={comicDescription}
-                    onChange={(e) => setComicDescription(e.target.value)}
-                    placeholder="简要描述"
-                    className="w-full px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-400 resize-none"
-                    rows={2}
-                  />
+                  <div className="flex gap-2">
+                    <textarea
+                      value={comicDescription}
+                      onChange={handleDescriptionChange}
+                      placeholder="简要描述"
+                      disabled={!prompt.trim() || isGenerating}
+                      className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-400 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                      rows={2}
+                    />
+                    <button
+                      onClick={handleRegenerateDescription}
+                      disabled={!prompt.trim() || isGenerating}
+                      className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all self-start disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Sparkles size={16} />
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-gray-600 font-semibold block mb-1.5">风格</label>
+                  <div className="flex gap-2">
+                    <select
+                      value={comicStyle || ''}
+                      onChange={handleStyleChange}
+                      disabled={!prompt.trim() || isGenerating}
+                      className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="">选择风格</option>
+                      {styles.map((style) => (
+                        <option key={style.id} value={style.id}>
+                          {style.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={handleRegenerateStyle}
+                      disabled={!prompt.trim() || isGenerating}
+                      className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Sparkles size={16} />
+                    </button>
+                  </div>
                 </div>
 
                 <div>
                   <label className="text-xs text-gray-600 font-semibold block mb-1.5">分类</label>
-                  <select
-                    value={comicCategory}
-                    onChange={(e) => setComicCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-indigo-400"
-                  >
-                    <option value="">选择分类</option>
-                    <option value="热血">热血</option>
-                    <option value="恋爱">恋爱</option>
-                    <option value="奇幻">奇幻</option>
-                    <option value="科幻">科幻</option>
-                    <option value="悬疑">悬疑</option>
-                    <option value="搞笑">搞笑</option>
-                  </select>
+                  <div className="flex gap-2">
+                    <select
+                      value={comicCategory || ''}
+                      onChange={handleCategoryChange}
+                      disabled={!prompt.trim() || isGenerating}
+                      className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="">选择分类</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={handleRegenerateCategory}
+                      disabled={!prompt.trim() || isGenerating}
+                      className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Sparkles size={16} />
+                    </button>
+                  </div>
                 </div>
 
                 <div>
                   <label className="text-xs text-gray-600 font-semibold block mb-1.5">标签</label>
-                  <div className="flex space-x-2">
+                  <div className="flex gap-2">
                     <select
-                      value=""
-                      onChange={(e) => {
-                        if (e.target.value && !comicTags.includes(e.target.value)) {
-                          setComicTags([...comicTags, e.target.value])
-                        }
-                      }}
-                      className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-indigo-400"
+                      value={comicTags.map(String)}
+                      onChange={handleTagSelect}
+                      disabled={!prompt.trim() || isGenerating}
+                      className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <option value="">选择标签</option>
-                      <option value="热血">热血</option>
-                      <option value="冒险">冒险</option>
-                      <option value="恋爱">恋爱</option>
-                      <option value="校园">校园</option>
-                      <option value="奇幻">奇幻</option>
-                      <option value="科幻">科幻</option>
-                      <option value="悬疑">悬疑</option>
-                      <option value="推理">推理</option>
-                      <option value="搞笑">搞笑</option>
-                      <option value="日常">日常</option>
-                      <option value="治愈">治愈</option>
-                      <option value="武侠">武侠</option>
-                      <option value="玄幻">玄幻</option>
-                      <option value="都市">都市</option>
-                      <option value="历史">历史</option>
-                    </select>
-                  </div>
-                  {comicTags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {comicTags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="inline-flex items-center space-x-1 px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-semibold"
-                        >
-                          <span>{tag}</span>
-                          <button
-                            onClick={() => removeTag(tag)}
-                            className="hover:text-indigo-900 transition-colors"
-                          >
-                            <X size={14} />
-                          </button>
-                        </span>
+                      {tags.map((tag) => (
+                        <option key={tag.id} value={tag.id}>
+                          {tag.name}
+                        </option>
                       ))}
-                    </div>
-                  )}
+                    </select>
+                    <button
+                      onClick={handleRegenerateTags}
+                      disabled={!prompt.trim() || isGenerating}
+                      className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Sparkles size={16} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -284,18 +644,18 @@ export default function CreatePage() {
                   <div className="text-sm font-bold text-gray-800">卷列表</div>
                   <div className="text-xs text-gray-500 mb-1.5">共 {volumes.length} 卷</div>
                   <div className="flex space-x-1.5">
-                    <Button 
-                      size="small"
+                    <button 
                       onClick={addVolume}
+                      className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       创建
-                    </Button>
-                    <Button 
-                      size="small"
+                    </button>
+                    <button 
                       onClick={() => router.push('/creator/volumes')}
+                      className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       管理
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -307,7 +667,7 @@ export default function CreatePage() {
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="flex-shrink-0 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="flex-shrink-0 w-8 h-8 min-w-[32px] p-0 bg-white rounded-full shadow text-gray-600 hover:bg-gray-50 border-0 flex items-center justify-center transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -339,7 +699,7 @@ export default function CreatePage() {
                     {/* 添加卷按钮 */}
                     <button
                       onClick={addVolume}
-                      className="flex-shrink-0 w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-indigo-400 hover:bg-indigo-50 transition-all flex flex-col items-center justify-center text-gray-400 hover:text-indigo-600"
+                      className="flex-shrink-0 w-24 h-24 min-w-[96px] rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-gray-400 hover:text-indigo-600 flex flex-col items-center justify-center p-0 transition-all"
                     >
                       <Plus size={24} />
                       <span className="text-xs mt-1">添加卷</span>
@@ -351,7 +711,7 @@ export default function CreatePage() {
                 {/* 右箭头 */}
                 <button
                   onClick={() => scroll('right')}
-                  className="flex-shrink-0 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="flex-shrink-0 w-8 h-8 min-w-[32px] p-0 bg-white rounded-full shadow text-gray-600 hover:bg-gray-50 border-0 flex items-center justify-center transition-colors"
                 >
                   <ChevronRight size={18} />
                 </button>
@@ -373,18 +733,18 @@ export default function CreatePage() {
                   <div className="text-sm font-bold text-gray-800">{volumes[currentVolume]?.name || '卷'}话列表</div>
                   <div className="text-xs text-gray-500 mb-1.5">共 {volumes[currentVolume]?.chapters.length || 0} 话</div>
                   <div className="flex space-x-1.5">
-                    <Button 
-                      size="small"
+                    <button 
                       onClick={addChapter}
+                      className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       创建
-                    </Button>
-                    <Button 
-                      size="small"
+                    </button>
+                    <button 
                       onClick={() => router.push('/creator/chapters')}
+                      className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       管理
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -397,7 +757,7 @@ export default function CreatePage() {
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="w-8 h-8 min-w-[32px] p-0 bg-white rounded-full shadow text-gray-600 hover:bg-gray-50 border-0 flex items-center justify-center transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -428,7 +788,7 @@ export default function CreatePage() {
                   {/* 添加话按钮 */}
                   <button
                     onClick={addChapter}
-                    className="flex-shrink-0 w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-purple-400 hover:bg-purple-50 transition-all flex flex-col items-center justify-center text-gray-400 hover:text-purple-600"
+                    className="flex-shrink-0 w-24 h-24 min-w-[96px] rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-purple-400 hover:bg-purple-50 text-gray-400 hover:text-purple-600 flex flex-col items-center justify-center p-0 transition-all"
                   >
                     <Plus size={24} />
                     <span className="text-xs mt-1">添加话</span>
@@ -439,7 +799,7 @@ export default function CreatePage() {
                 {/* 右箭头 */}
                 <button
                   onClick={() => scroll('right')}
-                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="w-8 h-8 min-w-[32px] p-0 bg-white rounded-full shadow text-gray-600 hover:bg-gray-50 border-0 flex items-center justify-center transition-colors"
                 >
                   <ChevronRight size={18} />
                 </button>
@@ -461,18 +821,18 @@ export default function CreatePage() {
                   <div className="text-sm font-bold text-gray-800">{volumes[currentVolume]?.chapters[currentChapter]?.name || '话'}页列表</div>
                   <div className="text-xs text-gray-500 mb-1.5">共 {currentPages.length || 0} 页</div>
                   <div className="flex space-x-1.5">
-                    <Button 
-                      size="small"
+                    <button 
                       onClick={addPage}
+                      className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       创建
-                    </Button>
-                    <Button 
-                      size="small"
+                    </button>
+                    <button 
                       onClick={() => router.push('/creator/pages')}
+                      className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       管理
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -485,7 +845,7 @@ export default function CreatePage() {
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="w-8 h-8 min-w-[32px] p-0 bg-white rounded-full shadow text-gray-600 hover:bg-gray-50 border-0 flex items-center justify-center transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -516,7 +876,7 @@ export default function CreatePage() {
                   {/* 添加页按钮 */}
                   <button
                     onClick={addPage}
-                    className="flex-shrink-0 w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center text-gray-400 hover:text-pink-600"
+                    className="flex-shrink-0 w-24 h-24 min-w-[96px] rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-pink-400 hover:bg-pink-50 text-gray-400 hover:text-pink-600 flex flex-col items-center justify-center p-0 transition-all"
                   >
                     <Plus size={24} />
                     <span className="text-xs mt-1">添加页</span>
@@ -527,7 +887,7 @@ export default function CreatePage() {
                 {/* 右箭头 */}
                 <button
                   onClick={() => scroll('right')}
-                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="w-8 h-8 min-w-[32px] p-0 bg-white rounded-full shadow text-gray-600 hover:bg-gray-50 border-0 flex items-center justify-center transition-colors"
                 >
                   <ChevronRight size={18} />
                 </button>
@@ -549,18 +909,18 @@ export default function CreatePage() {
                   <div className="text-sm font-bold text-gray-800">第{currentPage + 1}页分镜列表</div>
                   <div className="text-xs text-gray-500 mb-1.5">共 {currentPanels.length || 0} 格</div>
                   <div className="flex space-x-1.5">
-                    <Button 
-                      size="small"
+                    <button 
                       onClick={addPanel}
+                      className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       创建
-                    </Button>
-                    <Button 
-                      size="small"
+                    </button>
+                    <button 
                       onClick={() => router.push('/creator/panels')}
+                      className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       管理
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -572,7 +932,7 @@ export default function CreatePage() {
                 {/* 左箭头 */}
                 <button
                   onClick={() => scroll('left')}
-                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="w-8 h-8 min-w-[32px] p-0 bg-white rounded-full shadow text-gray-600 hover:bg-gray-50 border-0 flex items-center justify-center transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -598,7 +958,7 @@ export default function CreatePage() {
                   {/* 添加分镜按钮 */}
                   <button
                     onClick={addPanel}
-                    className="flex-shrink-0 w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-orange-400 hover:bg-orange-50 transition-all flex flex-col items-center justify-center text-gray-400 hover:text-orange-600"
+                    className="flex-shrink-0 w-24 h-24 min-w-[96px] rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-orange-400 hover:bg-orange-50 text-gray-400 hover:text-orange-600 flex flex-col items-center justify-center p-0 transition-all"
                   >
                     <Plus size={24} />
                     <span className="text-xs mt-1">添加分镜</span>
@@ -609,7 +969,7 @@ export default function CreatePage() {
                 {/* 右箭头 */}
                 <button
                   onClick={() => scroll('right')}
-                  className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="w-8 h-8 min-w-[32px] p-0 bg-white rounded-full shadow text-gray-600 hover:bg-gray-50 border-0 flex items-center justify-center transition-colors"
                 >
                   <ChevronRight size={18} />
                 </button>

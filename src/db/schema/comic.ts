@@ -24,6 +24,20 @@ export const comicCategories = pgTable('comic_categories', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
+// 漫画风格表
+export const comicStyles = pgTable('comic_styles', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 100 }).notNull(),
+  slug: varchar('slug', { length: 100 }).notNull().unique(),
+  description: text('description'),
+  icon: varchar('icon', { length: 50 }),
+  color: varchar('color', { length: 20 }),
+  status: varchar('status', { length: 20 }).notNull().default('active'),
+  sortOrder: integer('sort_order').default(0),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
 // 漫画表（基本信息）
 export const comics = pgTable('comics', {
   id: serial('id').primaryKey(),
@@ -44,7 +58,8 @@ export const comics = pgTable('comics', {
   coverImage: varchar('cover_image', { length: 500 }),
   volumeCount: integer('volume_count').default(0), // 总卷数
   episodeCount: integer('episode_count').default(0), // 总话数
-  style: varchar('style', { length: 100 }), // 风格
+  style: varchar('style', { length: 100 }), // 风格（临时保留，迁移后删除）
+  styleId: integer('style_id'), // 风格ID（先不加外键约束）
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
@@ -128,9 +143,13 @@ export const comicTags = pgTable('comic_tags', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
   slug: varchar('slug', { length: 100 }).notNull().unique(),
+  description: text('description'),
+  icon: varchar('icon', { length: 50 }),
   color: varchar('color', { length: 20 }),
   status: varchar('status', { length: 20 }).notNull().default('active'),
+  sortOrder: integer('sort_order').default(0),
   createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
 // 漫画标签关联表
