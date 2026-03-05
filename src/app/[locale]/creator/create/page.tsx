@@ -11,9 +11,36 @@ import { useVolumeModalStore } from '@/store/creator/volumeStore'
 import { useChapterModalStore } from '@/store/creator/chapterStore'
 import { usePageModalStore } from '@/store/creator/pageStore'
 import { usePanelModalStore } from '@/store/creator/panelStore'
+import { useLocale } from 'next-intl'
+
+interface Panel {
+  id: number
+  panelNumber?: number
+  sceneDescription?: string
+  dialogue?: string
+  narration?: string
+  emotion?: string
+  cameraAngle?: string
+  characters?: string
+}
+
+interface Page {
+  id: number
+  pageLayout?: string
+  panelCount?: number
+  panels: Panel[]
+}
+
+interface Episode {
+  id: number
+  name: string
+  description?: string
+  pages: Page[]
+}
 
 export default function CreatePage() {
   const router = useRouter()
+  const locale = useLocale()
   const [prompt, setPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -64,8 +91,18 @@ export default function CreatePage() {
   // 卷话页结构
   const [volumes, setVolumes] = useState([{ id: 1, name: '第1卷', title: '', description: '', coverImage: '', chapters: [{ id: 1, name: '第1话', pages: [{ id: 1, panels: [] }] }] }])
   const [currentVolume, setCurrentVolume] = useState(0)
-  const [currentChapter, setCurrentChapter] = useState(0)
+
+  // 话独立管理
+  const [episodes, setEpisodes] = useState<Episode[]>([])
+  const [currentEpisode, setCurrentEpisode] = useState(0)
+  
+  // 页独立管理
+  const [pages, setPages] = useState<Page[]>([])
   const [currentPage, setCurrentPage] = useState(0)
+  
+  // 分镜独立管理
+  const [panels, setPanels] = useState<Panel[]>([])
+  const [currentPanel, setCurrentPanel] = useState(0)
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -89,53 +126,372 @@ export default function CreatePage() {
   }
 
   const handleCreateChapter = (data: { title: string; description: string }) => {
-    const newVolumes = [...volumes]
-    const chapters = newVolumes[currentVolume].chapters
-    newVolumes[currentVolume].chapters = [...chapters, { 
-      id: chapters.length + 1, 
-      name: data.title, 
-      pages: [{ id: 1, panels: [] }] 
-    }]
-    setVolumes(newVolumes)
+    setEpisodes([...episodes, { 
+      id: episodes.length + 1, 
+      name: data.title,
+      description: data.description,
+      pages: []
+    }])
+    setCurrentEpisode(episodes.length)
   }
 
   const handleCreatePage = (data: { pageNumber: number; pageLayout: string }) => {
-    const newVolumes = [...volumes]
-    const pages = newVolumes[currentVolume].chapters[currentChapter].pages
-    newVolumes[currentVolume].chapters[currentChapter].pages = [...pages, { 
-      id: pages.length + 1, 
-      panels: [] 
-    }]
-    setVolumes(newVolumes)
+    // TODO: 页独立管理，需要单独的 pages state
   }
 
   const handleCreatePanel = (data: { panelNumber: number; sceneDescription: string; dialogue: string; cameraAngle: string }) => {
-    const newVolumes = [...volumes]
-    const panels = newVolumes[currentVolume].chapters[currentChapter].pages[currentPage].panels
-    newVolumes[currentVolume].chapters[currentChapter].pages[currentPage].panels = [...panels, { 
-      id: panels.length + 1,
-      ...data
-    }]
-    setVolumes(newVolumes)
+    // TODO: 分镜独立管理，需要单独的 panels state
   }
 
   const addVolume = () => {
     openVolumeModal(`第${volumes.length + 1}卷`)
   }
 
-  const addChapter = () => {
-    const chapters = volumes[currentVolume]?.chapters || []
-    openChapterModal(`第${chapters.length + 1}话`)
+  const addEpisode = async () => {
+    if (!prompt.trim()) {
+      alert('请先输入创意内容')
+      return
+    }
+    
+    if (!comicTitle) {
+      alert('请先生成漫画标题')
+      return
+    }
+    
+    if (!comicDescription) {
+      alert('请先生成漫画描述')
+      return
+    }
+    
+    if (!comicStyle) {
+      alert('请先选择或生成漫画风格')
+      return
+    }
+    
+    if (!comicCategory) {
+      alert('请先选择或生成漫画分类')
+      return
+    }
+    
+    if (!comicTags || comicTags.length === 0) {
+      alert('请先选择或生成漫画标签')
+      return
+    }
+
+    const episodeNumber = episodes.length + 1
+    
+    const tempEpisode: Episode = { 
+      id: episodeNumber, 
+      name: `第${episodeNumber}话`,
+      pages: []
+    }
+    setEpisodes([...episodes, tempEpisode])
+    setCurrentEpisode(episodes.length)
+
+    try {
+      // 调用接口生成话内容
+      const response = await fetch('/api/creator/generate/episode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          episodeNumber,
+          prompt: prompt.trim(),
+          comicTitle,
+          comicDescription,
+          comicStyle,
+          comicCategory,
+          comicTags,
+          previousEpisodes: episodes,
+          model: 'deepseek-chat',
+          language: locale
+        }),
+      })
+
+      const data = await response.json()
+      
+      if (data.success && data.data) {
+        // 更新话的标题和描述
+        setEpisodes((prev: Episode[]) => {
+          const newEpisodes = [...prev]
+          newEpisodes[episodeNumber - 1] = {
+            id: episodeNumber,
+            name: data.data.title,
+            description: data.data.description,
+            pages: []
+          }
+          return newEpisodes
+        })
+      }
+    } catch (error) {
+      console.error('生成话内容失败:', error)
+    }
   }
 
-  const addPage = () => {
-    const pages = volumes[currentVolume]?.chapters[currentChapter]?.pages || []
-    openPageModal(pages.length + 1)
+  const addPage = async () => {
+    if (!prompt.trim()) {
+      alert('请先输入创意内容')
+      return
+    }
+    
+    if (!comicTitle) {
+      alert('请先生成漫画标题')
+      return
+    }
+    
+    if (!comicDescription) {
+      alert('请先生成漫画描述')
+      return
+    }
+    
+    if (!comicStyle) {
+      alert('请先选择或生成漫画风格')
+      return
+    }
+    
+    if (!comicCategory) {
+      alert('请先选择或生成漫画分类')
+      return
+    }
+    
+    if (!comicTags || comicTags.length === 0) {
+      alert('请先选择或生成漫画标签')
+      return
+    }
+    
+    const currentEp = episodes[currentEpisode]
+    if (!currentEp) {
+      alert('请先创建一个话')
+      return
+    }
+
+    const pageNumber = currentEp.pages.length + 1
+    
+    // 先添加一个占位页
+    const tempPage: Page = { 
+      id: pageNumber,
+      panels: []
+    }
+    
+    setEpisodes((prev: Episode[]) => {
+      const newEpisodes = [...prev]
+      newEpisodes[currentEpisode].pages.push(tempPage)
+      return newEpisodes
+    })
+    setCurrentPage(currentEp.pages.length)
+
+    try {
+      // 调用接口生成页内容
+      const response = await fetch('/api/creator/generate/page', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          pageNumber,
+          prompt: prompt.trim(),
+          comicTitle,
+          comicDescription,
+          comicStyle,
+          comicCategory,
+          comicTags,
+          episodeTitle: currentEp.name,
+          episodeDescription: currentEp.description,
+          previousPages: currentEp.pages,
+          model: 'deepseek-chat',
+          language: locale
+        }),
+      })
+
+      const data = await response.json()
+      
+      if (data.success && data.data) {
+        // 更新页的布局和分镜数量
+        setEpisodes((prev: Episode[]) => {
+          const newEpisodes = [...prev]
+          newEpisodes[currentEpisode].pages[pageNumber - 1] = {
+            id: pageNumber,
+            pageLayout: data.data.pageLayout,
+            panelCount: data.data.panelCount,
+            panels: []
+          }
+          return newEpisodes
+        })
+      }
+    } catch (error) {
+      console.error('生成页内容失败:', error)
+    }
   }
 
-  const addPanel = () => {
-    const panels = currentPanels || []
-    openPanelModal(panels.length + 1)
+  const addPanel = async () => {
+    if (!prompt.trim()) {
+      alert('请先输入创意内容')
+      return
+    }
+    
+    if (!comicTitle) {
+      alert('请先生成漫画标题')
+      return
+    }
+    
+    if (!comicDescription) {
+      alert('请先生成漫画描述')
+      return
+    }
+    
+    if (!comicStyle) {
+      alert('请先选择或生成漫画风格')
+      return
+    }
+    
+    if (!comicCategory) {
+      alert('请先选择或生成漫画分类')
+      return
+    }
+    
+    if (!comicTags || comicTags.length === 0) {
+      alert('请先选择或生成漫画标签')
+      return
+    }
+    
+    const currentEp = episodes[currentEpisode]
+    if (!currentEp) {
+      alert('请先创建一个话')
+      return
+    }
+    
+    const currentPg = currentEp.pages[currentPage]
+    if (!currentPg) {
+      alert('请先创建一个页')
+      return
+    }
+
+    const panelNumber = currentPg.panels.length + 1
+    
+    // 先添加一个占位分镜
+    const tempPanel: Panel = { 
+      id: panelNumber
+    }
+    
+    setEpisodes((prev: Episode[]) => {
+      const newEpisodes = [...prev]
+      newEpisodes[currentEpisode].pages[currentPage].panels.push(tempPanel)
+      return newEpisodes
+    })
+
+    try {
+      // 调用接口生成分镜内容
+      const response = await fetch('/api/creator/generate/panel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          panelNumber,
+          prompt: prompt.trim(),
+          comicTitle,
+          comicDescription,
+          comicStyle,
+          comicCategory,
+          comicTags,
+          episodeTitle: currentEp.name,
+          episodeDescription: currentEp.description,
+          pageLayout: currentPg.pageLayout,
+          panelCount: currentPg.panelCount,
+          previousPanels: currentPg.panels,
+          model: 'deepseek-chat',
+          language: locale
+        }),
+      })
+
+      const data = await response.json()
+      
+      if (data.success && data.data) {
+        // 更新分镜的内容
+        setEpisodes((prev: Episode[]) => {
+          const newEpisodes = [...prev]
+          newEpisodes[currentEpisode].pages[currentPage].panels[panelNumber - 1] = {
+            id: panelNumber,
+            panelNumber: panelNumber,
+            sceneDescription: data.data.sceneDescription,
+            dialogue: data.data.dialogue,
+            narration: data.data.narration,
+            emotion: data.data.emotion,
+            cameraAngle: data.data.cameraAngle,
+            characters: data.data.characters
+          }
+          return newEpisodes
+        })
+      }
+    } catch (error) {
+      console.error('生成分镜内容失败:', error)
+    }
+  }
+
+  // 生成漫画（封面 + 分镜图片）
+  const handleGenerateComic = async () => {
+    if (!comicTitle || !comicDescription || !comicStyle) {
+      alert('请先完善漫画信息（标题、描述、风格）')
+      return
+    }
+
+    const currentEp = episodes[currentEpisode]
+    if (!currentEp) {
+      alert('请先创建一个话')
+      return
+    }
+
+    if (currentEp.pages.length === 0) {
+      alert('请先创建页')
+      return
+    }
+
+    const allPanels = currentEp.pages.flatMap(page => page.panels)
+    if (allPanels.length === 0) {
+      alert('请先创建分镜')
+      return
+    }
+
+    setIsGenerating(true)
+
+    try {
+      // 1. 生成封面图片
+      const coverResponse = await fetch('/api/creator/generate/cover', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: comicTitle,
+          description: comicDescription,
+          style: styles.find(s => s.id === comicStyle)?.slug || 'anime'
+        }),
+      })
+
+      const coverData = await coverResponse.json()
+      if (coverData.success) {
+        console.log('封面生成成功:', coverData.data.coverUrl)
+      } else {
+        console.warn('封面生成失败:', coverData.error)
+      }
+
+      // 2. 生成漫画图片 - 传递完整的话-页-分镜嵌套结构
+      const imagesResponse = await fetch('/api/creator/generate/pages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          episode: currentEp,
+          style: styles.find(s => s.id === comicStyle)?.slug || 'anime'
+        }),
+      })
+
+      const imagesData = await imagesResponse.json()
+      if (imagesData.success) {
+        console.log(`成功生成${imagesData.data?.successCount}张图片`)
+        alert('漫画生成成功！')
+      } else {
+        throw new Error(imagesData.error || '图片生成失败')
+      }
+
+    } catch (error) {
+      console.error('生成漫画失败:', error)
+      alert(error instanceof Error ? error.message : '生成失败，请重试')
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   // 重新生成标题
@@ -201,17 +557,7 @@ export default function CreatePage() {
       })
       const data = await response.json()
       if (data.success && data.data?.style) {
-        const style = data.data.style
-        const styleWriteResponse = await fetch('/api/creator/styles', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(style),
-        })
-        const styleWriteData = await styleWriteResponse.json()
-        if (styleWriteData.success && styleWriteData.data?.id) {
-          setComicStyle(styleWriteData.data.id)
-          await loadOptions()
-        }
+        setComicStyle(data.data.style)
       }
     } catch (error) {
       console.error('生成失败:', error)
@@ -235,17 +581,7 @@ export default function CreatePage() {
       })
       const data = await response.json()
       if (data.success && data.data?.category) {
-        const category = data.data.category
-        const categoryWriteResponse = await fetch('/api/creator/categories', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(category),
-        })
-        const categoryWriteData = await categoryWriteResponse.json()
-        if (categoryWriteData.success && categoryWriteData.data?.id) {
-          setComicCategory(categoryWriteData.data.id)
-          await loadOptions()
-        }
+        setComicCategory(data.data.category)
       }
     } catch (error) {
       console.error('生成失败:', error)
@@ -269,17 +605,7 @@ export default function CreatePage() {
       })
       const data = await response.json()
       if (data.success && data.data?.tags) {
-        const tags = data.data.tags
-        const tagsWriteResponse = await fetch('/api/creator/tags', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tags }),
-        })
-        const tagsWriteData = await tagsWriteResponse.json()
-        if (tagsWriteData.success && tagsWriteData.data) {
-          setComicTags(tagsWriteData.data.map((tag: any) => tag.id))
-          await loadOptions()
-        }
+        setComicTags(data.data.tags)
       }
     } catch (error) {
       console.error('生成失败:', error)
@@ -371,17 +697,7 @@ export default function CreatePage() {
         })
         const styleData = await styleResponse.json()
         if (styleData.success && styleData.data?.style) {
-          const style = styleData.data.style
-          const styleWriteResponse = await fetch('/api/creator/styles', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(style),
-          })
-          const styleWriteData = await styleWriteResponse.json()
-          if (styleWriteData.success && styleWriteData.data?.id) {
-            setComicStyle(styleWriteData.data.id)
-            await loadOptions() // 重新加载选项列表
-          }
+          setComicStyle(styleData.data.style)
         }
 
         // 4. 生成分类
@@ -392,17 +708,7 @@ export default function CreatePage() {
         })
         const categoryData = await categoryResponse.json()
         if (categoryData.success && categoryData.data?.category) {
-          const category = categoryData.data.category
-          const categoryWriteResponse = await fetch('/api/creator/categories', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(category),
-          })
-          const categoryWriteData = await categoryWriteResponse.json()
-          if (categoryWriteData.success && categoryWriteData.data?.id) {
-            setComicCategory(categoryWriteData.data.id)
-            await loadOptions() // 重新加载选项列表
-          }
+          setComicCategory(categoryData.data.category)
         }
 
         // 5. 生成标签
@@ -418,17 +724,7 @@ export default function CreatePage() {
         })
         const tagsData = await tagsResponse.json()
         if (tagsData.success && tagsData.data?.tags) {
-          const tags = tagsData.data.tags
-          const tagsWriteResponse = await fetch('/api/creator/tags', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tags }),
-          })
-          const tagsWriteData = await tagsWriteResponse.json()
-          if (tagsWriteData.success && tagsWriteData.data) {
-            setComicTags(tagsWriteData.data.map((tag: any) => tag.id))
-            await loadOptions() // 重新加载选项列表
-          }
+          setComicTags(tagsData.data.tags)
         }
 
         alert('生成成功！请检查并完善漫画信息')
@@ -440,22 +736,32 @@ export default function CreatePage() {
       }
     }
 
-
-  const addPageOld = () => {
-    const newVolumes = [...volumes]
-    const pages = newVolumes[currentVolume].chapters[currentChapter].pages
-    newVolumes[currentVolume].chapters[currentChapter].pages = [...pages, { id: pages.length + 1, panels: [] }]
-    setVolumes(newVolumes)
-  }
-
-  const currentPages = volumes[currentVolume]?.chapters[currentChapter]?.pages || []
-  const currentPanels = currentPages[currentPage]?.panels || []
+  const currentPages: Page[] = episodes[currentEpisode]?.pages || []
+  const currentPanels: Panel[] = episodes[currentEpisode]?.pages[currentPage]?.panels || []
 
   return (
     <div className="h-full flex flex-col bg-white">
       {/* 顶部工具栏 */}
       <header className="h-16 bg-indigo-100/50 border-b-2 border-indigo-200 px-6 flex items-center justify-end shadow-sm">
         <div className="flex items-center space-x-3">
+          <button 
+            onClick={() => {
+              // TODO: 预览功能
+              alert('预览功能开发中')
+            }}
+            className="bg-white hover:bg-indigo-50 text-indigo-600 rounded-xl text-sm font-semibold border-2 border-indigo-200 h-10 px-4 flex items-center gap-2 transition-colors"
+          >
+            <BookOpen size={16} />
+            预览
+          </button>
+          <button 
+            onClick={handleGenerateComic}
+            disabled={isGenerating}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl text-sm font-semibold shadow-lg h-10 px-4 border-0 text-white flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Sparkles size={16} />
+            {isGenerating ? '生成中...' : '生成漫画'}
+          </button>
           <button 
             className="bg-white hover:bg-indigo-50 text-indigo-600 rounded-xl text-sm font-semibold border-2 border-indigo-200 h-10 px-4 flex items-center gap-2 transition-colors"
           >
@@ -730,11 +1036,11 @@ export default function CreatePage() {
                 </div>
                 {/* 右侧内容 */}
                 <div className="ml-3 flex flex-col">
-                  <div className="text-sm font-bold text-gray-800">{volumes[currentVolume]?.name || '卷'}话列表</div>
-                  <div className="text-xs text-gray-500 mb-1.5">共 {volumes[currentVolume]?.chapters.length || 0} 话</div>
+                  <div className="text-sm font-bold text-gray-800">话列表</div>
+                  <div className="text-xs text-gray-500 mb-1.5">共 {episodes.length} 话</div>
                   <div className="flex space-x-1.5">
                     <button 
-                      onClick={addChapter}
+                      onClick={addEpisode}
                       className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                     >
                       创建
@@ -766,28 +1072,26 @@ export default function CreatePage() {
                 <div className="overflow-hidden" style={{ width: 'calc(100% - 293px)' }}>
                   {/* 话列表容器 */}
                   <div className="flex space-x-3 py-2 overflow-x-scroll scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                  {volumes[currentVolume]?.chapters.map((chapter, chIdx) => (
+                  {episodes.map((episode: Episode, epIdx: number) => (
                     <div
-                      key={chapter.id}
-                      onClick={() => setCurrentChapter(chIdx)}
+                      key={episode.id}
+                      onClick={() => setCurrentEpisode(epIdx)}
                       className={`flex-shrink-0 w-24 h-24 rounded-xl border-2 cursor-pointer transition-all ${
-                        currentChapter === chIdx
+                        currentEpisode === epIdx
                           ? 'bg-purple-600 border-purple-600 text-white shadow-lg'
                           : 'bg-white border-gray-300 text-gray-700 hover:border-purple-400'
                       }`}
                     >
                       <div className="h-full flex flex-col items-center justify-center p-2">
-                        <div className="text-xs font-semibold mb-1">{chapter.name}</div>
-                        <div className={`text-xs ${currentChapter === chIdx ? 'text-white/70' : 'text-gray-400'}`}>
-                          {chapter.pages.length} 页
-                        </div>
+                        <div className={`text-xs mb-1 ${currentEpisode === epIdx ? 'text-white/70' : 'text-gray-400'}`}>第{epIdx + 1}话</div>
+                        <div className="text-xs font-semibold text-center line-clamp-2">{episode.name}</div>
                       </div>
                     </div>
                   ))}
                   
                   {/* 添加话按钮 */}
                   <button
-                    onClick={addChapter}
+                    onClick={addEpisode}
                     className="flex-shrink-0 w-24 h-24 min-w-[96px] rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-purple-400 hover:bg-purple-50 text-gray-400 hover:text-purple-600 flex flex-col items-center justify-center p-0 transition-all"
                   >
                     <Plus size={24} />
@@ -818,7 +1122,7 @@ export default function CreatePage() {
                 </div>
                 {/* 右侧内容 */}
                 <div className="ml-3 flex flex-col">
-                  <div className="text-sm font-bold text-gray-800">{volumes[currentVolume]?.chapters[currentChapter]?.name || '话'}页列表</div>
+                  <div className="text-sm font-bold text-gray-800">{episodes[currentEpisode]?.name || '话'}页列表</div>
                   <div className="text-xs text-gray-500 mb-1.5">共 {currentPages.length || 0} 页</div>
                   <div className="flex space-x-1.5">
                     <button 
@@ -865,9 +1169,12 @@ export default function CreatePage() {
                       }`}
                     >
                       <div className="h-full flex flex-col items-center justify-center p-2">
-                        <div className="text-xs font-semibold mb-1">第{pIdx + 1}页</div>
+                        <div className={`text-xs mb-1 ${currentPage === pIdx ? 'text-white/70' : 'text-gray-400'}`}>第{pIdx + 1}页</div>
+                        <div className="text-xs font-semibold text-center">
+                          {page.pageLayout || 'multi'}
+                        </div>
                         <div className={`text-xs ${currentPage === pIdx ? 'text-white/70' : 'text-gray-400'}`}>
-                          {page.panels?.length || 0} 格
+                          {page.panelCount || 0}格
                         </div>
                       </div>
                     </div>
@@ -907,7 +1214,7 @@ export default function CreatePage() {
                 {/* 右侧内容 */}
                 <div className="ml-3 flex flex-col">
                   <div className="text-sm font-bold text-gray-800">第{currentPage + 1}页分镜列表</div>
-                  <div className="text-xs text-gray-500 mb-1.5">共 {currentPanels.length || 0} 格</div>
+                  {/* <div className="text-xs text-gray-500 mb-1.5">共 {panels.length || 0} 格</div> */}
                   <div className="flex space-x-1.5">
                     <button 
                       onClick={addPanel}
