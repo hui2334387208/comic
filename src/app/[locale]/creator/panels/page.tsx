@@ -1,49 +1,88 @@
 'use client'
 
-import { useState } from 'react'
+import React from 'react'
 import { ChevronLeft, Plus, Trash2 } from 'lucide-react'
-import { Button } from 'antd'
 import { useRouter } from 'next/navigation'
-import PanelModal from '@/components/creator/PanelModal'
-import { usePanelModalStore } from '@/store/creator/panelStore'
+import { useComicCreateStore } from '@/store/creator/comicCreateStore'
+import { globalMessage } from '@/components/common/GlobalMessage'
 
 export default function PanelsManagePage() {
   const router = useRouter()
-  const { open: openPanelModal } = usePanelModalStore()
   
-  // 临时数据，实际应该从API或状态管理获取
-  const [panels, setPanels] = useState([
-    { id: 1, panelNumber: 1, sceneDescription: '主角登场', dialogue: '你好，世界！', cameraAngle: '正面' }
-  ])
-  const [selectedPanelIndex, setSelectedPanelIndex] = useState(0)
+  const { 
+    episodes, 
+    currentEpisode, 
+    currentPage, 
+    addPanel, 
+    updatePanel, 
+    deletePanel,
+    comicInfo
+  } = useComicCreateStore()
+  
+  const currentEpisodeData = episodes[currentEpisode]
+  const currentPageData = currentEpisodeData?.pages[currentPage]
+  const panels = currentPageData?.panels || []
+  
+  const [selectedPanelIndex, setSelectedPanelIndex] = React.useState(0)
 
   const handleUpdatePanel = (index: number, data: { panelNumber: number; sceneDescription: string; dialogue: string; cameraAngle: string }) => {
-    const newPanels = [...panels]
-    newPanels[index] = { ...newPanels[index], ...data }
-    setPanels(newPanels)
+    updatePanel(currentEpisode, currentPage, index, {
+      sceneDescription: data.sceneDescription,
+      dialogue: data.dialogue,
+      cameraAngle: data.cameraAngle
+    })
   }
 
-  const handleCreatePanel = (data: { panelNumber: number; sceneDescription: string; dialogue: string; cameraAngle: string }) => {
-    setPanels([...panels, { 
-      id: panels.length + 1, 
-      ...data
-    }])
-  }
-
-  const addPanel = () => {
-    openPanelModal(panels.length + 1)
-  }
-
-  const deletePanel = (index: number) => {
-    if (panels.length <= 1) {
-      alert('至少需要保留一个分镜')
+  const handleAddPanel = () => {
+    if (!comicInfo.prompt?.trim()) {
+      globalMessage.warning('请先输入创意内容')
       return
     }
-    const newPanels = panels.filter((_, i) => i !== index)
-    setPanels(newPanels)
-    if (selectedPanelIndex >= newPanels.length) {
-      setSelectedPanelIndex(newPanels.length - 1)
+    if (!comicInfo.title) {
+      globalMessage.warning('请先生成漫画标题')
+      return
     }
+    if (!comicInfo.description) {
+      globalMessage.warning('请先生成漫画描述')
+      return
+    }
+    if (!comicInfo.style) {
+      globalMessage.warning('请先选择或生成漫画风格')
+      return
+    }
+    if (!comicInfo.category) {
+      globalMessage.warning('请先选择或生成漫画分类')
+      return
+    }
+    if (!comicInfo.tags || comicInfo.tags.length === 0) {
+      globalMessage.warning('请先选择或生成漫画标签')
+      return
+    }
+    if (!currentEpisodeData) {
+      globalMessage.warning('请先创建一个话')
+      return
+    }
+    if (!currentPageData) {
+      globalMessage.warning('请先创建一个页')
+      return
+    }
+    
+    const panelNumber = panels.length + 1
+    addPanel(currentEpisode, currentPage, { 
+      id: panelNumber,
+      panelNumber: panelNumber,
+      sceneDescription: '',
+      dialogue: '',
+      cameraAngle: ''
+    })
+  }
+
+  const handleDeletePanel = (index: number) => {
+    if (panels.length <= 1) {
+      globalMessage.warning('至少需要保留一个分镜')
+      return
+    }
+    deletePanel(currentEpisode, currentPage, index)
   }
 
   const selectedPanel = panels[selectedPanelIndex]
@@ -69,10 +108,13 @@ export default function PanelsManagePage() {
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-gray-800">分镜列表</h2>
-              <Button size="small" onClick={addPanel}>
-                <Plus size={14} className="mr-1" />
-                新建
-              </Button>
+              <button
+                onClick={handleAddPanel}
+                className="px-4 py-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white rounded-xl text-sm font-semibold transition-all shadow-md flex items-center gap-1"
+              >
+                <Plus size={16} />
+                添加分镜
+              </button>
             </div>
             <div className="space-y-2">
               {panels.map((panel, index) => (
@@ -85,18 +127,18 @@ export default function PanelsManagePage() {
                   }`}
                 >
                   <div onClick={() => setSelectedPanelIndex(index)}>
-                    <div className="font-semibold text-sm mb-1">第{panel.panelNumber}格</div>
+                    <div className="font-semibold text-sm mb-1">第{index + 1}格</div>
                     <div className={`text-xs ${selectedPanelIndex === index ? 'text-white/70' : 'text-gray-500'}`}>
                       {panel.sceneDescription || '未设置场景'}
                     </div>
                     <div className={`text-xs mt-1 ${selectedPanelIndex === index ? 'text-white/70' : 'text-gray-400'}`}>
-                      {panel.cameraAngle}
+                      {panel.cameraAngle || '未设置角度'}
                     </div>
                   </div>
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
-                      deletePanel(index)
+                      handleDeletePanel(index)
                     }}
                     className={`absolute top-3 right-3 p-1.5 rounded-lg transition-all ${
                       selectedPanelIndex === index
@@ -119,15 +161,10 @@ export default function PanelsManagePage() {
               <label className="text-sm text-gray-700 font-semibold block mb-2">分镜编号</label>
               <input
                 type="number"
-                value={selectedPanel?.panelNumber || 1}
-                onChange={(e) => handleUpdatePanel(selectedPanelIndex, { 
-                  panelNumber: parseInt(e.target.value) || 1,
-                  sceneDescription: selectedPanel?.sceneDescription || '',
-                  dialogue: selectedPanel?.dialogue || '',
-                  cameraAngle: selectedPanel?.cameraAngle || ''
-                })}
+                value={selectedPanelIndex + 1}
+                disabled
                 placeholder="分镜编号"
-                className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-indigo-400"
+                className="w-full px-4 py-3 bg-gray-100 border-2 border-indigo-200 rounded-xl text-gray-800 placeholder-gray-500 cursor-not-allowed"
               />
             </div>
 
@@ -136,7 +173,7 @@ export default function PanelsManagePage() {
               <textarea
                 value={selectedPanel?.sceneDescription || ''}
                 onChange={(e) => handleUpdatePanel(selectedPanelIndex, { 
-                  panelNumber: selectedPanel?.panelNumber || 1,
+                  panelNumber: selectedPanelIndex + 1,
                   sceneDescription: e.target.value,
                   dialogue: selectedPanel?.dialogue || '',
                   cameraAngle: selectedPanel?.cameraAngle || ''
@@ -152,7 +189,7 @@ export default function PanelsManagePage() {
               <textarea
                 value={selectedPanel?.dialogue || ''}
                 onChange={(e) => handleUpdatePanel(selectedPanelIndex, { 
-                  panelNumber: selectedPanel?.panelNumber || 1,
+                  panelNumber: selectedPanelIndex + 1,
                   sceneDescription: selectedPanel?.sceneDescription || '',
                   dialogue: e.target.value,
                   cameraAngle: selectedPanel?.cameraAngle || ''
@@ -168,7 +205,7 @@ export default function PanelsManagePage() {
               <select
                 value={selectedPanel?.cameraAngle || ''}
                 onChange={(e) => handleUpdatePanel(selectedPanelIndex, { 
-                  panelNumber: selectedPanel?.panelNumber || 1,
+                  panelNumber: selectedPanelIndex + 1,
                   sceneDescription: selectedPanel?.sceneDescription || '',
                   dialogue: selectedPanel?.dialogue || '',
                   cameraAngle: e.target.value
@@ -189,8 +226,6 @@ export default function PanelsManagePage() {
           </div>
         </main>
       </div>
-
-      <PanelModal onConfirm={handleCreatePanel} />
     </div>
   )
 }

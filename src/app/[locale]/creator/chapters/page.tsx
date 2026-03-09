@@ -1,55 +1,75 @@
 'use client'
 
-import { useState } from 'react'
 import { ChevronLeft, Plus, Trash2 } from 'lucide-react'
-import { Button } from 'antd'
 import { useRouter } from 'next/navigation'
-import ChapterModal from '@/components/creator/ChapterModal'
-import { useChapterModalStore } from '@/store/creator/chapterStore'
+import { useComicCreateStore } from '@/store/creator/comicCreateStore'
+import { globalMessage } from '@/components/common/GlobalMessage'
 
 export default function ChaptersManagePage() {
   const router = useRouter()
-  const { open: openChapterModal } = useChapterModalStore()
   
-  // 临时数据，实际应该从API或状态管理获取
-  const [chapters, setChapters] = useState([
-    { id: 1, name: '第1话', title: '初次相遇', description: '故事的开端...', pages: [{ id: 1, panels: [] }] }
-  ])
-  const [selectedChapterIndex, setSelectedChapterIndex] = useState(0)
+  const { 
+    episodes, 
+    currentEpisode, 
+    setCurrentEpisode, 
+    addEpisode, 
+    updateEpisode, 
+    deleteEpisode,
+    comicInfo
+  } = useComicCreateStore()
 
   const handleUpdateChapter = (index: number, data: { title: string; description: string }) => {
-    const newChapters = [...chapters]
-    newChapters[index] = { ...newChapters[index], name: data.title, title: data.title, description: data.description }
-    setChapters(newChapters)
-  }
-
-  const handleCreateChapter = (data: { title: string; description: string }) => {
-    setChapters([...chapters, { 
-      id: chapters.length + 1, 
+    updateEpisode(index, {
       name: data.title,
-      title: data.title,
-      description: data.description,
-      pages: [{ id: 1, panels: [] }] 
-    }])
+      description: data.description
+    })
   }
 
   const addChapter = () => {
-    openChapterModal(`第${chapters.length + 1}话`)
+    if (!comicInfo.prompt?.trim()) {
+      globalMessage.warning('请先输入创意内容')
+      return
+    }
+    if (!comicInfo.title) {
+      globalMessage.warning('请先生成漫画标题')
+      return
+    }
+    if (!comicInfo.description) {
+      globalMessage.warning('请先生成漫画描述')
+      return
+    }
+    if (!comicInfo.style) {
+      globalMessage.warning('请先选择或生成漫画风格')
+      return
+    }
+    if (!comicInfo.category) {
+      globalMessage.warning('请先选择或生成漫画分类')
+      return
+    }
+    if (!comicInfo.tags || comicInfo.tags.length === 0) {
+      globalMessage.warning('请先选择或生成漫画标签')
+      return
+    }
+    
+    const episodeNumber = episodes.length + 1
+    addEpisode({ 
+      id: episodeNumber, 
+      name: `第${episodeNumber}话`,
+      description: '',
+      pages: []
+    })
+    setCurrentEpisode(episodes.length)
   }
 
   const deleteChapter = (index: number) => {
-    if (chapters.length <= 1) {
-      alert('至少需要保留一个话')
+    if (episodes.length <= 1) {
+      globalMessage.warning('至少需要保留一个话')
       return
     }
-    const newChapters = chapters.filter((_, i) => i !== index)
-    setChapters(newChapters)
-    if (selectedChapterIndex >= newChapters.length) {
-      setSelectedChapterIndex(newChapters.length - 1)
-    }
+    deleteEpisode(index)
   }
 
-  const selectedChapter = chapters[selectedChapterIndex]
+  const selectedChapter = episodes[currentEpisode]
 
   return (
     <div className="h-screen flex flex-col bg-white">
@@ -72,27 +92,30 @@ export default function ChaptersManagePage() {
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-gray-800">话列表</h2>
-              <Button size="small" onClick={addChapter}>
-                <Plus size={14} className="mr-1" />
-                新建
-              </Button>
+              <button
+                onClick={addChapter}
+                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-sm font-semibold transition-all shadow-md flex items-center gap-1"
+              >
+                <Plus size={16} />
+                新建话
+              </button>
             </div>
             <div className="space-y-2">
-              {chapters.map((chapter, index) => (
+              {episodes.map((chapter, index) => (
                 <div
                   key={chapter.id}
                   className={`group relative p-4 rounded-xl cursor-pointer transition-all ${
-                    selectedChapterIndex === index
+                    currentEpisode === index
                       ? 'bg-purple-600 text-white shadow-lg'
                       : 'bg-white text-gray-700 hover:bg-purple-50'
                   }`}
                 >
-                  <div onClick={() => setSelectedChapterIndex(index)}>
+                  <div onClick={() => setCurrentEpisode(index)}>
                     <div className="font-semibold text-sm mb-1">{chapter.name}</div>
-                    <div className={`text-xs ${selectedChapterIndex === index ? 'text-white/70' : 'text-gray-500'}`}>
-                      {chapter.title || '未设置标题'}
+                    <div className={`text-xs ${currentEpisode === index ? 'text-white/70' : 'text-gray-500'}`}>
+                      {chapter.description || '未设置描述'}
                     </div>
-                    <div className={`text-xs mt-1 ${selectedChapterIndex === index ? 'text-white/70' : 'text-gray-400'}`}>
+                    <div className={`text-xs mt-1 ${currentEpisode === index ? 'text-white/70' : 'text-gray-400'}`}>
                       {chapter.pages.length} 页
                     </div>
                   </div>
@@ -102,7 +125,7 @@ export default function ChaptersManagePage() {
                       deleteChapter(index)
                     }}
                     className={`absolute top-3 right-3 p-1.5 rounded-lg transition-all ${
-                      selectedChapterIndex === index
+                      currentEpisode === index
                         ? 'bg-white/20 hover:bg-white/30 text-white'
                         : 'bg-gray-100 hover:bg-red-100 text-gray-600 hover:text-red-600 opacity-0 group-hover:opacity-100'
                     }`}
@@ -122,8 +145,8 @@ export default function ChaptersManagePage() {
               <label className="text-sm text-gray-700 font-semibold block mb-2">话标题</label>
               <input
                 type="text"
-                value={selectedChapter?.title || ''}
-                onChange={(e) => handleUpdateChapter(selectedChapterIndex, { 
+                value={selectedChapter?.name || ''}
+                onChange={(e) => handleUpdateChapter(currentEpisode, { 
                   title: e.target.value,
                   description: selectedChapter?.description || ''
                 })}
@@ -136,8 +159,8 @@ export default function ChaptersManagePage() {
               <label className="text-sm text-gray-700 font-semibold block mb-2">话描述</label>
               <textarea
                 value={selectedChapter?.description || ''}
-                onChange={(e) => handleUpdateChapter(selectedChapterIndex, { 
-                  title: selectedChapter?.title || '',
+                onChange={(e) => handleUpdateChapter(currentEpisode, { 
+                  title: selectedChapter?.name || '',
                   description: e.target.value
                 })}
                 placeholder="简要描述这一话的内容..."
@@ -148,14 +171,12 @@ export default function ChaptersManagePage() {
 
             <div className="pt-4 border-t border-gray-300">
               <div className="text-sm text-gray-600">
-                {selectedChapter?.pages.length} 页
+                {selectedChapter?.pages?.length || 0} 页
               </div>
             </div>
           </div>
         </main>
       </div>
-
-      <ChapterModal onConfirm={handleCreateChapter} />
     </div>
   )
 }
