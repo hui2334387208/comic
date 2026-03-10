@@ -5,11 +5,14 @@ import { useComicCreateStore } from '@/store/creator/comicCreateStore'
 import { globalMessage } from '@/components/common/GlobalMessage'
 import { useState, useEffect } from 'react'
 import { useLocale } from 'next-intl'
+import { Input, Button, Select } from 'antd'
+
+const { TextArea } = Input
 
 export default function ComicInfoPanel() {
   const locale = useLocale()
   const { comicInfo, setComicInfo, setPrompt, isGenerating, setIsGenerating } = useComicCreateStore()
-  
+
   const [categories, setCategories] = useState<any[]>([])
   const [styles, setStyles] = useState<any[]>([])
   const [tags, setTags] = useState<any[]>([])
@@ -104,9 +107,9 @@ export default function ComicInfoPanel() {
       const tagsResponse = await fetch('/api/creator/generate/tags', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          ...requestBody, 
-          title: titleData.data?.title, 
+        body: JSON.stringify({
+          ...requestBody,
+          title: titleData.data?.title,
           description: descData.data?.description,
           category: categoryData.data?.category?.name
         }),
@@ -271,127 +274,135 @@ export default function ComicInfoPanel() {
             <BookOpen className="text-indigo-600" size={18} />
             <h3 className="text-sm font-bold text-gray-800">漫画信息</h3>
           </div>
-          
+
           <div className="space-y-3">
             <div>
               <label className="text-xs text-gray-600 font-semibold block mb-1.5">名称</label>
               <div className="flex gap-2">
-                <input
-                  type="text"
+                <Input
                   value={comicInfo.title}
                   onChange={(e) => setComicInfo({ title: e.target.value })}
                   placeholder="漫画标题"
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 !px-3 !py-2 !bg-indigo-50/50 !border-2 !border-indigo-200 !rounded-xl !text-gray-800 !text-sm placeholder:!text-gray-500 focus:!outline-none focus:!border-indigo-400 disabled:!opacity-50 disabled:!cursor-not-allowed"
                 />
-                <button
+                <Button
                   onClick={handleRegenerateTitle}
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Sparkles size={16} />
-                </button>
+                  icon={<Sparkles size={16} />}
+                  className="!w-10 !h-10 !flex !items-center !justify-center !bg-indigo-600 hover:!bg-indigo-700 !text-white !rounded-xl !transition-all disabled:!opacity-50 disabled:!cursor-not-allowed !border-indigo-600 hover:!border-indigo-700"
+                />
               </div>
             </div>
 
             <div>
               <label className="text-xs text-gray-600 font-semibold block mb-1.5">描述</label>
               <div className="flex gap-2">
-                <textarea
+                <TextArea
                   value={comicInfo.description}
                   onChange={(e) => setComicInfo({ description: e.target.value })}
                   placeholder="简要描述"
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-400 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 !px-3 !py-2 !bg-indigo-50/50 !border-2 !border-indigo-200 !rounded-xl !text-gray-800 !text-sm placeholder:!text-gray-500 focus:!outline-none focus:!border-indigo-400 !resize-none disabled:!opacity-50 disabled:!cursor-not-allowed"
                   rows={2}
                 />
-                <button
+                <Button
                   onClick={handleRegenerateDescription}
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all self-start disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Sparkles size={16} />
-                </button>
+                  icon={<Sparkles size={16} />}
+                  className="!w-10 !h-10 !flex !items-center !justify-center !bg-indigo-600 hover:!bg-indigo-700 !text-white !rounded-xl !transition-all !self-start disabled:!opacity-50 disabled:!cursor-not-allowed !border-indigo-600 hover:!border-indigo-700"
+                />
               </div>
             </div>
 
             <div>
               <label className="text-xs text-gray-600 font-semibold block mb-1.5">风格</label>
               <div className="flex gap-2">
-                <select
-                  value={comicInfo.style || ''}
-                  onChange={(e) => setComicInfo({ style: e.target.value ? Number(e.target.value) : undefined })}
+                <Select
+                  value={comicInfo.style || undefined}
+                  onChange={(value) => setComicInfo({ style: value })}
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="选择风格"
+                  className="flex-1 [&_.ant-select-selector]:!bg-indigo-50/50 [&_.ant-select-selector]:!border-2 [&_.ant-select-selector]:!border-indigo-200 [&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!px-3 [&_.ant-select-selector]:!py-2 [&_.ant-select-selector]:!text-gray-800 [&_.ant-select-selector]:!text-sm [&_.ant-select-selector]:!h-[40px] [&_.ant-select-selector]:!shadow-none hover:[&_.ant-select-selector]:!border-indigo-300 [&.ant-select-focused_.ant-select-selector]:!border-indigo-400 [&.ant-select-focused_.ant-select-selector]:!shadow-none [&.ant-select-disabled_.ant-select-selector]:!opacity-50 [&.ant-select-disabled_.ant-select-selector]:!cursor-not-allowed [&_.ant-select-selection-placeholder]:!text-gray-500"
+                  popupClassName="!rounded-xl !border-2 !border-indigo-200"
+                  dropdownStyle={{
+                    borderRadius: '12px',
+                    border: '2px solid rgb(199 210 254)',
+                  }}
                 >
-                  <option value="">选择风格</option>
                   {styles.map((style) => (
-                    <option key={style.id} value={style.id}>
+                    <Select.Option key={style.id} value={style.id}>
                       {style.name}
-                    </option>
+                    </Select.Option>
                   ))}
-                </select>
-                <button
+                </Select>
+                <Button
                   onClick={handleRegenerateStyle}
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Sparkles size={16} />
-                </button>
+                  icon={<Sparkles size={16} />}
+                  className="!w-10 !h-10 !flex !items-center !justify-center !bg-indigo-600 hover:!bg-indigo-700 !text-white !rounded-xl !transition-all !self-start disabled:!opacity-50 disabled:!cursor-not-allowed !border-indigo-600 hover:!border-indigo-700"
+                />
               </div>
             </div>
 
             <div>
               <label className="text-xs text-gray-600 font-semibold block mb-1.5">分类</label>
               <div className="flex gap-2">
-                <select
-                  value={comicInfo.category || ''}
-                  onChange={(e) => setComicInfo({ category: e.target.value ? Number(e.target.value) : undefined })}
+                <Select
+                  value={comicInfo.category || undefined}
+                  onChange={(value) => setComicInfo({ category: value })}
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="选择分类"
+                  className="flex-1 [&_.ant-select-selector]:!bg-indigo-50/50 [&_.ant-select-selector]:!border-2 [&_.ant-select-selector]:!border-indigo-200 [&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!px-3 [&_.ant-select-selector]:!py-2 [&_.ant-select-selector]:!text-gray-800 [&_.ant-select-selector]:!text-sm [&_.ant-select-selector]:!h-[40px] [&_.ant-select-selector]:!shadow-none hover:[&_.ant-select-selector]:!border-indigo-300 [&.ant-select-focused_.ant-select-selector]:!border-indigo-400 [&.ant-select-focused_.ant-select-selector]:!shadow-none [&.ant-select-disabled_.ant-select-selector]:!opacity-50 [&.ant-select-disabled_.ant-select-selector]:!cursor-not-allowed [&_.ant-select-selection-placeholder]:!text-gray-500"
+                  popupClassName="!rounded-xl !border-2 !border-indigo-200"
+                  dropdownStyle={{
+                    borderRadius: '12px',
+                    border: '2px solid rgb(199 210 254)',
+                  }}
                 >
-                  <option value="">选择分类</option>
                   {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
+                    <Select.Option key={category.id} value={category.id}>
                       {category.name}
-                    </option>
+                    </Select.Option>
                   ))}
-                </select>
-                <button
+                </Select>
+                <Button
                   onClick={handleRegenerateCategory}
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Sparkles size={16} />
-                </button>
+                  icon={<Sparkles size={16} />}
+                  className="!w-10 !h-10 !flex !items-center !justify-center !bg-indigo-600 hover:!bg-indigo-700 !text-white !rounded-xl !transition-all disabled:!opacity-50 disabled:!cursor-not-allowed !border-indigo-600 hover:!border-indigo-700"
+                />
               </div>
             </div>
 
             <div>
               <label className="text-xs text-gray-600 font-semibold block mb-1.5">标签</label>
               <div className="flex gap-2">
-                <select
-                  value={comicInfo.tags.map(String)}
-                  onChange={(e) => {
-                    const selectedOptions = Array.from(e.target.selectedOptions, option => Number(option.value))
-                    setComicInfo({ tags: selectedOptions })
-                  }}
+                <Select
+                  mode="multiple"
+                  value={comicInfo.tags}
+                  onChange={(values) => setComicInfo({ tags: values })}
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="flex-1 px-3 py-2 bg-indigo-50/50 border-2 border-indigo-200 rounded-xl text-gray-800 text-sm focus:outline-none focus:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="选择标签"
+                  className="flex-1 [&_.ant-select-selector]:!bg-indigo-50/50 [&_.ant-select-selector]:!border-2 [&_.ant-select-selector]:!border-indigo-200 [&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!px-1 [&_.ant-select-selector]:!py-1 [&_.ant-select-selector]:!text-gray-800 [&_.ant-select-selector]:!text-sm [&_.ant-select-selector]:!shadow-none hover:[&_.ant-select-selector]:!border-indigo-300 [&.ant-select-focused_.ant-select-selector]:!border-indigo-400 [&.ant-select-focused_.ant-select-selector]:!shadow-none [&.ant-select-disabled_.ant-select-selector]:!opacity-50 [&.ant-select-disabled_.ant-select-selector]:!cursor-not-allowed [&_.ant-select-selection-placeholder]:!text-gray-500"
+                  popupClassName="!rounded-xl !border-2 !border-indigo-200"
+                  dropdownStyle={{
+                    borderRadius: '12px',
+                    border: '2px solid rgb(199 210 254)',
+                  }}
                 >
                   {tags.map((tag) => (
-                    <option key={tag.id} value={tag.id}>
+                    <Select.Option key={tag.id} value={tag.id}>
                       {tag.name}
-                    </option>
+                    </Select.Option>
                   ))}
-                </select>
-                <button
+                </Select>
+                <Button
                   onClick={handleRegenerateTags}
                   disabled={!comicInfo.prompt.trim() || isGenerating}
-                  className="w-9 h-9 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Sparkles size={16} />
-                </button>
+                  icon={<Sparkles size={16} />}
+                  className="!w-10 !h-10 !flex !items-center !justify-center !bg-indigo-600 hover:!bg-indigo-700 !text-white !rounded-xl !transition-all !self-start disabled:!opacity-50 disabled:!cursor-not-allowed !border-indigo-600 hover:!border-indigo-700"
+                />
               </div>
             </div>
           </div>

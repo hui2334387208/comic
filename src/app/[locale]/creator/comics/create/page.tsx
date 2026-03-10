@@ -36,6 +36,7 @@ export default function CreatePage() {
 
   const [volumes] = useState([{ id: 1, name: '第1卷', title: '', description: '', coverImage: '', chapters: [{ id: 1, name: '第1话', pages: [{ id: 1, panels: [] }] }] }])
   const [styles, setStyles] = useState<any[]>([])
+  const [isPublishing, setIsPublishing] = useState(false)
 
   const handleCreateVolume = (data: { name: string; title: string; description: string; coverImage: string }) => {
     // TODO: 卷功能暂时注释
@@ -51,6 +52,57 @@ export default function CreatePage() {
 
   const handleCreatePanel = (data: { panelNumber: number; sceneDescription: string; dialogue: string; cameraAngle: string }) => {
     // TODO: 使用 store 管理
+  }
+
+  // 发布作品
+  const handlePublishComic = async () => {
+    // 验证必填信息
+    if (!comicInfo.title || !comicInfo.description) {
+      globalMessage.warning('请填写漫画标题和描述')
+      return
+    }
+
+    if (episodes.length === 0) {
+      globalMessage.warning('请至少创建一话内容')
+      return
+    }
+
+    // 检查是否有页面内容
+    const hasContent = episodes.some(ep => ep.pages && ep.pages.length > 0)
+    if (!hasContent) {
+      globalMessage.warning('请至少创建一页内容')
+      return
+    }
+
+    setIsPublishing(true)
+
+    try {
+      const response = await fetch('/api/creator/comics/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          comicInfo,
+          episodes,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        globalMessage.success('作品发布成功！')
+        // 跳转到作品详情页或创作者中心
+        setTimeout(() => {
+          router.push(`/creator/comics`)
+        }, 1500)
+      } else {
+        throw new Error(data.error || '发布失败')
+      }
+    } catch (error) {
+      console.error('发布作品失败:', error)
+      globalMessage.error(error instanceof Error ? error.message : '发布失败，请重试')
+    } finally {
+      setIsPublishing(false)
+    }
   }
 
   // 生成漫画（封面 + 分镜图片）
@@ -136,7 +188,8 @@ export default function CreatePage() {
       {/* 顶部工具栏 */}
       <header className="h-16 bg-indigo-100/50 border-b-2 border-indigo-200 px-6 flex items-center justify-end shadow-sm">
         <div className="flex items-center space-x-3">
-          <button 
+          {/* 预览按钮 - 暂时注释 */}
+          {/* <button 
             onClick={() => {
               globalMessage.info('预览功能开发中')
             }}
@@ -144,7 +197,7 @@ export default function CreatePage() {
           >
             <BookOpen size={16} />
             预览
-          </button>
+          </button> */}
           <button 
             onClick={handleGenerateComic}
             disabled={isGenerating}
@@ -153,12 +206,13 @@ export default function CreatePage() {
             <Sparkles size={16} />
             {isGenerating ? '生成中...' : '生成漫画'}
           </button>
-          <button 
+          {/* 保存草稿按钮 - 暂时注释 */}
+          {/* <button 
             className="bg-white hover:bg-indigo-50 text-indigo-600 rounded-xl text-sm font-semibold border-2 border-indigo-200 h-10 px-4 flex items-center gap-2 transition-colors"
           >
             <Save size={16} />
             保存草稿
-          </button>
+          </button> */}
           <button 
             className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-xl text-sm font-semibold shadow-lg h-10 px-4 border-0 text-white flex items-center gap-2 transition-all"
           >
