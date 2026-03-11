@@ -28,6 +28,7 @@ interface Episode {
 interface ComicInfo {
   title: string
   description: string
+  coverImage?: string
   style?: number
   category?: number
   tags: number[]
@@ -84,6 +85,7 @@ const initialState = {
   comicInfo: {
     title: '',
     description: '',
+    coverImage: '',
     style: undefined,
     category: undefined,
     tags: [],

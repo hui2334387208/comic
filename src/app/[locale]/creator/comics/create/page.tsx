@@ -35,7 +35,6 @@ export default function CreatePage() {
   } = useComicCreateStore()
 
   const [volumes] = useState([{ id: 1, name: '第1卷', title: '', description: '', coverImage: '', chapters: [{ id: 1, name: '第1话', pages: [{ id: 1, panels: [] }] }] }])
-  const [styles, setStyles] = useState<any[]>([])
   const [isPublishing, setIsPublishing] = useState(false)
 
   const handleCreateVolume = (data: { name: string; title: string; description: string; coverImage: string }) => {
@@ -105,7 +104,7 @@ export default function CreatePage() {
     }
   }
 
-  // 生成漫画（封面 + 分镜图片）
+  // 生成漫画（分镜图片）
   const handleGenerateComic = async () => {
     if (!comicInfo.title || !comicInfo.description || !comicInfo.style) {
       globalMessage.warning('请先完善漫画信息（标题、描述、风格）')
@@ -132,38 +131,13 @@ export default function CreatePage() {
     setIsGenerating(true)
 
     try {
-      // 加载风格数据
-      if (styles.length === 0) {
-        const stylesRes = await fetch('/api/creator/styles')
-        const stylesData = await stylesRes.json()
-        if (stylesData.success) setStyles(stylesData.data)
-      }
-
-      // 1. 生成封面图片
-      const coverResponse = await fetch('/api/creator/generate/cover', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: comicInfo.title,
-          description: comicInfo.description,
-          style: styles.find(s => s.id === comicInfo.style)?.slug || 'anime'
-        }),
-      })
-
-      const coverData = await coverResponse.json()
-      if (coverData.success) {
-        console.log('封面生成成功:', coverData.data.coverUrl)
-      } else {
-        console.warn('封面生成失败:', coverData.error)
-      }
-
-      // 2. 生成漫画图片 - 传递完整的话-页-分镜嵌套结构
+      // 生成漫画图片 - 传递完整的话-页-分镜嵌套结构
       const imagesResponse = await fetch('/api/creator/generate/pages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           episode: currentEp,
-          style: styles.find(s => s.id === comicInfo.style)?.slug || 'anime'
+          style: comicInfo.style || 'anime'
         }),
       })
 

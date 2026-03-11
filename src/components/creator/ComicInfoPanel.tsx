@@ -1,11 +1,11 @@
 'use client'
 
-import { Sparkles, BookOpen } from 'lucide-react'
+import { Sparkles, BookOpen, Image as ImageIcon } from 'lucide-react'
 import { useComicCreateStore } from '@/store/creator/comicCreateStore'
 import { globalMessage } from '@/components/common/GlobalMessage'
 import { useState, useEffect } from 'react'
 import { useLocale } from 'next-intl'
-import { Input, Button, Select } from 'antd'
+import { Input, Button, Select, Upload } from 'antd'
 
 const { TextArea } = Input
 
@@ -117,6 +117,23 @@ export default function ComicInfoPanel() {
       const tagsData = await tagsResponse.json()
       if (tagsData.success && tagsData.data?.tags) {
         setComicInfo({ tags: tagsData.data.tags })
+      }
+
+      // 6. 生成封面
+      if (titleData.data?.title && descData.data?.description) {
+        const coverResponse = await fetch('/api/creator/generate/cover', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            title: titleData.data.title, 
+            description: descData.data.description,
+            style: styleData.data?.style ? styles.find(s => s.id === styleData.data.style)?.slug || 'anime' : 'anime'
+          }),
+        })
+        const coverData = await coverResponse.json()
+        if (coverData.success && coverData.data?.coverUrl) {
+          setComicInfo({ coverImage: coverData.data.coverUrl })
+        }
       }
 
       globalMessage.success('生成成功！请检查并完善漫画信息')
@@ -243,6 +260,62 @@ export default function ComicInfoPanel() {
     }
   }
 
+  // 上传封面处理函数
+  const handleUploadCover = async (file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('type', 'image')
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await response.json()
+      if (data.success) {
+        setComicInfo({ coverImage: data.data.url })
+        globalMessage.success('封面上传成功！')
+      } else {
+        throw new Error(data.error || '上传失败')
+      }
+    } catch (error: any) {
+      console.error('封面上传失败:', error)
+      globalMessage.error(error.message || '封面上传失败，请重试')
+    }
+  }
+
+  // 生成封面
+  const handleGenerateCover = async () => {
+    if (!comicInfo.title || !comicInfo.description) {
+      globalMessage.warning('请先生成标题和描述')
+      return
+    }
+    setIsGenerating(true)
+    try {
+      const response = await fetch('/api/creator/generate/cover', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          title: comicInfo.title, 
+          description: comicInfo.description,
+          style: styles.find(s => s.id === comicInfo.style)?.slug || 'anime'
+        }),
+      })
+      const data = await response.json()
+      if (data.success && data.data?.coverUrl) {
+        setComicInfo({ coverImage: data.data.coverUrl })
+        globalMessage.success('封面生成成功！')
+      } else {
+        throw new Error(data.error || '封面生成失败')
+      }
+    } catch (error: any) {
+      console.error('封面生成失败:', error)
+      globalMessage.error(error.message || '封面生成失败，请重试')
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
   return (
     <aside className="w-[350px] bg-gradient-to-b from-indigo-50 to-purple-50 border-r-2 border-indigo-200 overflow-y-auto">
       <div className="p-4 space-y-4">
@@ -276,6 +349,37 @@ export default function ComicInfoPanel() {
           </div>
 
           <div className="space-y-3">
+            {/* 封面 */}
+            <div>
+              <label className="text-xs text-gray-600 font-semibold block mb-1.5">封面</label>
+              <div className="flex gap-2">
+                <Upload
+                  className="cover-uploader flex-1 [&_.ant-upload-select]:!w-full [&_.ant-upload-select]:!aspect-[3/4] [&_.ant-upload-select]:!bg-indigo-50/50 [&_.ant-upload-select]:!border-2 [&_.ant-upload-select]:!border-dashed [&_.ant-upload-select]:!border-indigo-200 [&_.ant-upload-select]:!rounded-xl hover:[&_.ant-upload-select]:!border-indigo-300 hover:[&_.ant-upload-select]:!bg-indigo-50 [&_.ant-upload-select]:!transition-all [&_.ant-upload-select]:!flex [&_.ant-upload-select]:!items-center [&_.ant-upload-select]:!justify-center"
+                  showUploadList={false}
+                  beforeUpload={(file) => {
+                    handleUploadCover(file)
+                    return false
+                  }}
+                  disabled={isGenerating}
+                >
+                  {comicInfo.coverImage ? (
+                    <img src={comicInfo.coverImage} alt="封面" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center h-full text-indigo-400">
+                      <ImageIcon size={24} className="mb-2" />
+                      <div className="text-sm text-indigo-600">上传封面</div>
+                    </div>
+                  )}
+                </Upload>
+                <Button
+                  onClick={handleGenerateCover}
+                  disabled={!comicInfo.title || !comicInfo.description || isGenerating}
+                  icon={<Sparkles size={16} />}
+                  className="!w-10 !h-10 !flex !items-center !justify-center !bg-indigo-600 hover:!bg-indigo-700 !text-white !rounded-xl !transition-all disabled:!opacity-50 disabled:!cursor-not-allowed !border-indigo-600 hover:!border-indigo-700"
+                />
+              </div>
+            </div>
+
             <div>
               <label className="text-xs text-gray-600 font-semibold block mb-1.5">名称</label>
               <div className="flex gap-2">

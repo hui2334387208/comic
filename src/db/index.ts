@@ -11,7 +11,7 @@ if (!process.env.DATABASE_URL) {
 const client = postgres(process.env.DATABASE_URL, {
   max: 10, // 最大连接数
   idle_timeout: 20, // 空闲连接超时时间（秒）
-  connect_timeout: 10, // 连接超时时间（秒）
+  connect_timeout: 60, // 连接超时时间（秒）
 })
 
 // 创建 drizzle 实例

@@ -10,10 +10,10 @@ const CreatorSidebar = ({ collapsed }: { collapsed: boolean }) => {
     { path: '/creator', icon: '🏠', label: '创作中心' },
     { path: '/creator/comics', icon: '✨', label: '创作漫画' },
     { path: '/creator/analytics', icon: '📊', label: '数据分析' },
-    { path: '/creator/earnings', icon: '💰', label: '收益管理' },
+    // { path: '/creator/earnings', icon: '💰', label: '收益管理' },
     { path: '/creator/review', icon: '📋', label: '内容审核' },
     { path: '/creator/comments', icon: '💬', label: '互动管理' },
-    { path: '/creator/settings', icon: '⚙️', label: '创作设置' },
+    // { path: '/creator/settings', icon: '⚙️', label: '创作设置' },
   ]
 
   return (
